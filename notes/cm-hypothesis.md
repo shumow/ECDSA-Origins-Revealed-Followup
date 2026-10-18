@@ -614,5 +614,6 @@ Files in this working directory: `gen.py` (candidates and both roots of b per X9
 
 - Anthropic, "Claude reveals ECDSA curve origins", 2026-10-16. https://www.anthropic.com/research/ecdsa-curve-origins
 - Filippo Valsorda, "The NIST Elliptic Curves Seeds Bounty Has Been Claimed", 2026-10-16. https://words.filippo.io/seeds-solved/
+- Anthropic Frontier Red Team, "Discovering cryptographic weaknesses with Claude", 2026-07-28 (the programme the seed result came out of; no curve content). https://www.anthropic.com/research/discovering-cryptographic-weaknesses
 - Koblitz & Menezes, "A Riddle Wrapped in an Enigma", IACR ePrint 2015/1018.
 - ANSI X9.62-1998 / FIPS 186-2, Appendix A (curve generation and verification from a seed).

@@ -1,6 +1,6 @@
 # The seeds are solved. The curves aren't done.
 
-*A follow-up to Anthropic's [Claude reveals ECDSA curve origins](https://www.anthropic.com/research/ecdsa-curve-origins) and Filippo Valsorda's [reproduction](https://words.filippo.io/seeds-solved/).*
+*A follow-up to Anthropic's [Claude reveals ECDSA curve origins](https://www.anthropic.com/research/ecdsa-curve-origins) and Filippo Valsorda's [reproduction](https://words.filippo.io/seeds-solved/). The Anthropic result is one product of the Frontier Red Team's [model-assisted cryptanalysis programme](https://www.anthropic.com/research/discovering-cryptographic-weaknesses), whose authors name independent human validation as their bottleneck. Consider this some of that.*
 
 *Readers should take this as the next chapter, not the closing one. There is still no action to take on the NIST curves. There is, however, more to find.*
 
