@@ -1,0 +1,39 @@
+
+=== ANSI192: 192-bit p, 1057 candidates counted (no 2-torsion) ===
+viable (published root, prime, size ok): [139, 2198, 5228, 5405, 6013]   published: [139, 5228, 6013]
+skipped viable: [2198, 5405]
+prime-order but too big (rejected by size rule): [1006, 2678, 2771, 5242, 5674, 5701, 5964]
+other-root (twist) prime & size ok, not counted by anyone: [338, 1256, 1914, 2034, 2524, 2832, 3087, 4254, 4455, 5976]
+last viable candidate of run = 6013 -> published? True
+
+ cand pub    s log2sqrt|f| L(1,chi)  log2 h   (generic log2 h ~ 97.0)
+  139   *    1        97.0    0.411    94.0
+ 2198        1        96.2    0.498    93.6
+ 5228   *    1        96.9    0.352    93.8
+ 5405        1        96.8    0.434    94.0
+ 6013   *    1        96.2    0.529    93.6
+## 139
+n-1 LPF bits 92  factors bits [2, 3, 12, 83, 92]
+n+1 LPF bits 108  factors bits [2, 2, 6, 77, 108]
+isog 2:0 3:0 5:1 7:0 11:1 13:2 17:0 19:0 23:2 29:0 31:1 37:2 41:0 43:2
+twist small factors [23, 272917466755942641905903887966924948626114027286861201673]
+## 2198
+n-1 LPF bits 176  factors bits [2, 2, 13, 176]
+n+1 LPF bits 149  factors bits [2, 3, 7, 13, 21, 149]
+isog 2:0 3:0 5:0 7:2 11:2 13:0 17:2 19:0 23:2 29:0 31:2 37:0 41:2 43:0
+twist small factors [11, 127, 5827, 771112500061322015001597532398530422946992540137577]
+## 5228
+n-1 LPF bits 157  factors bits [2, 2, 34, 157]
+n+1 LPF bits 161  factors bits [2, 3, 7, 8, 14, 161]
+isog 2:0 3:0 5:1 7:0 11:0 13:2 17:0 19:2 23:0 29:0 31:2 37:0 41:0 43:0
+twist small factors [223, 28148438275276595353523719386766896634442384486233049267]
+## 5405
+n-1 LPF bits 132  factors bits [2, 2, 25, 28, 132]
+n+1 LPF bits 177  factors bits [2, 6, 10, 177]
+isog 2:0 3:0 5:0 7:2 11:0 13:2 17:0 19:2 23:0 29:0 31:2 37:2 41:0 43:0
+twist small factors [7, 19, 2484013349974942921976964552149782436445431496402441089]
+## 6013
+n-1 LPF bits 64  factors bits [2, 2, 10, 56, 58, 64]
+n+1 LPF bits 145  factors bits [2, 3, 10, 16, 17, 145]
+isog 2:0 3:0 5:1 7:2 11:0 13:0 17:2 19:0 23:2 29:0 31:2 37:0 41:2 43:2
+twist small factors [7, 311, 4517, 638337925494010405017760132556598757979040530007779]

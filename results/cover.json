@@ -1,0 +1,685 @@
+{
+ "n_predicates_total": 135,
+ "n_usable_true_labels": 29,
+ "usable": [
+  "20(i-1) mod 4096 < 1024",
+  "b \u2261 0 mod 8",
+  "b \u2261 1 mod 7",
+  "b \u2261 2 mod 16",
+  "b \u2261 2 mod 7",
+  "b \u2261 4 mod 16",
+  "b \u2261 4 mod 5",
+  "b \u2261 6 mod 7",
+  "b \u2261 7 mod 16",
+  "b \u2261 7 mod 8",
+  "b \u2261 8 mod 16",
+  "bitlen(t) < bitlen(p)/2 - 1",
+  "n \u2261 15 mod 16",
+  "n \u2261 3 mod 5",
+  "n \u2261 4 mod 7",
+  "n \u2261 7 mod 16",
+  "n \u2261 7 mod 8",
+  "n \u2261 9 mod 16",
+  "seed bitlength < 158",
+  "seed has byte 0x00",
+  "t \u2261 0 mod 7",
+  "t \u2261 1 mod 16",
+  "t \u2261 1 mod 8",
+  "t \u2261 2 mod 5",
+  "t \u2261 3 mod 16",
+  "t \u2261 3 mod 7",
+  "t \u2261 3 mod 8",
+  "t \u2261 7 mod 16",
+  "t \u2261 9 mod 16"
+ ],
+ "true_min_cover_size": 4,
+ "true_covers": [
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 1 mod 7",
+   "n \u2261 7 mod 8",
+   "t \u2261 0 mod 7"
+  ],
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 1 mod 7",
+   "t \u2261 0 mod 7",
+   "t \u2261 1 mod 8"
+  ],
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 7 mod 16",
+   "n \u2261 7 mod 8",
+   "t \u2261 0 mod 7"
+  ],
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 7 mod 16",
+   "t \u2261 0 mod 7",
+   "t \u2261 1 mod 8"
+  ],
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 7 mod 8",
+   "n \u2261 7 mod 8",
+   "t \u2261 0 mod 7"
+  ],
+  [
+   "20(i-1) mod 4096 < 1024",
+   "b \u2261 7 mod 8",
+   "t \u2261 0 mod 7",
+   "t \u2261 1 mod 8"
+  ],
+  [
+   "b \u2261 1 mod 7",
+   "b \u2261 2 mod 7",
+   "b \u2261 4 mod 16",
+   "t \u2261 1 mod 8"
+  ],
+  [
+   "b \u2261 1 mod 7",
+   "b \u2261 2 mod 7",
+   "b \u2261 4 mod 16",
+   "t \u2261 9 mod 16"
+  ],
+  [
+   "b \u2261 2 mod 7",
+   "b \u2261 4 mod 16",
+   "b \u2261 7 mod 16",
+   "t \u2261 1 mod 8"
+  ],
+  [
+   "b \u2261 2 mod 7",
+   "b \u2261 4 mod 16",
+   "b \u2261 7 mod 8",
+   "t \u2261 1 mod 8"
+  ]
+ ],
+ "n_true_covers_at_min": 10,
+ "best_single_usable_predicates(cover count of 11)": [
+  [
+   6,
+   "t \u2261 1 mod 8"
+  ],
+  [
+   5,
+   "20(i-1) mod 4096 < 1024"
+  ],
+  [
+   4,
+   "t \u2261 9 mod 16"
+  ],
+  [
+   4,
+   "n \u2261 7 mod 8"
+  ],
+  [
+   4,
+   "b \u2261 4 mod 16"
+  ],
+  [
+   3,
+   "t \u2261 0 mod 7"
+  ],
+  [
+   3,
+   "n \u2261 9 mod 16"
+  ],
+  [
+   3,
+   "n \u2261 3 mod 5"
+  ]
+ ],
+ "predicate_table": {
+  "(-3/n) = -1": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "(2/n) = -1": {
+   "skipped_true": 3,
+   "published_true": 4
+  },
+  "(b/p) = +1": {
+   "skipped_true": 9,
+   "published_true": 7
+  },
+  "(b/p) = -1 (no point at x=0)": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "(n/p) = -1": {
+   "skipped_true": 3,
+   "published_true": 5
+  },
+  "(p/n) = -1": {
+   "skipped_true": 6,
+   "published_true": 2
+  },
+  "(t/p) = -1": {
+   "skipped_true": 4,
+   "published_true": 1
+  },
+  "20(i-1) mod 4096 < 1024": {
+   "skipped_true": 5,
+   "published_true": 0
+  },
+  "D \u2261 0 mod 25": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "D \u2261 0 mod 9 (s>1)": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b < p/2": {
+   "skipped_true": 5,
+   "published_true": 5
+  },
+  "b > p/2": {
+   "skipped_true": 6,
+   "published_true": 3
+  },
+  "b even": {
+   "skipped_true": 7,
+   "published_true": 4
+  },
+  "b has a 0x00 byte": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "b odd": {
+   "skipped_true": 4,
+   "published_true": 4
+  },
+  "b \u2261 0 mod 3": {
+   "skipped_true": 4,
+   "published_true": 4
+  },
+  "b \u2261 0 mod 4": {
+   "skipped_true": 5,
+   "published_true": 1
+  },
+  "b \u2261 0 mod 5": {
+   "skipped_true": 3,
+   "published_true": 2
+  },
+  "b \u2261 0 mod 7": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "b \u2261 0 mod 8": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "b \u2261 1 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 1 mod 3": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "b \u2261 1 mod 4": {
+   "skipped_true": 2,
+   "published_true": 2
+  },
+  "b \u2261 1 mod 5": {
+   "skipped_true": 5,
+   "published_true": 3
+  },
+  "b \u2261 1 mod 7": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "b \u2261 1 mod 8": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 10 mod 16": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "b \u2261 11 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 12 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 13 mod 16": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "b \u2261 14 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 2 mod 16": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "b \u2261 2 mod 3": {
+   "skipped_true": 4,
+   "published_true": 3
+  },
+  "b \u2261 2 mod 4": {
+   "skipped_true": 2,
+   "published_true": 3
+  },
+  "b \u2261 2 mod 5": {
+   "skipped_true": 1,
+   "published_true": 3
+  },
+  "b \u2261 2 mod 7": {
+   "skipped_true": 3,
+   "published_true": 0
+  },
+  "b \u2261 2 mod 8": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "b \u2261 3 mod 16": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "b \u2261 3 mod 4": {
+   "skipped_true": 2,
+   "published_true": 2
+  },
+  "b \u2261 3 mod 7": {
+   "skipped_true": 2,
+   "published_true": 2
+  },
+  "b \u2261 3 mod 8": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "b \u2261 4 mod 16": {
+   "skipped_true": 4,
+   "published_true": 0
+  },
+  "b \u2261 4 mod 5": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "b \u2261 4 mod 7": {
+   "skipped_true": 1,
+   "published_true": 3
+  },
+  "b \u2261 4 mod 8": {
+   "skipped_true": 4,
+   "published_true": 1
+  },
+  "b \u2261 5 mod 7": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "b \u2261 5 mod 8": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "b \u2261 6 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "b \u2261 6 mod 7": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "b \u2261 6 mod 8": {
+   "skipped_true": 0,
+   "published_true": 2
+  },
+  "b \u2261 7 mod 16": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "b \u2261 7 mod 8": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "b \u2261 8 mod 16": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "bitlen(b) < bitlen(p)": {
+   "skipped_true": 5,
+   "published_true": 5
+  },
+  "bitlen(b) < bitlen(p)-1": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "bitlen(t) < bitlen(p)/2": {
+   "skipped_true": 5,
+   "published_true": 2
+  },
+  "bitlen(t) < bitlen(p)/2 - 1": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "index < 1000": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "index even": {
+   "skipped_true": 6,
+   "published_true": 5
+  },
+  "index odd": {
+   "skipped_true": 5,
+   "published_true": 3
+  },
+  "index \u2261 0 mod 3": {
+   "skipped_true": 6,
+   "published_true": 3
+  },
+  "n < p": {
+   "skipped_true": 8,
+   "published_true": 7
+  },
+  "n > p": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "n \u2261 1 mod 16": {
+   "skipped_true": 1,
+   "published_true": 4
+  },
+  "n \u2261 1 mod 3": {
+   "skipped_true": 10,
+   "published_true": 6
+  },
+  "n \u2261 1 mod 4": {
+   "skipped_true": 5,
+   "published_true": 5
+  },
+  "n \u2261 1 mod 5": {
+   "skipped_true": 3,
+   "published_true": 4
+  },
+  "n \u2261 1 mod 7": {
+   "skipped_true": 4,
+   "published_true": 1
+  },
+  "n \u2261 1 mod 8": {
+   "skipped_true": 4,
+   "published_true": 4
+  },
+  "n \u2261 11 mod 16": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "n \u2261 13 mod 16": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "n \u2261 15 mod 16": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "n \u2261 2 mod 3": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "n \u2261 2 mod 5": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "n \u2261 2 mod 7": {
+   "skipped_true": 0,
+   "published_true": 2
+  },
+  "n \u2261 3 mod 16": {
+   "skipped_true": 2,
+   "published_true": 2
+  },
+  "n \u2261 3 mod 4": {
+   "skipped_true": 6,
+   "published_true": 3
+  },
+  "n \u2261 3 mod 5": {
+   "skipped_true": 3,
+   "published_true": 0
+  },
+  "n \u2261 3 mod 7": {
+   "skipped_true": 0,
+   "published_true": 2
+  },
+  "n \u2261 3 mod 8": {
+   "skipped_true": 2,
+   "published_true": 3
+  },
+  "n \u2261 4 mod 5": {
+   "skipped_true": 2,
+   "published_true": 3
+  },
+  "n \u2261 4 mod 7": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "n \u2261 5 mod 7": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "n \u2261 5 mod 8": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "n \u2261 6 mod 7": {
+   "skipped_true": 2,
+   "published_true": 2
+  },
+  "n \u2261 7 mod 16": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "n \u2261 7 mod 8": {
+   "skipped_true": 4,
+   "published_true": 0
+  },
+  "n \u2261 9 mod 16": {
+   "skipped_true": 3,
+   "published_true": 0
+  },
+  "n+1 has factor 3": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "n-1 has factor 3": {
+   "skipped_true": 10,
+   "published_true": 6
+  },
+  "seed bitlength < 158": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "seed bitlength < 160": {
+   "skipped_true": 8,
+   "published_true": 3
+  },
+  "seed first byte < 0x80": {
+   "skipped_true": 8,
+   "published_true": 3
+  },
+  "seed first byte >= 0x80": {
+   "skipped_true": 3,
+   "published_true": 5
+  },
+  "seed has <= 7 bytes >= 0x80": {
+   "skipped_true": 5,
+   "published_true": 1
+  },
+  "seed has >= 12 bytes >= 0x80": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "seed has a byte < 0x10": {
+   "skipped_true": 10,
+   "published_true": 6
+  },
+  "seed has byte 0x00": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "seed has byte 0x09": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "seed has byte 0x0A": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "seed has byte 0x0D": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "seed has byte 0x1A": {
+   "skipped_true": 2,
+   "published_true": 1
+  },
+  "seed has byte 0x20": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "seed has byte 0xFF": {
+   "skipped_true": 0,
+   "published_true": 1
+  },
+  "seed has two equal adjacent bytes": {
+   "skipped_true": 1,
+   "published_true": 1
+  },
+  "seed last byte >= 0x80": {
+   "skipped_true": 6,
+   "published_true": 5
+  },
+  "seed last byte even": {
+   "skipped_true": 4,
+   "published_true": 4
+  },
+  "seed last byte odd": {
+   "skipped_true": 7,
+   "published_true": 4
+  },
+  "t < 0": {
+   "skipped_true": 3,
+   "published_true": 1
+  },
+  "t \u2261 0 mod 7": {
+   "skipped_true": 3,
+   "published_true": 0
+  },
+  "t \u2261 1 mod 16": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "t \u2261 1 mod 3": {
+   "skipped_true": 5,
+   "published_true": 4
+  },
+  "t \u2261 1 mod 4": {
+   "skipped_true": 7,
+   "published_true": 4
+  },
+  "t \u2261 1 mod 5": {
+   "skipped_true": 2,
+   "published_true": 3
+  },
+  "t \u2261 1 mod 7": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "t \u2261 1 mod 8": {
+   "skipped_true": 6,
+   "published_true": 0
+  },
+  "t \u2261 13 mod 16": {
+   "skipped_true": 1,
+   "published_true": 2
+  },
+  "t \u2261 15 mod 16": {
+   "skipped_true": 2,
+   "published_true": 4
+  },
+  "t \u2261 2 mod 3": {
+   "skipped_true": 6,
+   "published_true": 4
+  },
+  "t \u2261 2 mod 5": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "t \u2261 3 mod 16": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "t \u2261 3 mod 4": {
+   "skipped_true": 4,
+   "published_true": 4
+  },
+  "t \u2261 3 mod 5": {
+   "skipped_true": 4,
+   "published_true": 2
+  },
+  "t \u2261 3 mod 7": {
+   "skipped_true": 2,
+   "published_true": 0
+  },
+  "t \u2261 3 mod 8": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "t \u2261 4 mod 5": {
+   "skipped_true": 4,
+   "published_true": 3
+  },
+  "t \u2261 4 mod 7": {
+   "skipped_true": 0,
+   "published_true": 4
+  },
+  "t \u2261 5 mod 16": {
+   "skipped_true": 0,
+   "published_true": 2
+  },
+  "t \u2261 5 mod 8": {
+   "skipped_true": 1,
+   "published_true": 4
+  },
+  "t \u2261 6 mod 7": {
+   "skipped_true": 5,
+   "published_true": 2
+  },
+  "t \u2261 7 mod 16": {
+   "skipped_true": 1,
+   "published_true": 0
+  },
+  "t \u2261 7 mod 8": {
+   "skipped_true": 3,
+   "published_true": 4
+  },
+  "t \u2261 9 mod 16": {
+   "skipped_true": 4,
+   "published_true": 0
+  },
+  "twist order even (always) and \u2261 0 mod 3": {
+   "skipped_true": 4,
+   "published_true": 2
+  },
+  "twist order \u2261 0 mod 5": {
+   "skipped_true": 1,
+   "published_true": 1
+  }
+ },
+ "permutation_test": {
+  "n_perm": 300,
+  "min_cover_size_distribution": {
+   "None": 82,
+   "5": 113,
+   "4": 81,
+   "3": 23,
+   "2": 1
+  }
+ }
+}

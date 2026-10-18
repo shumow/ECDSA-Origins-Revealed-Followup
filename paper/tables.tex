@@ -1,0 +1,101 @@
+\subsection{Class number and $n\pm1$ for all viable curves}
+Generic $\log_2 h \approx \log_2\sqrt{4p}$: 129.0 (P-256), 113.0 (P-224), 97.0 (prime192), 120.5 (prime239). $s$ is the conductor of $\Z[\pi]$; $L$ is $L(1,\chi_f)$ by the Euler product to $10^6$; LPF = largest prime factor, in bits.
+
+\begin{center}\small
+\begin{tabular}{llrrrrrr}
+\toprule
+run & cand & $s$ & $L(1,\chi)$ & $\log_2 h$ & LPF$(n{-}1)$ & LPF$(n{+}1)$ & Elkies/24 \\
+\midrule
+P-256 & 876 & 1 & 0.530 & 126.4 & 242 & 232 & 10 \\
+P-256 & \textbf{1842} & 1 & 0.723 & 126.9 & 92 & 215 & 13 \\
+P-224 & 777 & 1 & 0.607 & 110.5 & 145 & 182 & 14 \\
+P-224 & 1485 & 1 & 0.495 & 110.3 & 74 & 102 & 13 \\
+P-224 & 5736 & 1 & 0.540 & 110.4 & 204 & 142 & 11 \\
+P-224 & \textbf{7026} & 3 & 0.359 & 108.1 & 196 & 177 & 8 \\
+192 & \textbf{139} & 1 & 0.411 & 94.0 & 92 & 108 & 9 \\
+192 & 2198 & 1 & 0.498 & 93.6 & 176 & 149 & 11 \\
+192 & \textbf{5228} & 1 & 0.352 & 93.8 & 157 & 161 & 6 \\
+192 & 5405 & 1 & 0.434 & 94.0 & 132 & 177 & 10 \\
+192 & \textbf{6013} & 1 & 0.529 & 93.6 & 64 & 145 & 13 \\
+239 & 36 & 1 & 0.436 & 117.1 & 105 & 153 & 12 \\
+239 & 1562 & 1 & 0.590 & 118.1 & 219 & 136 & 17 \\
+239 & \textbf{2185} & 1 & 0.246 & 116.8 & 69 & 136 & 8 \\
+239 & \textbf{2320} & 5 & 0.476 & 115.2 & 128 & 123 & 10 \\
+239 & 2491 & 1 & 0.415 & 117.6 & 76 & 131 & 11 \\
+239 & 2682 & 5 & 0.558 & 115.7 & 170 & 227 & 17 \\
+239 & 2863 & 1 & 0.505 & 117.7 & 183 & 72 & 13 \\
+239 & \textbf{3048} & 1 & 0.410 & 117.5 & 110 & 151 & 12 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Published curves in bold.
+
+\subsection{Legendre symbols and residues}
+\begin{center}\scriptsize
+\begin{tabular}{llrrrrrrrrrrr}
+\toprule
+run & cand & $(n/p)$ & $(p/n)$ & $(t/p)$ & $(t/n)$ & $(b/p)$ & $(-3/n)$ & $(-1/n)$ & $(2/n)$ & $n\,\%\,8$ & $p\,\%\,8$ & $t\,\%\,4$ \\
+\midrule
+P-256 & 876 & $+$ & $-$ & $+$ & $-$ & $+$ & $+$ & $-$ & $+$ & 7 & 7 & 1 \\
+P-256 & \textbf{1842} & $-$ & $-$ & $+$ & $-$ & $+$ & $+$ & $+$ & $+$ & 1 & 7 & 3 \\
+P-224 & 777 & $+$ & $+$ & $-$ & $+$ & $+$ & $+$ & $-$ & $-$ & 3 & 1 & 3 \\
+P-224 & 1485 & $-$ & $-$ & $+$ & $-$ & $-$ & $+$ & $+$ & $+$ & 1 & 1 & 1 \\
+P-224 & 5736 & $-$ & $-$ & $+$ & $-$ & $-$ & $+$ & $+$ & $+$ & 1 & 1 & 1 \\
+P-224 & \textbf{7026} & $-$ & $-$ & $+$ & $-$ & $-$ & $+$ & $+$ & $-$ & 5 & 1 & 1 \\
+192 & \textbf{139} & $+$ & $+$ & $+$ & $+$ & $+$ & $-$ & $+$ & $+$ & 1 & 7 & 3 \\
+192 & 2198 & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & 1 & 7 & 3 \\
+192 & \textbf{5228} & $-$ & $+$ & $+$ & $-$ & $+$ & $+$ & $-$ & $-$ & 3 & 7 & 1 \\
+192 & 5405 & $+$ & $+$ & $-$ & $+$ & $+$ & $+$ & $+$ & $+$ & 1 & 7 & 3 \\
+192 & \textbf{6013} & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ & 1 & 7 & 3 \\
+239 & 36 & $+$ & $-$ & $+$ & $-$ & $+$ & $+$ & $-$ & $-$ & 3 & 7 & 1 \\
+239 & 1562 & $-$ & $+$ & $-$ & $+$ & $+$ & $+$ & $-$ & $+$ & 7 & 7 & 1 \\
+239 & \textbf{2185} & $-$ & $+$ & $-$ & $+$ & $+$ & $+$ & $-$ & $-$ & 3 & 7 & 1 \\
+239 & \textbf{2320} & $-$ & $+$ & $+$ & $+$ & $+$ & $+$ & $-$ & $-$ & 3 & 7 & 1 \\
+239 & 2491 & $+$ & $+$ & $-$ & $+$ & $+$ & $+$ & $+$ & $-$ & 5 & 7 & 3 \\
+239 & 2682 & $+$ & $-$ & $+$ & $-$ & $+$ & $-$ & $-$ & $+$ & 7 & 7 & 1 \\
+239 & 2863 & $+$ & $-$ & $+$ & $-$ & $+$ & $-$ & $-$ & $+$ & 7 & 7 & 1 \\
+239 & \textbf{3048} & $+$ & $+$ & $+$ & $+$ & $+$ & $-$ & $+$ & $+$ & 1 & 7 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Simulated early-abort rules ($\ell\le100$)}
+\begin{center}\small
+\begin{tabular}{lrr}
+\toprule
+rule & skipped rejected & published rejected \\
+\midrule
+(a) $n\equiv0$ --- correct abort (control) & 0/11 & 0/8 \\
+(b) $p+1+t\equiv0$ --- trace sign flipped & 9/11 & 7/8 \\
+(c) order of the other root of $b$ & 6/11 & 6/8 \\
+(d) sign and root both flipped & 3/11 & 1/8 \\
+(e) $t\equiv0$ & 5/11 & 4/8 \\
+(f) $t\equiv\pm1,\pm2$ & 11/11 & 8/8 \\
+(g1) $n\equiv1$ (tests $n-1$) & 11/11 & 8/8 \\
+(g2) $n\equiv-1$ (tests $n+1$) & 10/11 & 7/8 \\
+(g3) $|t|\equiv0$ & 5/11 & 4/8 \\
+(h) twist order $\equiv0$ & 9/11 & 7/8 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Small multiples of the published generators}
+Shortest coordinate among $kG$ ($k\le2^{16}$) and $G/k$ ($k\le2^{16}$ prime-field, $\le2^{12}$ binary), negations included; ``expected'' is the minimum of that many uniform field elements.
+\begin{center}\small
+\begin{tabular}{lrrrr}
+\toprule
+curve & $h$ & $x(G/h)$ bits & shortest found (bits) & expected \\
+\midrule
+P-192 & 1 & -- & 174 & 175 \\ prime192v2 & 1 & -- & 175 & 175 \\ prime192v3 & 1 & -- & 176 & 175 \\
+P-224 & 1 & -- & 208 & 207 \\ prime239v1 & 1 & -- & 222 & 222 \\ prime239v2 & 1 & -- & 220 & 222 \\ prime239v3 & 1 & -- & 221 & 222 \\
+P-256 & 1 & -- & 237 & 239 \\ P-384 & 1 & -- & 367 & 367 \\ P-521 & 1 & -- & 502 & 504 \\
+\midrule
+B-163 & 2 & 163 & 147 & 147 \\ \textbf{K-163} & 2 & \textbf{126} & \textbf{126} ($G/2$) & 147 \\
+B-233 & 2 & 232 & 215 & 217 \\ K-233 & 4 & full & 219 & 217 \\
+B-283 & 2 & 283 & 267 & 267 \\ K-283 & 4 & full & 267 & 267 \\
+B-409 & 2 & 408 & 391 & 393 \\ K-409 & 4 & full & 393 & 393 \\
+B-571 & 2 & 571 & 554 & 555 \\ K-571 & 4 & full & 555 & 555 \\
+\bottomrule
+\end{tabular}
+\end{center}
+For the $h=4$ Koblitz curves $G/4$ lies inside the $G/k$ scan and no coordinate within 32 bits of the field size was found (``full'').
