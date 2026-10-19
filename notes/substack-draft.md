@@ -4,7 +4,7 @@
 
 ---
 
-On Thursday Anthropic published a result I'd half given up on seeing in my lifetime. The seed values behind the NIST elliptic curves — the twenty-byte constants that were handed to NIST in 1997 with no explanation and have been a low-grade source of paranoia in my field ever since — are not hashes of anything. They're the output of `lrand48()`, the C library's not-very-good random number generator, seeded from the Unix clock. P-256 is the 1,842nd candidate drawn from a run that started at 01:52:34 UTC on August 16, 1997. Filippo Valsorda reproduced it the same day and paid out the bounty.
+On Friday, October 16, Anthropic published a result I'd half given up on seeing in my lifetime. The ten NIST/ANSI prime-curve seeds match `lrand48()`, the C library's not-very-good random number generator, seeded from the Unix clock. Four binary-curve seeds match too; B-163's does not. P-256 is the 1,842nd candidate drawn from a run that started at 01:52:34 UTC on August 16, 1997. Filippo Valsorda independently reproduced the result; the Anthropic team directed its bounty to ISRG.
 
 If you've followed my career you know why I care about this. A long time ago I stood up at a conference and said the NSA's Dual_EC_DRBG looked backdoored, which it was. Since then I've considered it part of the job to keep an eye on government-selected cryptographic parameters. The NIST curves were always the big one: used everywhere, origins unknown, and the man who generated them — Jerry Solinas, who by all accounts was a lovely person — died in 2023 saying the records were "sitting on a hard drive near the Ark of the Covenant." The best story anyone had was that the seeds were hashes of a joke about Jerry and his colleague Bob getting a raise.
 
@@ -22,7 +22,7 @@ So what was the criterion?
 
 I had a hypothesis. My master's thesis was on isogenies, and the thing a number theorist worries about with a random curve is the class number of its CM field — the discriminant *t*² − 4*p*, how much of it is a square, and whether the resulting endomorphism ring is "special" in a way that would make someone cautious. Nobody had checked. And there's a nice statistical argument that a class-number floor is exactly the kind of criterion that would reject half the candidates: the relevant statistic is the largest square divisor of the discriminant, whose distribution is heavy-tailed, not the near-squareness, which never happens.
 
-So I regenerated all four runs, verified every group order two independent ways, and computed the class numbers.
+So I regenerated all four runs, checked the group orders, and estimated the class numbers using Euler products. Those are estimates, not exact class-number computations or certified error bounds.
 
 It isn't the class number. The published P-224 curve has the *smallest* class number among the four viable candidates in its run. The published P-256 has the *largest* of its two. A floor is ruled out by one run and a ceiling by the other.
 
@@ -35,19 +35,19 @@ Fine. It was a good hypothesis. I kept going. Over the weekend, with Claude doin
 - Embedding degree. GCDs of *p* ± 1 with *n* ± 1, which is the kind of thing a careful programmer might have looped over. Nine Legendre symbols. Residue classes.
 - The small-*x* points on each curve, the full 256-entry on-curve bitmap for *x* < 256, and whether any of them are small multiples of each other or of the published generator.
 
-Nothing. Not one of these separates the eleven skipped curves from the eight published ones. The most decisive evidence comes from the two runs that published three curves each: there, the published curves disagree *with each other* on nearly every binary property. If the criterion were "*n* must be 1 mod 8," two of the three published prime192 curves would have failed it.
+Nothing tested separates all eleven skipped curves from the eight published ones. In the runs that published three curves each, the published curves disagree *with each other* on many binary properties. For example, a global "*n* must be 1 mod 8" requirement fails on published prime192v3 and two published prime239 curves.
 
-Then we stopped asking about the curves and asked about the program. We simulated eleven ways a 1997 point-counting routine could have been buggy — trace sign flipped, wrong square root, off-by-one in the order test, testing the trace instead of the order — and checked which of the nineteen each bug would have wrongly rejected. None matches the actual pattern. We checked whether the skipped curves would have been slow to count (they'd have been *faster*). We checked whether the skipped candidate *indices* share any arithmetic property, whether the skipped *seeds* have byte patterns a C program would choke on, whether the base-point generator Anthropic recovered would have failed on them, whether a human sorting a printout by any column would have picked the published ones. No, no, no, and no.
+Then we asked about the program. Eleven simple abort-bug models did not match the pattern. Elkies/Atkin counts point against one simple proxy for a timeout, but they are not actual historical timing measurements. The tested index patterns, seed-byte patterns, base-point failure models, and sorting rules did not explain the full labelling either. This rules out those models, not every implementation bug.
 
-Finally — this was my idea, and I think it's the right way to close the question — we asked whether the eleven could be the *union* of several small bugs rather than one criterion. Set cover: from 135 "bug-shaped" predicates, find the smallest union that covers all eleven skipped curves and none of the eight published. The answer is four predicates. Then we ran the identical search on 300 random relabellings of published-versus-skipped. A third of them also need four or fewer. The real labelling is unremarkable. Whatever the covers find is noise fitted to noise.
+Finally we asked whether the eleven could be the *union* of several small bugs. From 135 predicates, the smallest union covering all eleven skipped curves and none of the eight published needs four predicates. The original 300-sample comparison gave 35% with covers that small. A better matched, exact comparison keeps each run's final candidate published as well as preserving its published count: 88 of the 126 possible labellings, or 69.8%, admit covers of four or fewer. That is not evidence for a special pattern in the real labels. Since the predicates were chosen during exploration, it is not a confirmatory test of every possible selection rule.
 
-**The eleven skipped curves are indistinguishable from the eight published ones.** On everything in the parameters, they are the same kind of object. My best guess is the boring one: a point counter that sometimes gave up, or Jerry taking the last curve off a printout. Nothing in the numbers can tell those apart, and nothing in the numbers ever will.
+**No tested rule separates the eleven skipped curves from the eight published ones.** A point-counter artifact or a human choice remains plausible. But nineteen curves and a finite collection of tests cannot show that the reason left no numerical trace, or that archival evidence is the only way forward.
 
-I want to say clearly what that means. It *strengthens* Anthropic's conclusion. If the skips were a selection — if someone were searching for a curve with a hidden property — the chosen curves would differ from the rejected ones in some way. They don't. A designer looking for weak curves would have had to find them among candidates that are statistically identical to the ones taken.
+Nothing here demonstrates a curve weakness or calls for an operational change. The investigation finds no evidence of selection by the properties tested. It does not establish statistical identity or rule out arbitrary untested hidden properties.
 
 ## What I found instead
 
-There's a second provenance question Anthropic's post left open, and it's the one I'd actually been arguing about with Nadia Heninger over the summer: the base points. Every curve comes with a generator *G*, and the seed doesn't determine it. Anthropic explained the generators for P-192 and the ANSI curves — they came from Arjen Lenstra's FreeLIP package with small integer seeds — but P-224, P-256, P-384 and P-521 remain unexplained, and the post says nothing about the binary curves at all.
+There's a second provenance question Anthropic's post left open, and it's the one I'd actually been arguing about with Nadia Heninger over the summer: the base points. Every curve comes with a generator *G*, and the seed doesn't determine it. Anthropic explained the generators for P-192 and the ANSI curves — they came from Arjen Lenstra's FreeLIP package with small integer seeds — but P-224, P-256, P-384 and P-521 remain unexplained. The post explicitly leaves the binary generators unexplained too.
 
 Nadia's idea, which I'd been carrying around: if someone picked a generator by hashing a phrase to an *x*-coordinate and then doubling the point, you'd see it by computing *G*/2 and finding a short coordinate. So we computed *G*/2, and *G*/*k* and *k*·*G* for *k* up to 65,536, for all ten prime-field generators.
 
@@ -56,18 +56,20 @@ Nothing. Every coordinate is within a couple of bits of what a random field elem
 Then we did the same for the ten binary curves. Nine of them: nothing. The tenth is K-163.
 
 ```
-K-163, G/2:   x = 0x3a5da90060df8af5be2121e601ae11f1
+K-163, G/2:   x = 0x23e21d6019e1211f6bd47ec180256e97
 ```
 
-That's 126 bits. On a 163-bit curve. A 128-bit number with two leading zeros, with a full-size *y* — exactly what you'd see if someone chose a 128-bit *x*, solved for *y*, and multiplied by the cofactor 2 to land in the prime-order subgroup. A coordinate 37 bits short of the field is a one-in-2³⁷ event. Across the seventy thousand points we looked at, the chance of seeing one by accident is about one in a million.
+That's 126 bits on a 163-bit curve, with a full-size *y*. Choosing a 128-bit *x*, solving for *y*, and multiplying by the cofactor is a plausible explanation, not a recovered recipe. The binary scan covered 69,630 points per curve, 696,300 total. A uniform-coordinate heuristic gives roughly five-in-a-million expected *x*-hits at that threshold, before accounting for the prime-field scans, other coordinates, and exploratory pattern choices. That is not a calibrated probability for the whole investigation.
 
-K-163 is a Koblitz curve: *y*² + *xy* = *x*³ + *x*² + 1, with *b* fixed at 1. It has no seed. The generator is the *only* randomly chosen parameter on that curve. Which makes it the one place the old lore — a hash of a phrase — could still live. We've since tried about thirty million hashes of the obvious phrases, names, dates and curve identifiers under MD5, MD4, SHA-0, SHA-1 and RIPEMD, and found nothing. So it isn't the obvious thing. But it is *something*, and it's the first structural fingerprint anyone has found on a NIST base point.
+K-163 is a Koblitz curve: *y*² + *xy* = *x*³ + *x*² + 1, with *b* fixed at 1 and no seed. Its generator is a natural place to test the old phrase-hash lore. But a review found that the original PARI coordinate export reversed coefficient bits: the 126-bit length was right and the hexadecimal target was wrong. The roughly thirty million earlier negative hash evaluations do not apply to the corrected value above. The search needs to be rerun. We have not established that this observation is new.
+
+There is also a cofactor subtlety: the subgroup half is only one of two rational points that double to G. We checked both, and all cofactor preimages on the other nine binary curves. K-163 remains the only 128-bit-*x* hit; its other half has a 162-bit *x*.
 
 ## What this means
 
-Nothing changes for anyone using these curves. The skips are noise. The K-163 observation is a lead, not a finding — until that 128-bit value is identified, it's a very surprising number and nothing more.
+Nothing here demonstrates a weakness in these curves. The skips remain unexplained. The K-163 observation is a concrete provenance lead, not an identified construction.
 
-But it says the story isn't over. Anthropic closed the seed question; the base-point question is a separate one, and it's open, and it has at least one concrete handle on it. If anyone recognizes `3a5da90060df8af5be2121e601ae11f1`, or has an old copy of the WTLS or X9.62 drafts with a different generator for sect163k1, I want to hear from you.
+The story isn't over: B-163's seed and most base points remain unexplained. The corrected K-163 coordinate `23e21d6019e1211f6bd47ec180256e97` is one concrete handle. Old WTLS, SEC, and X9.62 drafts and generation code would be especially valuable evidence.
 
 Everything — the data, the scripts, every verified group order, the full record of every dead end — is at [github.com/shumow/ECDSA-Origins-Revealed-Followup](https://github.com/shumow/ECDSA-Origins-Revealed-Followup). The negative result is the kind that saves the next person a week. The K-163 number is the kind that might cost someone one.
 

@@ -4,15 +4,15 @@
 
 ## Summary
 
-**This is a negative result.** Anthropic's lrand48 discovery explains every NIST/ANSI prime-curve seed but leaves eleven candidates unexplained: seeds in the same runs that give prime-order curves of the right size, passing every documented criterion, which the 1997 program nonetheless passed over. We tested roughly fifty properties of those curves and a dozen models of the generating program. **Nothing separates the eleven skipped curves from the eight published ones** — not any invariant of the curve, not any consistent bug in a simulated point counter, and not any union of a few small defects (a set-cover search finds the skipped set no easier to cover than random relabellings). The skips should be regarded as unexplained and, on this evidence, unrelated to any property of the curves themselves. Two positive facts about the seed program did come out: it computed b with the textbook (p+1)/4 square root, and it drew exactly 20 bytes of lrand48 output per candidate. And one positive fact about a base point: on K-163, the half of the published generator has a 126-bit x-coordinate — a 2⁻³⁷ coincidence or a 128-bit value (a hash?) that was doubled into the prime-order subgroup (§7.1).
+**This is an exploratory negative result.** Anthropic's lrand48 discovery explains every NIST/ANSI prime-curve seed but leaves eleven viable unpublished candidates in the four runs studied here. Roughly fifty properties and a dozen program models give **no tested rule separating the eleven skipped curves from the eight published ones**. This is not an exclusion of every numerical criterion, consistent implementation bug, or run-specific process. Seven published coefficients match the textbook square root; the recovered RNG offsets constrain cumulative alignment, not each individual call. Separately, K-163's subgroup half-point has a verified 126-bit x-coordinate. Its original printed value was coefficient-bit-reversed; the corrected target and the limitations of earlier hash searches are in §7.1.
 
 Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with that square-root convention and Filippo Valsorda's size rule gives **8 published curves and 11 skipped-but-viable ones** — the same lists both Anthropic and Valsorda report.
 
-**Curve invariants — fifteen families tested, none separates published from skipped.** Everything a 1997 program could cheaply compute from (p, b, n, t) has been checked: the arithmetic of n and t, the CM discriminant and class number (either direction), isogeny structure over F_p and over extensions, extension-field group orders, embedding degree, gcds of p ± 1 with n ± 1, Legendre symbols and residue classes, and the small-x point structure. In each family the published values interleave with the skipped ones, and in the two runs that published three curves each (prime192, prime239) the published curves disagree with each other on most of the binary properties.
+**Curve invariants — fifteen families tested, no separator found.** These include the arithmetic of n and t, CM discriminant and estimated class number, isogeny and extension-field structure, embedding degree, gcds, symbols, residues, and small-x points. This is a finite collection, not everything a 1997 program could compute. The class numbers use truncated Euler products without certified errors; several features are algebraically dependent.
 
-**Generation process — two positive facts, one constraint, no explanation.** The program used b = (−27/c)^((p+1)/4) for p ≡ 3 (mod 4), seven for seven. The published seed is the last viable candidate of every run (not a selection rule, just where runs stopped). The per-candidate RNG stride is exactly 20 draws, so any extra consumption came in whole 20-byte blocks; no simple event-triggered skip rule fits.
+**Generation process — observations, not a recovered program.** Published coefficients match b = (−27/c)^((p+1)/4) for p ≡ 3 (mod 4), seven for seven. Each recorded window ends at a published candidate. Recovered offsets constrain cumulative RNG alignment at published checkpoints, not the granularity of every extra draw; no tested fixed-block skip rule fits.
 
-**Program models — six tested (Part A.3), plus a union-of-bugs search (§6.21); none fits.** Simulated early-abort bugs, a time limit, index-dependent bugs, mangled seed bytes, a failing base-point step, and sorted human choice are all excluded as consistent rules. What remains is, by construction, invisible in the published parameters: a bug that depended on run-time state, or a person choosing for reasons that leave no numerical trace.
+**Program models — six families tested (Part A.3), plus set cover (§6.21).** The tested rules do not explain all labels. Unweighted Elkies counts are only a timing proxy. Intermediate-arithmetic bugs, other deterministic rules, variable RNG consumption, and differences between runs remain open.
 
 ---
 
@@ -24,33 +24,33 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 |---|---|---|---|
 | Arithmetic of n and t | twist order n' = 2p + 2 − n (smoothness, cofactor primality); n ± 1 full factorizations and largest prime factors; congruences on t, n, b mod 2, 3, 4, 5, 8; b < p/2; (n−1)/2 prime | §6.1–6.3, §6.6, §6.9 | interleave |
 | CM structure | D = t² − 4p; conductor s; fundamental discriminant f; class number via √|f|·L(1,χ)/π with L(1,χ) from the Euler product to 10⁶; complete factorization of every |D| (ω, Ω, largest primes, smooth part); q ± 1 structure and cross-divisibility of the discriminant primes | §2–3 (theory), §6.1–6.2, §6.5, §6.9, §6.22 | floor refuted by P-224 (published has smallest h); ceiling refuted by P-256 (published has larger h); interleave on 19 |
-| Isogeny structure over F_p | End(E) vs Z[π]; position on the ℓ-volcano (only P-224 has s > 1: crater of a height-1 3-volcano); rational ℓ-isogeny counts from Φ_ℓ(j, X) for ℓ ≤ 43 | §6.7, `battery*.txt` | random; the one curve with volcano structure is published |
+| Isogeny structure over F_p | End(E) vs Z[π]; P-224 at the crater of a height-1 3-volcano; prime239 2320 and 2682 at floors of height-1 5-volcanoes; rational ℓ-isogeny counts | §6.7, §6.12, `battery*.txt` | no tested separator; the two nonmaximal endomorphism rings include one published and one skipped curve |
 | Isogeny structure over F_{p^k} | conductor s·U_k and ℓ-volcano depths for ℓ ≤ 47, k ∈ {2,3,4,6,12} | §6.12 | interleave |
 | Extension-field group orders | #E(F_{p^k})/n for k ≤ 12: 10⁶-smooth part, cofactor size and primality | §6.17 | random-integer behaviour, interleave |
-| Embedding degree | ord_n(p) (exact where n−1 factored, else > 20000) | §6.1–6.2, §6.9 | ≥ 2²²² or > 2·10⁴ everywhere |
+| Embedding degree | ord_n(p) (exact for some, otherwise > 20000) | §6.1–6.2, §6.9 | > 20000 for every viable candidate |
 | gcds | gcd(p±1, n±1), gcd(p²−1, n²−1), odd parts, largest prime factors; per-run ranking | §6.16 | no consistent direction across runs |
 | Symbols and residues | (n/p), (p/n), (t/p), (t/n), (b/p), (−3/n), (f/n), (−1/n), (2/n); n, p, t mod 4 and 8 | §6.18 | published curves disagree among themselves in the 3-curve runs |
-| Point structure | smallest on-curve x and its y (with the (p+1)/4 root); full x = 0…255 on-curve bitmaps; small-scalar relations (k ≤ 2²⁰) among small-x points and with published G | §6.13–6.15 | coin-flip statistics; no relations |
+| Point structure | smallest on-curve x and its y; x = 0…255 on-curve bitmaps; small-scalar relations | §6.13–6.15 | no tested separator; the textbook-root convention forces x = 0 on the p ≡ 3 (mod 4) curves |
 
 ### A.2 Generation process
 
 | Property | Where | Result |
 |---|---|---|
-| Square-root convention for b | §6.10 | **positive**: b = (−27/c)^((p+1)/4) for all seven published curves over p ≡ 3 (mod 4); the twist root is prime for 4 + 10 + 9 further candidates the program never saw |
-| Size rule | §1.2, §6.9 | Valsorda's bitlen(n) ≤ bitlen(p) rejects 7 prime-order P-224 and 7 prime192 candidates; reproduced |
+| Square-root convention for b | §6.10 | b = (−27/c)^((p+1)/4) for all seven published curves over p ≡ 3 (mod 4); accepting either root adds 4 + 10 + 9 viable candidates, without establishing which roots the original code tried |
+| Size rule | §1.2, §6.9 | Valsorda's bitlen(n) ≤ bitlen(p) rejects 8 prime-order P-224 and 7 prime192 candidates; reproduced |
 | Published = last viable of the run | §6.3, §6.9 | holds in all four runs (1842, 7026, 6013, 3048) but earlier published curves (139, 5228; 2185, 2320) have later skipped ones, so it is not a rule |
-| RNG stride | §6.11 | exactly 20 draws per candidate (coprime published indices); extra consumption, if any, in whole 20-byte blocks |
+| RNG alignment | §6.11 | cumulative extra draws must restore 20-draw alignment at published checkpoints; individual extras need not be multiples of 20 |
 | Event-triggered skip rules | §6.11 | none of the "after property X, skip k blocks" rules (X from 6 candidate properties, k ≤ 7) fits; best 13/19 vs. random ≈ 9.5 |
 | Candidate-index patterns | §6.11 | skips not periodic, not parity-based |
 
 ### A.3 Program models
 
 - **Sequential multi-check model (checks in order, class number as a later stage) — tested, §6.22: no disjunction of ≤ 4 thresholded invariants covers the skipped set; 32 % of random relabellings admit one.**
-- **Union of small bugs — tested, §6.21: no signal.** Smallest cover of the 11 skipped by predicates false on all 8 published has size 4; 35 % of random relabellings do as well or better.
-- **Early-abort false negatives — tested, §6.19: no consistent buggy rule fits.** Eleven abort rules (sign flip, wrong root, trace-instead-of-order, off-by-one, sloppy residues, twist abort) and all bounded-ℓ and single-residue variants fail to separate. An *inconsistent* bug (dependent on the ℓ-sequence run, intermediate values, or the machine) remains possible but is not recoverable from the parameters.
+- **Union of small bugs — tested, §6.21: no signal.** Smallest cover size is 4. Under the exact endpoint-conditioned null, 88/126 labellings (69.8%) do as well or better; the original count-only Monte Carlo comparison gave 35%.
+- **Early-abort false negatives — tested, §6.19: no listed buggy rule fits.** Eleven simple abort models and their tested bounded-ℓ and residue variants fail to separate. This does not exhaust consistent bugs involving intermediate arithmetic or particular implementations.
 - **Per-candidate time limit — tested, §6.19: not supported.** Published curves are slightly *more* Atkin-heavy (mean 9.9 Elkies of 24 vs 12.5 for skipped); the two most Elkies-rich curves are skipped.
 - **Position-dependent bugs — tested, §6.20: nothing.** Residues, bit positions, popcount, and byte-offset-mod-buffer tests on the 11 skipped indices find no property disjoint from the published 8.
-- **Different candidate stream — partially tested, §6.11, §6.20.** Stride constrained to whole 20-byte blocks; seed-byte mangling (0x00, newline bytes, leading-zero drop) explains at most 2 of 11.
+- **Different candidate stream — partially tested, §6.11, §6.20.** Cumulative alignment is constrained at published seeds, not at every candidate; tested seed-byte mangling does not explain the whole label set.
 - **Two-pass selection — sorting rules tested, §6.20: none.** The three published curves in prime192/prime239 are not the top-3 or bottom-3 under index, seed, b, n, t, or n − p. A non-numerical human choice remains possible and untestable.
 - **A test on the base point — tested, §6.20: no.** The published FreeLIP recipe, run on every viable prime192/prime239 curve with the published seeds and 600 nearby seeds, behaves identically on skipped and published curves (≈ 2 tries to an on-curve x; no failure mode fires selectively).
 
@@ -87,7 +87,7 @@ That "half" calibrates every hypothesis below: the unknown criterion did not rej
 
 ## 2. The first hypothesis: CM discriminant and class number
 
-*This section and the next record the hypothesis the investigation began with. It was refuted by the data in §6.1–6.5, but the statistical argument in §3 is correct and worth keeping: it says why the hypothesis was admissible before testing.*
+*This section and the next record the initial hypothesis. The tested class-number thresholds do not explain the labels. Section 3 is a random-discriminant heuristic, not a validated distribution for the root-conditioned, prime-order candidates.*
 
 For an ordinary curve *E*/F_p with trace *t* = *p* + 1 − #*E*, the Frobenius endomorphism satisfies π² − *t*π + *p* = 0, so Z[π] sits inside an imaginary quadratic order of discriminant
 
@@ -97,7 +97,7 @@ Write D = f · s² with *f* a fundamental discriminant (so *f* is square-free ap
 
 h(f) = (√|f| / π) · L(1, χ_f)   (for |f| > 4),
 
-and L(1, χ_f) is a slowly varying factor (bounded by O(log |f|) above and ≫ 1/log |f| below), so to first approximation
+and L(1, χ_f) is a factor that must not be dropped in comparisons. There is no general unconditional lower bound of the claimed form ≫ 1/log |f| without addressing exceptional real characters. As a rough scale estimate only,
 
 h ≈ √|f|.
 
@@ -122,11 +122,11 @@ Two further consequences of the heavy tail:
 
 ## 4. Alternatives considered at the outset
 
-**Stricter embedding degree bound.** X9.62 already requires the MOV condition with B = 20 (n ∤ p^k − 1 for k ≤ 20). For a prime-order 224/256-bit curve the embedding degree k = ord_n(p) is a divisor of n − 1 and is astronomically large for a random curve; P(k ≤ K) is on the order of K/n. No embedding-degree bound, however strict, can reject even one candidate in a thousand, let alone one in two. This alternative was effectively dead on statistical grounds before computing anything; §6 confirms it with enormous k for every candidate.
+**Stricter embedding degree bound.** X9.62 requires the MOV condition with B = 20. The computations show k = ord_n(p) > 20,000 for every viable candidate. That excludes rejection by small fixed MOV limits, not every possible bound: for example, a requirement k = n − 1 can reject a substantial fraction of inputs. A universal statement that no embedding-degree threshold could reject half the candidates does not follow.
 
 **Twist order.** The quadratic twist has order n' = 2p + 2 − n = p + 1 + t. A requirement that n' be prime would reject ~99% of candidates; a requirement that n' have no small prime factors below some bound, or a large prime factor above some bound, rejects a tunable fraction and *could* sit near 50%. This was the strongest conventional competitor, since twist security was understood in the 1990s and is cheap to check. Result in §6.3: no clean separation.
 
-**Square-root choice (an artifact hypothesis).** The standard says only that b² c ≡ −27 (mod p); both square roots of −27/c satisfy it, and for p ≡ 3 (mod 4) the two roots give the curve and its quadratic twist. If the 1997 program computed one particular root (say, by one particular algorithm) and tested *that* curve for prime order, while a modern reproduction accepts a candidate if *either* root gives a prime-order curve, the reproduction will find roughly twice as many "valid" seeds as were published — exactly Filippo's ratio. The root convention was settled in §6.10: for every p ≡ 3 (mod 4) curve the published b is (−27/c)^((p+1)/4), so the program tested one root only. (For P-224, p ≡ 1 mod 4, the two roots give isomorphic curves and the question does not arise.) This does matter for counting valid seeds — a reproduction accepting either root overcounts badly — but it does not explain the skips, because Valsorda's accepted lists already use the published root and still contain the unpublished seeds.
+**Square-root choice (an artifact hypothesis).** Both roots satisfy b²c ≡ −27 (mod p); for p ≡ 3 (mod 4) they give quadratic twists. Using the textbook root reproduces the source posts' candidate lists, whereas accepting either root adds candidates. Seven published-root matches are evidence for that convention, not proof that the historical code tested only one root. This does not explain the residual skips, since the source lists already use the matching convention. For P-224 the two roots give isomorphic curves.
 
 **Buggy order computation.** Filippo mentions the possibility of a point-counting bug that returned the wrong answer half the time. Testable only in its consistent forms — §6.19 simulates eleven of them and none fits — and otherwise only negatively: no clean property separating accepted from rejected was found, so a bug is not displaced by anything more parsimonious.
 
@@ -290,7 +290,7 @@ Class number, in either direction, is now dead on 19 curves: published and skipp
 
 ### 6.10 Positive finding: the square-root convention
 
-For every published curve over a field with p ≡ 3 (mod 4) — P-256, P-192, prime192v2, prime192v3, prime239v1, v2, v3 — the published b equals (−27/c)^((p+1)/4) mod p, the textbook square root for such p, never the other root (seven of seven). So the 1997 program computed that one root and tested only that curve; the other root is its quadratic twist and is prime for 4 + 10 + 9 further candidates across the three p ≡ 3 (mod 4) runs, none of which the program would have seen. Any reproduction that accepts either root will overcount valid seeds by a wide margin. For P-224 (p ≡ 1 mod 4) the two roots give isomorphic curves and the question does not arise.
+For every published curve over a field with p ≡ 3 (mod 4), the published b equals the textbook root (−27/c)^((p+1)/4) mod p, seven of seven. This suggests that routine, but does not prove the original code never tested the other root. Reproducing with that convention gives the source posts' lists; accepting either root adds 4 + 10 + 9 candidates across the three runs. For P-224 the roots give isomorphic curves. This root choice also forces b to be a square, hence a point at x = 0.
 
 ### 6.11 The RNG-consumption hypothesis
 
@@ -298,14 +298,16 @@ A different kind of explanation for the skips: perhaps the program did not consu
 
 Two constraints from the data:
 
-1. **The stride is pinned at exactly 20 draws per candidate.** In the prime192 run three published seeds sit at draw offsets 20·138, 20·5227 and 20·6012; in prime239 at 20·2184, 20·2319 and 20·3047. The index gcds are 1, so no fixed per-candidate consumption other than 20 is possible, and any *variable* extra consumption must total a multiple of 20 draws before each published seed (three times per run, in two runs). So extra consumption, if any, came in whole 20-byte units.
+1. **Cumulative alignment is constrained, not every RNG call.** Published seeds occur at offsets 20·138, 20·5227, 20·6012 and 20·2184, 20·2319, 20·3047. From the recovered initialization, these exclude a larger constant stride for nonoverlapping 20-draw candidates. Variable consumption need only restore alignment cumulatively at the observed checkpoints: extras of 1 and later 19 draws suffice. Intervening tested windows need not be 20-draw-aligned.
 2. **No simple event-triggered rule fits.** Simulating rules of the form "after a candidate with property X, skip the next k blocks" for X ∈ {valid b; even order; odd order; odd order with no factor < 2¹⁶ on the curve (or on it or its twist); prime but too large; prime on the twist root}, singly and in pairs, with k = 1…7, and asking whether any rule visits all 8 published seeds while missing all 11 skipped viable ones. None does; the best rules get 13 of 19 right, barely above what a random half-density subset would score (9.5).
 
-So the hypothesis survives only in forms where the extra consumption is in 20-byte units and triggered by something not in that list. A natural such form — the program drew another *seed-sized* block for some auxiliary purpose — is not excluded, but there is no positive evidence for it either.
+These tests exclude the listed fixed-block models, not general variable-consumption state machines. Both auxiliary seed-sized blocks and smaller draws that cumulatively restore alignment remain possible.
 
 ### 6.12 Isogeny volcanoes over extension fields
 
-Over F_{p^k} the Frobenius is π^k, with trace t_k given by t_0 = 2, t_1 = t, t_k = t·t_{k−1} − p·t_{k−2}, and discriminant t_k² − 4p^k = D · U_k² where U_k = (π^k − π̄^k)/(π − π̄) is the Lucas sequence U_0 = 0, U_1 = 1, U_k = t·U_{k−1} − p·U_{k−2}. The CM field does not change, so a prime ℓ that is inert over F_p stays inert — what changes is the conductor of Z[π^k], which is s·U_k, so an ℓ-volcano of depth v_ℓ(s·U_k) appears whenever ℓ | U_k (for ℓ ∤ s). For an ordinary curve every endomorphism is already F_p-rational, so End(E) = O_K for all our curves (§6.7) and E sits on the crater of every one of these volcanoes at every level; the only invariants are the depths.
+Over F_{p^k}, t_k = t·t_{k−1} − p·t_{k−2}, with t_0 = 2 and t_1 = t. The discriminant is D·U_k², where U_0 = 0, U_1 = 1 and U_k = t·U_{k−1} − p·U_{k−2}. The CM field and geometric endomorphism ring do not change; the Frobenius-order conductor becomes s·|U_k|. A prime inert in K stays inert in K, but can acquire descending rational isogenies when it divides U_k. Volcano height is v_ℓ(sU_k), while the vertex's distance from the crater is the valuation of the conductor of End(E).
+
+**Endomorphism-ring correction.** F_p-rationality of the endomorphisms does not imply maximality. Besides P-224 (s = 3, crater), prime239 candidates 2320 and 2682 have s = 5 and one rational 5-isogeny each, placing them on the floors with End(E) = Z[π]. A maximal-order vertex would have seven roots of Φ₅ for 2320 (5 split in K) and six for 2682 (5 ramified). PARI/GP 2.19.0 reproduces the single-root counts. Their endomorphism conductor stays 5 over extensions, so these two vertices are not on the crater.
 
 Depths v_ℓ(s·U_k) for ℓ ≤ 47, k ∈ {2, 3, 4, 6, 12} (full table in the transcript; summary): ℓ = 2 appears at k = 3 for every curve (forced: 2 is inert for all, so its rank of apparition is 3) with depth varying from 1 to 7; ℓ = 3 at k = 4 (or k = 3 where 3 | D); and otherwise a scattering of small primes whose rank of apparition divides k. Published and skipped curves are indistinguishable: e.g. in the prime239 run the published 2185 has a 5-volcano of depth 5 over F_{p³} while the skipped 36 has depth 2 and the published 3048 depth 0; in P-224 the skipped 777 has a 2-volcano of depth 7 over F_{p³} against depth 3 for the published 7026. No level k ≤ 12 and no ℓ ≤ 47 separates the groups.
 
@@ -336,7 +338,7 @@ P-224    7026 *    3 4 5 6 7 8 10 13              224 bits, odd          223 bit
 239      3048 *    0 2 5 8 13 14 16 19            234 bits, odd          238 bits, odd
 ```
 
-x = 0 carries a point exactly when b is a square mod p (a coin flip); it does for 16 of 19 curves, and the three exceptions (1485, 5736, 7026) include a published one. The first few x with points are the small integers you would expect from a half-density set; the corresponding y values are full-size and random in parity; the bit length and parity of b itself are likewise unremarkable on both sides. Nothing about the small-x points, or about short coordinates generally, separates published from skipped curves. (The published P-224 through P-521 base points are not at small x in any case; the ANSI/P-192 base points come from FreeLIP's generator as Anthropic showed.)
+x = 0 carries a point iff b is a square. This is **forced**, not a coin flip, on all fifteen viable curves over p ≡ 3 (mod 4): b is an integer power of the quadratic residue −27/c, hence is itself a residue. One P-224 candidate also has square b, giving 16 of 19 in total. The three exceptions include the published P-224. Thus the root convention explains this aggregate pattern; bitmap null models must condition on it. No tested small-x rule separates the labels.
 
 ### 6.14 Low-byte x patterns
 
@@ -365,7 +367,7 @@ P-224    7026   *  120    3       9      8    10    32  1fa79a680bebca30191b09fb
 239      3048   *  124    0       7      8     6    29  a486903951688bfd7358f24dea24d5d5360296dea17e9734f1810d1176cc45dc
 ```
 
-Every row looks like 256 fair coin flips: on-curve counts 118–148 against a Binomial(256, ½) mean of 128 and s.d. 8 (published mean 128.2, skipped 129.6), longest off-curve runs 4–10 and on-curve runs 4–11, as expected for runs in a random 256-bit string. The only ±2.5σ value (148, candidate 2185) is a published curve. Nothing in the low-byte x patterns separates published from skipped candidates.
+The on-curve counts range from 118 to 148 (published mean 128.2, skipped 129.6), with longest off-curve runs 4–10 and on-curve runs 4–11. Binomial(256, ½) is only a rough scale comparison, not an exact null: the root convention forces the x = 0 bit in fifteen curves, and the entries have algebraic dependencies. No tested low-byte pattern separates the labels.
 
 ### 6.15 Small-x points, with the right square root, and small-scalar relations
 
@@ -502,7 +504,7 @@ rule                                                           skipped rejected 
 
 None separates. Rules (f), (g1) fire on essentially everything, (b), (h) on most of both groups, (d) on the P-224 run only (because P-224 has p ≡ 1 mod 4 and the "other root" is the same curve). Bounded versions — "reject at the first ℓ ≤ B where the statistic vanishes" for any B ≤ 1000 — were tested for all these statistics (and for t ± 1, t ± 2, n ± 1): for no statistic do the skipped curves' first-ℓ values all lie below the published curves' (or all above). Single-residue rules "X ≡ r (mod ℓ)" for X ∈ {n, t, n', n ± 1, t ± 1}, ℓ ≤ 100, r arbitrary: none is satisfied by six or more skipped curves and zero published ones.
 
-So no *consistent* buggy abort — one that misbehaves the same way on every candidate — explains the skips. A bug that misbehaved only sometimes (depending on the ℓ-sequence actually run, intermediate values, or the machine) remains possible but is not a rule that can be recovered from the published parameters.
+None of these simulated abort rules explains the labels. That does not exclude consistent bugs involving untested intermediate values, arithmetic representations, or particular modular polynomials.
 
 **Elkies vs Atkin primes (hypothesis A.3(2), time limit).** ℓ is Elkies iff (D/ℓ) ≥ 0. Counts for 3 ≤ ℓ ≤ 97 (24 primes):
 
@@ -529,7 +531,7 @@ P-224   7026  *     8    16
 239     3048  *    12    12
 ```
 
-Published mean 9.9 Elkies, skipped mean 12.5 — the published curves are, if anything, *more* Atkin-heavy (i.e. would have taken longer in a 1997 SEA), the opposite of what a time-limit rejection predicts. The two most Elkies-rich curves (17 of 24) are both skipped. A per-candidate time limit is not supported.
+Published mean 9.9 Elkies, skipped mean 12.5: the opposite direction from a simple unweighted-Elkies-count timeout proxy. The two most Elkies-rich curves are skipped. These counts are not timings of a historical SEA implementation and do not exclude a real time limit, whose cost depends on degrees, arithmetic paths, and implementation details.
 
 ### 6.20 Remaining process hypotheses: indices, seed bytes, base-point step, human choice
 
@@ -541,21 +543,21 @@ Published mean 9.9 Elkies, skipped mean 12.5 — the published curves are, if an
 
 **Two-pass human choice (A.3(5)).** If all valid curves were printed and a person picked, the picks might be extremal in some printed column. For each run, whether the k published curves are exactly the k smallest or k largest under index, seed (as integer or hex string), b, n, t, n − p: in the single-published runs the published curve is the largest index (the "last viable" fact) and also has the smallest b (P-256: 1 of 2; P-224: 1 of 4), but in prime192 and prime239 the three published curves are not the top-3 or bottom-3 under any of these keys. No sorting rule fits.
 
-**Union-of-bugs hypothesis:** tested by set cover in §6.21; the true labelling needs a 4-predicate cover, which 35 % of random relabellings also achieve — no signal.
+**Union-of-bugs hypothesis:** tested by set cover in §6.21; the true labelling needs four predicates. The exact endpoint-conditioned comparison admits covers at least that small in 88/126 labellings (69.8%) — no evidence for an exceptional fit under that null.
 
-**Status of Part A.3 after this section.** Of the six process hypotheses, five have been tested against the parameters and none fits as a consistent rule: early-abort false negatives (§6.19), time limit (§6.19), position-dependent bug, mangled seed bytes, failed base-point step, sorted human choice (§6.20). What remains is, by construction, not recoverable from the published numbers: a bug or abort that depended on run-time state, or a human choice with no numerical signature. The skips should be reported as unexplained and, on the evidence, unrelated to any property of the skipped curves.
+**Status of Part A.3.** The tested abort, index, seed-byte, base-point, and sorting models do not fit the full labelling; Elkies counts do not support one simple timing proxy. The skips remain unexplained. The tests do not establish that the reason was unrelated to the parameters or unrecoverable from them.
 
 ### 6.21 Set cover: could the skips be a union of several small bugs?
 
-Every test in §6.1–6.20 asked whether a *single* rule separates the eleven from the eight. A different hypothesis is a union of two or three unrelated small defects — a C-string bug that eats seeds with a 0x00 byte, a sign test that misfires on one residue class, and so on — which would also explain why the published curves disagree with each other on every single property. This was tested as a set-cover problem: from a library of 135 cheap, "bug-shaped" binary predicates on (seed bytes, n, t, b, index, small residues, Legendre symbols), the 29 that are false on all eight published curves are the usable ones; the smallest union of them that covers all eleven skipped curves was found by exhaustive search up to size 5. Then the identical search was run on 300 random relabellings of published/skipped within each run (per-run counts preserved), to see what cover size chance alone produces.
+The union-of-defects hypothesis was tested as set cover: from 135 predicates on seed bytes, n, t, b, index, residues and symbols, use only predicates false on all published curves, and find the smallest union covering all skipped ones, through size 5. The original exploratory null used 300 random within-run, count-preserving relabellings. Review adds conditioning on each recorded window ending at a published candidate, and enumerates all 126 possible labellings exactly.
 
 Result (`cover.py`, `cover.md`, `cover.json`):
 
 - True labelling: **minimal cover size 4**, ten distinct minimal covers, all made of residue-class predicates (e.g. `20(i−1) mod 4096 < 1024 ∪ b ≡ 1 mod 7 ∪ n ≡ 7 mod 8 ∪ t ≡ 0 mod 7`). Nothing bug-shaped appears in any minimal cover; the best single usable predicate covers 6 of 11 (`t ≡ 1 mod 8`).
-- Random relabellings: cover size 2 in 0.3 %, 3 in 7.7 %, 4 in 27 %, 5 in 38 %, none ≤ 5 in 27 %. So a cover of size ≤ 4 arises by chance for about **35 %** of relabellings. The true labelling is unremarkable.
+- Exact endpoint-conditioned relabellings: cover size 2 in 1 case, 3 in 35, 4 in 52, 5 in 23, and none ≤ 5 in 15. A cover of size ≤ 4 exists in **88/126 = 69.8%**. The original count-only Monte Carlo comparison gave 35%; these are different null models, not interchangeable estimates.
 - The genuinely bug-shaped predicates individually: seed contains 0x00 — 2/11 skipped, 0/8 published; seed contains 0x0A — 2/11, 1/8; 0x0D — 1/11, 1/8; 0xFF — 0/11, 1/8; 0x20 — 1/11, 1/8; n > p (negative trace, allowed by the size rule when bitlen(n) = bitlen(p)) — 3/11 skipped, 1/8 published (prime239v2, the case Filippo notes); b shorter than p by a bit — 5/11 vs 5/8. None covers more than two skipped curves while excluding the published ones.
 
-Conclusion: the skipped set is not a union of a few recognizable small defects either. With 135 predicates and 11 items, four-predicate covers exist for a third of random labellings, and the real labelling needs exactly that many — the covers it finds are noise fitted to noise.
+Conclusion: no union of at most three predicates in this library explains the labels, and the observed minimum of four is not unusual under the endpoint-conditioned null. The library was selected during exploration; the comparison neither establishes randomness nor excludes other unions, intersections, thresholds, or stateful checks.
 
 ### 6.22 Complete discriminant factorizations, second-order structure, and the multi-check model
 
@@ -587,7 +589,7 @@ Conclusion: the skipped set is not a union of a few recognizable small defects e
 
 **Exact class numbers.** `quadclassunit` on the 58–78-digit fundamental discriminants did not finish in this PARI build (> 1 h on the smallest); the write-up rests on Euler-product estimates, stable to 0.01 between bounds 10⁵ and 10⁶. The 19 fundamental discriminants are reproducible from `data/` for anyone with Sage or Magma.
 
-**Sequential multi-check model.** Hypothesis: the program applied several checks in sequence; a curve was rejected by the first it failed, so a later check (e.g. class number) never saw candidates an earlier one had already rejected. Since "rejected by the first failing check" and "rejected by any failing check" yield the same published set, this is exactly the set-cover problem of §6.21, but with threshold predicates on the continuous invariants instead of bug-shaped ones: for each of ~22 statistics (relative class number, L(1,χ), conductor, discriminant structure, n ± 1 structure, twist structure, trace size, residues) the loosest "below the published minimum" and "above the published maximum" thresholds, plus equality classes for discrete statistics — 29 predicates false on all eight published curves. Result: **no disjunction of up to four such checks covers the eleven skipped curves** (best single check covers 4 of 11), while 32 % of random relabellings admit one. For class number specifically: the three lowest relative class numbers in the set are prime239v2 (−5.3 bits from generic), P-224 (−4.9) and skipped 2682 (−4.8), so no floor fires on a skipped curve without firing on two published ones; the ceiling direction fails likewise (skipped max 1562 at −2.4, published P-256 at −2.1). Class number cannot be a stage of any sequence.
+**Sequential multi-check model (exploratory record).** Candidate-local, side-effect-free checks in sequence reject exactly the union of their failure predicates. The original experiment on thresholds of about 22 invariants found no disjunction of at most four that covered all eleven skips; its count-only random-label comparison gave 32%. This threshold experiment has not been regenerated with the endpoint-conditioned null, and its generating script is not included, so that percentage is not a reproduced review result. The observed relative class-number estimates do not support a universal separating floor or ceiling. This does not exclude a check passing all nineteen candidates, run-dependent thresholds, or checks whose side effects change the candidate stream.
 
 ## Part C. Base-point structure (separate from the skips)
 
@@ -595,7 +597,7 @@ Conclusion: the skipped set is not a union of a few recognizable small defects e
 
 For all ten published prime-field generators (P-192, P-224, P-256, P-384, P-521, prime192v2/v3, prime239v1/v2/v3; parameters verified by n·G = O), computed k·G and (k⁻¹ mod n)·G for 2 ≤ k ≤ 2¹⁶ and recorded the bit length of x and of min(y, p − y) (so negations are covered). Looking for a hash-sized coordinate — 128 bits (MD5) or 160 bits (SHA-1) — or anything else far below the field size:
 
-| Curve | G/2 x-coordinate | shortest coordinate found, k ≤ 2¹⁶ either way | expected min of 2¹⁷ random |
+| Curve | G/2 x-coordinate | shortest x found, k ≤ 2¹⁶ either way | rough expected min of 2¹⁷ random |
 |---|---|---|---|
 | P-192 | full size | 174 bits (61807·G) | ~175 |
 | prime192v2 | full size | 175 bits (G/7467) | ~175 |
@@ -608,7 +610,7 @@ For all ten published prime-field generators (P-192, P-224, P-256, P-384, P-521,
 | P-384 | full size | 367 bits (14971·G) | ~367 |
 | P-521 | full size | 502 bits (10735·G) | ~504 |
 
-Every minimum is within two bits of what 2¹⁷ uniformly random field elements would give. No small multiple or inverse-multiple of any published generator, or of its negation, has a hash-sized coordinate. The specific "hash gives x, then double" story (G = 2·H with H at a 128/160-bit x) is excluded, as is any bare-hash x within the 2¹⁶ radius. Forms that survive: a hash expanded to field size before use (as the X9.62 seed-to-c procedure does), a hash used as a seed for some generator, a hash used as a scalar, or multipliers outside the radius. The plan for testing those is in `base-point-brief.md`.
+Every reported minimum x is within two bits of the rough minimum expected from 2¹⁷ uniform field elements. The prime-field scan finds no bare 128/160-bit coordinate within its radius. For these cofactor-1 curves, subgroup division is unique. Expanded hashes, RNG seeds, scalar mappings, and larger multipliers remain possible; see `base-point-brief.md`.
 
 ### 7.1 Binary curves: the K-163 half-point
 
@@ -629,19 +631,19 @@ The same scan over GF(2^m) (PARI/GP with `ffgen`; parameters from the std-curves
 
 Nine of ten are random-looking. **K-163 is not.** Its half-point G/2 = ((n+1)/2)·G is
 
-x = 0x3a5da90060df8af5be2121e601ae11f1 (126 bits), y = 161 bits,
+x = 0x23e21d6019e1211f6bd47ec180256e97 (126 bits), y = 161 bits,
 
-a 128-bit-sized x-coordinate on a 163-bit curve, with y full-size as it would be if y had been solved from a chosen x. A single coordinate 37 bits short is a 2⁻³⁷ event; across ~70,000 points on ten curves the expected number of such hits is ≈ 10⁻⁶. This is the first positive structural fact found in any NIST base point since Anthropic's FreeLIP result.
+a 128-bit-sized x-coordinate on a 163-bit curve. Under a uniform-coordinate heuristic, a specified x meets this threshold with probability 2⁻³⁷. There were 69,630 point evaluations per binary curve, 696,300 total, giving about 5.1 × 10⁻⁶ expected x-hits. Across both prime and binary scans, allowing x and both y signs gives a rough trial-count heuristic of 4.4 × 10⁻⁵, before other exploratory pattern choices. These are not calibrated discovery probabilities, and novelty has not been established.
 
-The natural reading: K-163 is a Koblitz curve (y² + xy = x³ + x² + 1, b fixed), so its generator is the *only* randomly chosen parameter; the program chose an x of 128 bits (a hash output, or a 128-bit random value), solved for y, and multiplied by the cofactor h = 2 to land in the prime-order subgroup, publishing 2·P as G. The other Koblitz curves (h = 4) show nothing at G/4 or anywhere else in the scanned range, and no B curve does either; so whatever produced K-163's generator was not used for the rest — or was used with a full-size x.
+A plausible reading is that a 128-bit x was chosen, y solved, and the cofactor applied. This is not a recovered recipe. Cofactor clearing has multiple rational preimages: if Q = [h⁻¹ mod n]G, they are Q + T for T in E(F_{2^m})[h], not just Q. Review checked all 28 such preimages across the ten binary curves. No additional 128-bit-x hit appears; K-163's other half has a 162-bit x. The larger k scans remain subgroup-only, so they do not exclude every cofactor-clearing construction.
 
-Not yet done: identifying the 128-bit value. A handful of obvious strings under MD5/SHA-1 do not match (`3a5da900…` is not MD5 of "", "K-163", "sect163k1", the Solinas phrases, or the B-163 seed). As a 4×32-bit word pattern its top bits are 0,0,1,0, so it is not four `lrand48` outputs. This is the concrete target for the base-point search in `base-point-brief.md`: x(P) is 16 bytes, P = G/2 on K-163 (a.k.a. sect163k1, ansit163k1, the WTLS curve).
+**Coordinate and search correction (19 October).** `fromdigits(Vecrev(Vec(f.pol)),2)` reversed the 126 coefficient bits when printing the coordinate. The old value `3a5da90060df8af5be2121e601ae11f1` is that reversal, not the standard polynomial-basis integer. Removing `Vecrev` gives the coordinate above; the degree-based bit count was unaffected. All ten decimal exports and the hash-search target are corrected, and Python/PARI regression checks agree. The previous negative hash searches used the wrong target and do not apply to the corrected one; the full sweep still needs rerunning. The corrected 32-bit words have top bits 0,0,0,1, excluding four consecutive 31-bit `lrand48` words in that reading only.
 
 ## Part D. Reproducibility and sources
 
 ### 8. Reproducibility
 
-Files in this working directory: `gen.py` (candidates and both roots of b per X9.62), `count2.gp` (verified point counting), `analyze.py` / `analyze2.py` (tables), `P-256.orders2` / `P-224.orders2` (every verified order), `smooth.gp` / `fac*.gp` (n ± 1 factorizations), `isog.gp` (modular-polynomial root counts), `battery.py` (full battery per run), `ANSI192.orders2` / `ANSI239.orders2`, `pts.gp` / `pts.out` / `mult.out` (small-x points and base-point multiples).
+The imported working files now live under `scripts/`, `data/`, and `results/`; not every exploratory script mentioned in the historical record was imported (in particular `fac*.gp` and the threshold-cover experiment). From the repository root, `python -X utf8 -m unittest discover -s scripts -p test_research.py -v` runs the review checks, and `python -X utf8 scripts/cover.py` regenerates the exact endpoint-conditioned cover outputs. Set `GP` to the PARI executable or put it on PATH for the arithmetic checks. The tests certify all nineteen viable prime orders, all ten binary exports and all 28 cofactor preimages; they do not rerun the 3,072 SEA counts or the full corrected-target phrase search. The retained long-scan minima were not affected by the coefficient-export error.
 
 ## 9. Sources
 

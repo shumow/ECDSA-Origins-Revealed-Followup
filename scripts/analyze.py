@@ -26,7 +26,8 @@ SMALL = sieve(10**6)
 
 def square_part(D):
     """Return (s, f) with D = f*s^2, s built from primes < 1e6 plus perfect-square cofactor.
-    f is made a fundamental discriminant (f ≡ 0 or 1 mod 4, square-free odd part)."""
+    f has the discriminant congruence, but is only a candidate fundamental discriminant:
+    an unfactored cofactor can still hide a square prime factor."""
     n = abs(D); s = 1; m = n
     for q in SMALL:
         if q*q > m: break

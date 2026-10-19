@@ -1,7 +1,7 @@
 """Set-cover search: is the skipped set a union of a few 'bug-shaped' predicates that exclude all published curves?
-Then a permutation test: same search on random relabellings (per-run counts preserved)."""
-import json, random, itertools, sys
-from analyze2 import load
+Then an exact permutation test preserving per-run counts and published endpoints."""
+import json, itertools
+from analyze2 import DATA_DIR, load
 
 RUNS = {"P-256": (2**256-2**224+2**192+2**96-1, "P-256", [876, 1842], [1842]),
         "P-224": (2**224-2**96+1, "P-224", [777, 1485, 5736, 7026], [7026]),
@@ -15,7 +15,7 @@ def leg(a, q):
 
 curves = []
 for run, (p, f, ids, pub) in RUNS.items():
-    d = load(f); cands = {int(l.split()[0]): (bytes.fromhex(l.split()[1]), int(l.split()[2])) for l in open(f + ".cands")}
+    d = load(f); cands = {int(l.split()[0]): (bytes.fromhex(l.split()[1]), int(l.split()[2])) for l in open(DATA_DIR / (f + ".cands"))}
     for i in ids:
         seed, b = cands[i]; n, m = d[i]; t = p + 1 - n
         curves.append(dict(run=run, i=i, pub=i in pub, p=p, n=n, t=t, b=b, seed=seed, m=m))
@@ -90,39 +90,54 @@ def min_cover(labels, maxk=4):
         if covers: return k, covers, usable
     return None, [], usable
 
-true_labels = [not c['pub'] for c in curves]
-k, covers, usable = min_cover(true_labels, maxk=5)
-out = {"n_predicates_total": len(names), "n_usable_true_labels": len(usable), "usable": usable,
-       "true_min_cover_size": k, "true_covers": [list(c) for c in covers[:50]], "n_true_covers_at_min": len(covers)}
-# near misses: best coverage with 1 and 2 predicates
-sk = [j for j, s in enumerate(true_labels) if s]
-best1 = sorted(((sum(M[nm][j] for j in sk), nm) for nm in usable), reverse=True)[:8]
-out["best_single_usable_predicates(cover count of 11)"] = best1
-# per-predicate stats on true labels for the record
-out["predicate_table"] = {nm: {"skipped_true": sum(M[nm][j] for j in sk), "published_true": sum(M[nm][j] for j in range(len(curves)) if not true_labels[j])} for nm in names}
+def relabellings():
+    runs_idx = {}
+    for j, c in enumerate(curves): runs_idx.setdefault(c['run'], []).append(j)
+    choices = []
+    for js in runs_idx.values():
+        endpoint = max(js, key=lambda j: curves[j]['i'])
+        if not curves[endpoint]['pub']: raise ValueError("Run endpoint must be published")
+        npub = sum(curves[j]['pub'] for j in js)
+        choices.append([set(pubs) | {endpoint} for pubs in itertools.combinations(
+            [j for j in js if j != endpoint], npub - 1)])
+    for groups in itertools.product(*choices):
+        published = set.union(*groups)
+        yield [j not in published for j in range(len(curves))]
 
-# ---- permutation test ----
-random.seed(1)
-runs_idx = {}
-for j, c in enumerate(curves): runs_idx.setdefault(c['run'], []).append(j)
-NPERM = int(sys.argv[1]) if len(sys.argv) > 1 else 300
-dist = {}
-for _ in range(NPERM):
-    lab = [None]*len(curves)
-    for run, js in runs_idx.items():
-        npub = sum(1 for j in js if curves[j]['pub']); pubs = set(random.sample(js, npub))
-        for j in js: lab[j] = j not in pubs
-    kk, cv, us = min_cover(lab, maxk=5)
-    dist[str(kk)] = dist.get(str(kk), 0) + 1
-out["permutation_test"] = {"n_perm": NPERM, "min_cover_size_distribution": dist}
-json.dump(out, open("cover.json", "w"), indent=1, default=str)
+def main():
+    true_labels = [not c['pub'] for c in curves]
+    k, covers, usable = min_cover(true_labels, maxk=5)
+    out = {"n_predicates_total": len(names), "n_usable_true_labels": len(usable), "usable": usable,
+           "true_min_cover_size": k, "true_covers": [list(c) for c in covers[:50]], "n_true_covers_at_min": len(covers)}
+    sk = [j for j, s in enumerate(true_labels) if s]
+    best1 = sorted(((sum(M[nm][j] for j in sk), nm) for nm in usable), reverse=True)[:8]
+    out["best_single_usable_predicates(cover count of 11)"] = best1
+    out["predicate_table"] = {nm: {"skipped_true": sum(M[nm][j] for j in sk), "published_true": sum(M[nm][j] for j in range(len(curves)) if not true_labels[j])} for nm in names}
 
-with open("cover.md", "w") as f:
-    f.write(f"# Set-cover search for the skipped-seed criterion\n\n{len(names)} non-constant predicates; {len(usable)} are false on all 8 published curves and so usable in a cover.\n\n")
-    f.write(f"**True labelling:** minimal cover size = {k}; {len(covers)} distinct minimal covers. Examples:\n\n")
-    for c in covers[:12]: f.write(f"- {' ∪ '.join(c)}\n")
-    f.write("\nBest single usable predicates (how many of the 11 skipped each covers):\n\n")
-    for cnt, nm in best1: f.write(f"- {cnt}/11  {nm}\n")
-    f.write(f"\n**Permutation test** ({NPERM} random relabellings preserving per-run published counts): distribution of minimal cover size\n\n")
-    for kk in sorted(dist, key=lambda x: (x == 'None', x)): f.write(f"- size {kk}: {dist[kk]} ({100*dist[kk]/NPERM:.1f}%)\n")
-print(open("cover.md").read())
+    dist = {}
+    for lab in relabellings():
+        kk, _, _ = min_cover(lab, maxk=5)
+        dist[str(kk)] = dist.get(str(kk), 0) + 1
+    nperm = sum(dist.values())
+    out["permutation_test"] = {"method": "exact", "condition": "per-run published counts and final candidate published",
+                               "n_perm": nperm, "min_cover_size_distribution": dist,
+                               "fraction_at_most_observed": sum(v for kk, v in dist.items() if kk != "None" and int(kk) <= k) / nperm}
+    root = DATA_DIR.parent
+    with open(root / "results" / "cover.json", "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1, default=str)
+        f.write("\n")
+    report = root / "notes" / "cover.md"
+    with open(report, "w", encoding="utf-8") as f:
+        f.write(f"# Set-cover search for the skipped-seed criterion\n\n{len(names)} non-constant predicates; {len(usable)} are false on all 8 published curves and so usable in a cover.\n\n")
+        f.write(f"**True labelling:** minimal cover size = {k}; {len(covers)} distinct minimal covers. Examples:\n\n")
+        for c in covers[:12]: f.write(f"- {' ∪ '.join(c)}\n")
+        f.write("\nBest single usable predicates (how many of the 11 skipped each covers):\n\n")
+        for cnt, nm in best1: f.write(f"- {cnt}/11  {nm}\n")
+        f.write(f"\n**Exact permutation test** ({nperm} relabellings preserving per-run published counts and keeping each final candidate published): distribution of minimal cover size\n\n")
+        for kk in sorted(dist, key=lambda x: (x == 'None', x)): f.write(f"- size {kk}: {dist[kk]} ({100*dist[kk]/nperm:.1f}%)\n")
+        f.write(f"\nFraction with cover size at most {k}: {out['permutation_test']['fraction_at_most_observed']:.4f}.\n")
+        f.write("\nThis null conditions on the observed stopping endpoints. It replaces the exploratory 300-sample, count-only null (35%). The predicate library was selected during exploration, so neither comparison is a confirmatory test of all possible selection rules.\n")
+    print(report.read_text(encoding="utf-8"))
+
+if __name__ == "__main__":
+    main()

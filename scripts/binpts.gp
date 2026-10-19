@@ -1,13 +1,13 @@
 default(parisize,"512M");
 bits(f)=if(f==0,0,poldegree(f.pol)+1);
 toff(n,T)=subst(Pol(binary(n),'t),'t,T);
-hexof(f)=if(f==0,"0",Str(fromdigits(Vecrev(Vec(f.pol)),2)));
+intof(f)=if(f==0,0,fromdigits(Vec(f.pol),2));
 mult(name,m,taps,a,b,gx,gy,n)={
   my(pol=x^m, T, E, G, Q, R, K=2^16, KD=2^12, thr=m-32, best=m+1, bestk="", found=[]);
   for(i=1,#taps, pol+=x^taps[i]); T=ffgen(Mod(1,2)*pol,'t);
   E=ellinit([toff(1,T),toff(a,T),toff(0,T),toff(0,T),toff(b,T)]); G=[toff(gx,T), toff(gy,T)];
   write("binpts.out", "== ",name,": m=",m,"  G on curve: ",ellisoncurve(E,G),"  n*G=O: ",ellmul(E,G,n)==[0]);
-  R=ellmul(E,G,(n+1)/2); write("binpts.out","   G/2: x bits ",bits(R[1]),", y bits ",min(bits(R[2]),bits(R[1]+R[2])),"  x = ",hexof(R[1])," (decimal)");
+  R=ellmul(E,G,(n+1)/2); write("binpts.out","   G/2: x bits ",bits(R[1]),", y bits ",min(bits(R[2]),bits(R[1]+R[2])),"  x = ",intof(R[1])," (decimal)");
   Q=G; for(k=2,K, Q=elladd(E,Q,G); my(xb=bits(Q[1]), yb=min(bits(Q[2]),bits(Q[1]+Q[2]))); if(xb<best, best=xb; bestk=Str(k,"*G")); if(xb<=thr||yb<=thr, found=concat(found,[Str(k,"*G: x bits ",xb,", y bits ",yb)])));
   for(k=2,KD, R=ellmul(E,G,lift(Mod(k,n)^-1)); my(xb=bits(R[1]), yb=min(bits(R[2]),bits(R[1]+R[2]))); if(xb<best, best=xb; bestk=Str("G/",k)); if(xb<=thr||yb<=thr, found=concat(found,[Str("G/",k,": x bits ",xb,", y bits ",yb)])));
   write("binpts.out","   shortest x among k*G (k<=2^16), G/k (k<=2^12): ",best," bits at ",bestk,"  (random expectation ~ ",m-16,")");

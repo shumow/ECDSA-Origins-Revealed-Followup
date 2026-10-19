@@ -80,11 +80,11 @@ rule & skipped rejected & published rejected \\
 \end{center}
 
 \subsection{Small multiples of the published generators}
-Shortest coordinate among $kG$ ($k\le2^{16}$) and $G/k$ ($k\le2^{16}$ prime-field, $\le2^{12}$ binary), negations included; ``expected'' is the minimum of that many uniform field elements.
+Shortest $x$ among $kG$ ($k\le2^{16}$) and $G/k$ ($k\le2^{16}$ prime-field, $\le2^{12}$ binary); ``expected'' is a rough minimum for that many uniform field elements. Both $y$ signs were tested for 32-bit shortness, but their minima were not recorded.
 \begin{center}\small
 \begin{tabular}{lrrrr}
 \toprule
-curve & $h$ & $x(G/h)$ bits & shortest found (bits) & expected \\
+curve & $h$ & $x(G/h)$ bits & shortest $x$ (bits) & expected \\
 \midrule
 P-192 & 1 & -- & 174 & 175 \\ prime192v2 & 1 & -- & 175 & 175 \\ prime192v3 & 1 & -- & 176 & 175 \\
 P-224 & 1 & -- & 208 & 207 \\ prime239v1 & 1 & -- & 222 & 222 \\ prime239v2 & 1 & -- & 220 & 222 \\ prime239v3 & 1 & -- & 221 & 222 \\

@@ -673,13 +673,16 @@
   }
  },
  "permutation_test": {
-  "n_perm": 300,
+  "method": "exact",
+  "condition": "per-run published counts and final candidate published",
+  "n_perm": 126,
   "min_cover_size_distribution": {
-   "None": 82,
-   "5": 113,
-   "4": 81,
-   "3": 23,
+   "None": 15,
+   "4": 52,
+   "3": 35,
+   "5": 23,
    "2": 1
-  }
+  },
+  "fraction_at_most_observed": 0.6984126984126984
  }
 }

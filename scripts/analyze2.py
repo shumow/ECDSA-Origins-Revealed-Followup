@@ -1,12 +1,29 @@
 import sys, math
+from pathlib import Path
 from analyze import is_probable_prime, square_part, small_factors, embedding_degree_info
 
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+
 def load(name):
-    out = {}
-    for line in open(f"{name}.orders2"):
-        f = line.split()
-        if f[0] == "DONE" or f[1] in ("even", "FAIL"): continue
-        out[int(f[0])] = (int(f[1]), int(f[2]))   # order of b1-curve, order of its quadratic twist
+    path = DATA_DIR / f"{name}.orders2"
+    out = {}; seen = set(); done = False
+    with open(path) as source:
+        for lineno, line in enumerate(source, 1):
+            f = line.split()
+            if not f: continue
+            if done: raise ValueError(f"{path}:{lineno}: record after DONE")
+            if f == ["DONE"]:
+                done = True; continue
+            if len(f) < 2 or f[1] == "FAIL":
+                raise ValueError(f"{path}:{lineno}: invalid or failed point count: {line.strip()}")
+            i = int(f[0])
+            if i in seen: raise ValueError(f"{path}:{lineno}: duplicate candidate {i}")
+            seen.add(i)
+            if f[1:] == ["even"]: continue
+            if len(f) != 4 or f[3] not in ("ok", "signfix"):
+                raise ValueError(f"{path}:{lineno}: unverified point count: {line.strip()}")
+            out[i] = (int(f[1]), int(f[2]))
+    if not done: raise ValueError(f"{path}: incomplete point-count log (missing DONE)")
     return out
 
 def describe(p, i, n, published, label):

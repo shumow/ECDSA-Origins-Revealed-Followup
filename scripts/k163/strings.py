@@ -30,7 +30,7 @@ def dates():
             yield d.strftime(fmt)
         d += datetime.timedelta(days=1)
 # unix timestamps of the four binary runs and the prime runs, as decimal and ctime strings
-TIMES = [892823058, 892823264, 892823418, 892823528, 891607927, 871696354, 871004324, 872951408, 863788534, 863538543, 1984, 1997, 1998]
+TIMES = [892823058, 892823264, 892823418, 892823528, 891607927, 871696354, 871002724, 872952608, 863966734, 863711343, 1984, 1997, 1998]
 def time_strings():
     import time
     for t in TIMES:

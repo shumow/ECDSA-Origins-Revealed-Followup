@@ -26,10 +26,14 @@ Best single usable predicates (how many of the 11 skipped each covers):
 - 3/11  n ≡ 9 mod 16
 - 3/11  n ≡ 3 mod 5
 
-**Permutation test** (300 random relabellings preserving per-run published counts): distribution of minimal cover size
+**Exact permutation test** (126 relabellings preserving per-run published counts and keeping each final candidate published): distribution of minimal cover size
 
-- size 2: 1 (0.3%)
-- size 3: 23 (7.7%)
-- size 4: 81 (27.0%)
-- size 5: 113 (37.7%)
-- size None: 82 (27.3%)
+- size 2: 1 (0.8%)
+- size 3: 35 (27.8%)
+- size 4: 52 (41.3%)
+- size 5: 23 (18.3%)
+- size None: 15 (11.9%)
+
+Fraction with cover size at most 4: 0.6984.
+
+This null conditions on the observed stopping endpoints. It replaces the exploratory 300-sample, count-only null (35%). The predicate library was selected during exploration, so neither comparison is a confirmatory test of all possible selection rules.

@@ -1,10 +1,10 @@
 """Full battery on one run: viable candidates (published-root prime & size ok), twist-root primes,
 discriminant square part, L(1,chi) estimate, n±1 factorization, isogeny root counts, last-viable test."""
 import sys, math, subprocess, os
-from analyze2 import load
+from analyze2 import DATA_DIR, load
 from analyze import is_probable_prime, square_part, SMALL
 
-GP = "/home/claude/src/pari/gp"; ENV = dict(os.environ, LD_LIBRARY_PATH="/home/claude/src/pari/Olinux-x86_64")
+GP = os.environ.get("GP", "gp")
 
 def kron(D, q):
     if q == 2: return 0 if D % 2 == 0 else (1 if D % 8 in (1, 7) else -1)
@@ -18,11 +18,13 @@ def L1(f, B=10**6):
     return L
 
 def gp(script):
-    r = subprocess.run([GP, "-q", "-s", "1000000000"], input=script + "\nquit\n", capture_output=True, text=True, env=ENV, timeout=3600)
-    return [l for l in r.stdout.splitlines() if not l.startswith("  ***")]
+    r = subprocess.run([GP, "-fq", "-s", "1000000000"], input=script + "\nquit\n", capture_output=True, text=True, timeout=3600)
+    if r.returncode or r.stderr.strip():
+        raise RuntimeError(f"PARI/GP failed (exit {r.returncode}):\n{r.stderr}\n{r.stdout}")
+    return r.stdout.splitlines()
 
 def run(name, p, published):
-    data = load(name); cands = {int(l.split()[0]): int(l.split()[2]) for l in open(f"{name}.cands")}
+    data = load(name); cands = {int(l.split()[0]): int(l.split()[2]) for l in open(DATA_DIR / f"{name}.cands")}
     bits = p.bit_length()
     viable = [(i, n) for i, (n, m) in sorted(data.items()) if is_probable_prime(n) and n.bit_length() <= bits]
     bigs = [i for i, (n, m) in sorted(data.items()) if is_probable_prime(n) and n.bit_length() > bits]
