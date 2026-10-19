@@ -90,7 +90,7 @@ python -X utf8 scripts/cover.py
 
 Put PARI/GP on `PATH`, or set `GP` to its executable path, to include the cross-language coordinate, cofactor-preimage, and prime-order checks. Without GP those tests are explicitly skipped. The test suite checks all nineteen viable prime orders using primality, the Hasse bound, and a nonzero point killed by the claimed order; it does not repeat SEA for all 3,072 counted candidates. `cover.py` regenerates `results/cover.json` and `notes/cover.md` with the exact, endpoint-conditioned null.
 
-The raw binary scan's coordinate exports have been recomputed; its long-scan minima are retained from the original run because the conversion error did not affect polynomial degrees. The full phrase/hash search has not yet been rerun against the corrected target.
+The raw binary scan's coordinate exports have been recomputed; its long-scan minima are retained from the original run because the conversion error did not affect polynomial degrees. The full phrase/hash search (`scripts/k163/search.py`, 29,577,717 evaluations) was rerun against the corrected target on 19 October: no hits (`results/k163-search-rerun.txt`).
 
 ## Open questions
 
