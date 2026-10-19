@@ -23,7 +23,7 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 | Family | What was tested | Where | Result |
 |---|---|---|---|
 | Arithmetic of n and t | twist order n' = 2p + 2 − n (smoothness, cofactor primality); n ± 1 full factorizations and largest prime factors; congruences on t, n, b mod 2, 3, 4, 5, 8; b < p/2; (n−1)/2 prime | §6.1–6.3, §6.6, §6.9 | interleave |
-| CM structure | D = t² − 4p; conductor s (largest square divisor); fundamental discriminant f; class number via √|f|·L(1,χ)/π with L(1,χ) from the Euler product to 10⁶ | §2–3 (theory), §6.1–6.2, §6.5, §6.9 | floor refuted by P-224 (published has smallest h); ceiling refuted by P-256 (published has larger h); interleave on 19 |
+| CM structure | D = t² − 4p; conductor s; fundamental discriminant f; class number via √|f|·L(1,χ)/π with L(1,χ) from the Euler product to 10⁶; complete factorization of every |D| (ω, Ω, largest primes, smooth part); q ± 1 structure and cross-divisibility of the discriminant primes | §2–3 (theory), §6.1–6.2, §6.5, §6.9, §6.22 | floor refuted by P-224 (published has smallest h); ceiling refuted by P-256 (published has larger h); interleave on 19 |
 | Isogeny structure over F_p | End(E) vs Z[π]; position on the ℓ-volcano (only P-224 has s > 1: crater of a height-1 3-volcano); rational ℓ-isogeny counts from Φ_ℓ(j, X) for ℓ ≤ 43 | §6.7, `battery*.txt` | random; the one curve with volcano structure is published |
 | Isogeny structure over F_{p^k} | conductor s·U_k and ℓ-volcano depths for ℓ ≤ 47, k ∈ {2,3,4,6,12} | §6.12 | interleave |
 | Extension-field group orders | #E(F_{p^k})/n for k ≤ 12: 10⁶-smooth part, cofactor size and primality | §6.17 | random-integer behaviour, interleave |
@@ -45,6 +45,7 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 
 ### A.3 Program models
 
+- **Sequential multi-check model (checks in order, class number as a later stage) — tested, §6.22: no disjunction of ≤ 4 thresholded invariants covers the skipped set; 32 % of random relabellings admit one.**
 - **Union of small bugs — tested, §6.21: no signal.** Smallest cover of the 11 skipped by predicates false on all 8 published has size 4; 35 % of random relabellings do as well or better.
 - **Early-abort false negatives — tested, §6.19: no consistent buggy rule fits.** Eleven abort rules (sign flip, wrong root, trace-instead-of-order, off-by-one, sloppy residues, twist abort) and all bounded-ℓ and single-residue variants fail to separate. An *inconsistent* bug (dependent on the ℓ-sequence run, intermediate values, or the machine) remains possible but is not recoverable from the parameters.
 - **Per-candidate time limit — tested, §6.19: not supported.** Published curves are slightly *more* Atkin-heavy (mean 9.9 Elkies of 24 vs 12.5 for skipped); the two most Elkies-rich curves are skipped.
@@ -555,6 +556,38 @@ Result (`cover.py`, `cover.md`, `cover.json`):
 - The genuinely bug-shaped predicates individually: seed contains 0x00 — 2/11 skipped, 0/8 published; seed contains 0x0A — 2/11, 1/8; 0x0D — 1/11, 1/8; 0xFF — 0/11, 1/8; 0x20 — 1/11, 1/8; n > p (negative trace, allowed by the size rule when bitlen(n) = bitlen(p)) — 3/11 skipped, 1/8 published (prime239v2, the case Filippo notes); b shorter than p by a bit — 5/11 vs 5/8. None covers more than two skipped curves while excluding the published ones.
 
 Conclusion: the skipped set is not a union of a few recognizable small defects either. With 135 predicates and 11 items, four-predicate covers exist for a third of random labellings, and the real labelling needs exactly that many — the covers it finds are noise fitted to noise.
+
+### 6.22 Complete discriminant factorizations, second-order structure, and the multi-check model
+
+**Full factorizations.** Every |D| = 4p − t² is now completely factored (PARI ECM/MPQS; the 255-bit P-256 cofactor took 18 s, the longest 133 s; `results/Dfac.out`). With them, every first-order statistic of the discriminant primes: number of distinct primes ω, with multiplicity Ω, largest and second-largest prime factor, 10⁶-smooth part. Per-run ranking of published against skipped is "mixed" for every statistic in the two three-curve runs; P-224's published curve is the most-factored of its four (Ω = 9) while P-256's published curve is the less-factored of its two. A weak population lean (published discriminants have fewer small factors: smooth part median 7 bits vs 28; one-sided permutation p ≈ 0.05) is a trend, not a trait.
+
+| run | cand | pub | ω | Ω | prime sizes of |D| (bits) |
+|---|---|---|---|---|---|
+| P-256 | 876 | | 6 | 6 | 2, 9, 11, 12, 92, 134 |
+| P-256 | 1842 | ★ | 5 | 5 | 2, 3, 39, 81, 136 |
+| P-224 | 777 | | 8 | 8 | 2, 3, 5, 10, 13, 39, 61, 97 |
+| P-224 | 1485 | | 4 | 4 | 2, 6, 9, 211 |
+| P-224 | 5736 | | 6 | 6 | 2, 4, 11, 15, 86, 112 |
+| P-224 | 7026 | ★ | 7 | 9 | 2, 2, 2, 5, 7, 13, 16, 34, 149 |
+| 192 | 2198 | | 3 | 3 | 12, 25, 157 |
+| 192 | 5405 | | 4 | 4 | 13, 16, 49, 119 |
+| 192 | 139 | ★ | 4 | 4 | 3, 4, 5, 184 |
+| 192 | 5228 | ★ | 4 | 4 | 3, 51, 58, 84 |
+| 192 | 6013 | ★ | 3 | 3 | 3, 12, 179 |
+| 239 | 36 | | 4 | 4 | 9, 9, 19, 205 |
+| 239 | 1562 | | 5 | 5 | 3, 4, 5, 72, 160 |
+| 239 | 2491 | | 4 | 4 | 4, 7, 55, 177 |
+| 239 | 2682 | | 10 | 12 | 3, 3, 3, 4, 4, 8, 19, 23, 26, 35, 37, 81 |
+| 239 | 2863 | | 3 | 3 | 3, 90, 149 |
+| 239 | 2185 | ★ | 3 | 3 | 5, 21, 217 |
+| 239 | 2320 | ★ | 5 | 6 | 3, 3, 4, 23, 79, 132 |
+| 239 | 3048 | ★ | 2 | 2 | 3, 239 |
+
+**Second-order structure (q ± 1 for q | D).** For all 40 primes q > 10⁶ dividing a discriminant, q − 1 and q + 1 were fully factored (`results/qpm1.out`). Per candidate: max and sum of v₂(q − 1); counts of q ≡ 1, 3 (mod 4) and q ≡ 1 (mod 3); largest prime factor of q ± 1 relative to q for the large q. Nothing separates in any run. Cross-divisibility q_i | q_j ± 1 within a discriminant: all hits are q_i = 3 (always true), q_i = 5 (coin flips), or seven q_i ∈ {11, 13, 41, 71} hits that all land on skipped curves — but the expected number of such hits is ≈ 1.6 for the published set (whose discriminants simply carry fewer medium primes) and ≈ 6 for the skipped, so 0 vs 7 is p ≈ 0.2. Across candidates in a run, shared primes (29 in P-224; 11, 13 in prime239) and cross-divisibilities mix published and skipped.
+
+**Exact class numbers.** `quadclassunit` on the 58–78-digit fundamental discriminants did not finish in this PARI build (> 1 h on the smallest); the write-up rests on Euler-product estimates, stable to 0.01 between bounds 10⁵ and 10⁶. The 19 fundamental discriminants are reproducible from `data/` for anyone with Sage or Magma.
+
+**Sequential multi-check model.** Hypothesis: the program applied several checks in sequence; a curve was rejected by the first it failed, so a later check (e.g. class number) never saw candidates an earlier one had already rejected. Since "rejected by the first failing check" and "rejected by any failing check" yield the same published set, this is exactly the set-cover problem of §6.21, but with threshold predicates on the continuous invariants instead of bug-shaped ones: for each of ~22 statistics (relative class number, L(1,χ), conductor, discriminant structure, n ± 1 structure, twist structure, trace size, residues) the loosest "below the published minimum" and "above the published maximum" thresholds, plus equality classes for discrete statistics — 29 predicates false on all eight published curves. Result: **no disjunction of up to four such checks covers the eleven skipped curves** (best single check covers 4 of 11), while 32 % of random relabellings admit one. For class number specifically: the three lowest relative class numbers in the set are prime239v2 (−5.3 bits from generic), P-224 (−4.9) and skipped 2682 (−4.8), so no floor fires on a skipped curve without firing on two published ones; the ceiling direction fails likewise (skipped max 1562 at −2.4, published P-256 at −2.1). Class number cannot be a stage of any sequence.
 
 ## Part C. Base-point structure (separate from the skips)
 
