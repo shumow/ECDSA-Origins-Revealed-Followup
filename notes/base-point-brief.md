@@ -2,6 +2,8 @@
 
 *Hand-off document, written 2026-10-17 and corrected after review on 2026-10-19. The skipped-seed investigation is an exploratory negative result, not a closed question (see `cm-hypothesis.md`).*
 
+*Working branch:* base-point work from 2026-10-20 on lives on the `base-points` branch, so that `main` stays the curve-selection (skipped-seed) story until something here is ready to merge.
+
 ## 1. What is settled
 
 - **Fourteen recovered seeds out of fifteen NIST/ANSI prime and binary seeds**: the ten prime-field seeds and four binary-field seeds match `lrand48()` output (Anthropic, "Claude reveals ECDSA curve origins", 2026-10-16). B-163 remains unexplained. The phrase-hash story does not describe the fourteen recovered seeds.
