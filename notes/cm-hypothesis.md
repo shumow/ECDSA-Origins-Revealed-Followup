@@ -97,9 +97,11 @@ Write D = f · s² with *f* a fundamental discriminant (so *f* is square-free ap
 
 h(f) = (√|f| / π) · L(1, χ_f)   (for |f| > 4),
 
-and L(1, χ_f) is a factor that must not be dropped in comparisons. There is no general unconditional lower bound of the claimed form ≫ 1/log |f| without addressing exceptional real characters. As a rough scale estimate only,
+and L(1, χ_f) is a slowly varying factor,[^siegel] so to first approximation
 
 h ≈ √|f|.
+
+[^siegel]: L(1, χ_f) is bounded above by O(log |f|). The matching lower bound ≫ 1/log |f| holds only in the absence of an exceptional (Siegel) zero; unconditionally one has Siegel's ineffective |f|^{−ε}. For comparing nineteen discriminants of similar size, §6.5 keeps L(1, χ) explicit rather than dropping it, so none of this affects the comparison.
 
 For a random curve of a 256-bit *p*, |D| ≈ 4*p* ≈ 2²⁵⁸, and if D were square-free then h ≈ 2¹²⁹. A small class number is what makes CM constructions possible and is the property SafeCurves checks under "CM field discriminant"; a curve with tiny *f* (such as −3 or −4) has an endomorphism ring that is "special" in a way a cautious designer in 1997 might have wanted to avoid. The hypothesis was that such a floor, set near the generic size, was the undocumented criterion.
 
