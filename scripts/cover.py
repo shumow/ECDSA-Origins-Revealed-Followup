@@ -2,6 +2,7 @@
 Then an exact permutation test preserving per-run counts and published endpoints."""
 import json, itertools
 from analyze2 import DATA_DIR, load
+from gen import RUNS as SEED_RUNS
 
 RUNS = {"P-256": (2**256-2**224+2**192+2**96-1, "P-256", [876, 1842], [1842]),
         "P-224": (2**224-2**96+1, "P-224", [777, 1485, 5736, 7026], [7026]),
@@ -13,12 +14,34 @@ def leg(a, q):
     if a == 0: return 0
     return 1 if pow(a, (q-1)//2, q) == 1 else -1
 
-curves = []
-for run, (p, f, ids, pub) in RUNS.items():
-    d = load(f); cands = {int(l.split()[0]): (bytes.fromhex(l.split()[1]), int(l.split()[2])) for l in open(DATA_DIR / (f + ".cands"))}
-    for i in ids:
-        seed, b = cands[i]; n, m = d[i]; t = p + 1 - n
-        curves.append(dict(run=run, i=i, pub=i in pub, p=p, n=n, t=t, b=b, seed=seed, m=m))
+def load_curves(p224_root=1):
+    """Root 1 preserves the exploratory model; root 2 matches published P-224.
+
+    Applying either choice to the skipped P-224 candidates is a model, not a
+    recovered historical square-root convention.
+    """
+    if p224_root not in (1, 2):
+        raise ValueError("P-224 coefficient root must be 1 or 2")
+    result = []
+    for run, (p, name, ids, published) in RUNS.items():
+        orders = load(name)
+        with open(DATA_DIR / (name + ".cands")) as source:
+            candidates = {int(f[0]): (bytes.fromhex(f[1]), int(f[2]), int(f[3]))
+                          for f in (line.split() for line in source)}
+        _, final_index, _, published_b = SEED_RUNS[name]
+        published_b = published_b if isinstance(published_b, dict) else {final_index: published_b}
+        for i in ids:
+            seed, b1, b2 = candidates[i]
+            if b1 + b2 != p:
+                raise ValueError(f"{name}/{i}: coefficient roots do not sum to p")
+            root = p224_root if run == "P-224" else 1
+            n, m = orders[i]
+            result.append(dict(run=run, i=i, pub=i in published, p=p, n=n, t=p + 1 - n,
+                               b=(b1, b2)[root - 1], b_roots=(b1, b2), coefficient_root=root,
+                               published_b=published_b.get(i), seed=seed, m=m))
+    return result
+
+curves = load_curves()
 
 # ---- predicate library (each a function curve -> bool) ----
 P = {}
@@ -73,20 +96,23 @@ P["index ≡ 0 mod 3"] = lambda c: c['i'] % 3 == 0
 P["index < 1000"] = lambda c: c['i'] < 1000
 P["20(i-1) mod 4096 < 1024"] = lambda c: (20*(c['i']-1)) % 4096 < 1024
 
-M = {name: [bool(f(c)) for c in curves] for name, f in P.items()}
-# drop constant predicates
-M = {k: v for k, v in M.items() if any(v) and not all(v)}
+def predicate_matrix(data):
+    matrix = {name: [bool(f(c)) for c in data] for name, f in P.items()}
+    return {name: values for name, values in matrix.items() if any(values) and not all(values)}
+
+M = predicate_matrix(curves)
 names = sorted(M)
 
-def min_cover(labels, maxk=4):
+def min_cover(labels, maxk=4, matrix=None):
     """labels: list of bool (True = skipped). Return (size, covers) minimal unions of predicates
     that are false on every published curve and together true on every skipped curve."""
+    matrix = M if matrix is None else matrix
     skipped = [j for j, s in enumerate(labels) if s]; published = [j for j, s in enumerate(labels) if not s]
-    usable = [nm for nm in names if not any(M[nm][j] for j in published)]
+    usable = [nm for nm in sorted(matrix) if not any(matrix[nm][j] for j in published)]
     for k in range(1, maxk + 1):
         covers = []
         for combo in itertools.combinations(usable, k):
-            if all(any(M[nm][j] for nm in combo) for j in skipped): covers.append(combo)
+            if all(any(matrix[nm][j] for nm in combo) for j in skipped): covers.append(combo)
         if covers: return k, covers, usable
     return None, [], usable
 
@@ -104,6 +130,17 @@ def relabellings():
         published = set.union(*groups)
         yield [j not in published for j in range(len(curves))]
 
+def permutation_result(matrix, observed_size):
+    dist = {}
+    for lab in relabellings():
+        kk, _, _ = min_cover(lab, maxk=5, matrix=matrix)
+        dist[str(kk)] = dist.get(str(kk), 0) + 1
+    nperm = sum(dist.values())
+    return {"method": "exact", "condition": "per-run published counts and final candidate published",
+            "n_perm": nperm, "min_cover_size_distribution": dist,
+            "fraction_at_most_observed": sum(v for kk, v in dist.items()
+                                           if kk != "None" and int(kk) <= observed_size) / nperm}
+
 def main():
     true_labels = [not c['pub'] for c in curves]
     k, covers, usable = min_cover(true_labels, maxk=5)
@@ -114,14 +151,20 @@ def main():
     out["best_single_usable_predicates(cover count of 11)"] = best1
     out["predicate_table"] = {nm: {"skipped_true": sum(M[nm][j] for j in sk), "published_true": sum(M[nm][j] for j in range(len(curves)) if not true_labels[j])} for nm in names}
 
-    dist = {}
-    for lab in relabellings():
-        kk, _, _ = min_cover(lab, maxk=5)
-        dist[str(kk)] = dist.get(str(kk), 0) + 1
-    nperm = sum(dist.values())
-    out["permutation_test"] = {"method": "exact", "condition": "per-run published counts and final candidate published",
-                               "n_perm": nperm, "min_cover_size_distribution": dist,
-                               "fraction_at_most_observed": sum(v for kk, v in dist.items() if kk != "None" and int(kk) <= k) / nperm}
+    if k is None:
+        raise RuntimeError("Observed labels have no cover through size five")
+    out["coefficient_model"] = "generator root 1, including the nonstandard P-224 representative"
+    out["permutation_test"] = permutation_result(M, k)
+    dist = out["permutation_test"]["min_cover_size_distribution"]
+    nperm = out["permutation_test"]["n_perm"]
+    alternative = predicate_matrix(load_curves(p224_root=2))
+    ak, acovers, _ = min_cover(true_labels, maxk=5, matrix=alternative)
+    if ak is None:
+        raise RuntimeError("Root-2 model has no observed cover through size five")
+    out["p224_root2_sensitivity"] = {
+        "coefficient_model": "P-224 root 2 for all four candidates; matches the published coefficient",
+        "n_predicates_total": len(alternative), "true_min_cover_size": ak,
+        "n_true_covers_at_min": len(acovers), "permutation_test": permutation_result(alternative, ak)}
     root = DATA_DIR.parent
     with open(root / "results" / "cover.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, default=str)
@@ -136,6 +179,9 @@ def main():
         f.write(f"\n**Exact permutation test** ({nperm} relabellings preserving per-run published counts and keeping each final candidate published): distribution of minimal cover size\n\n")
         for kk in sorted(dist, key=lambda x: (x == 'None', x)): f.write(f"- size {kk}: {dist[kk]} ({100*dist[kk]/nperm:.1f}%)\n")
         f.write(f"\nFraction with cover size at most {k}: {out['permutation_test']['fraction_at_most_observed']:.4f}.\n")
+        f.write("\nThe preceding result retains the original generator-root-1 model. Its P-224 coefficient is not the published one. ")
+        f.write(f"Using root 2 for all four P-224 candidates gives minimum cover size {ak}, {len(acovers)} minimal covers, and exact fraction {out['p224_root2_sensitivity']['permutation_test']['fraction_at_most_observed']:.4f}.\n")
+        f.write("Root 2 matches the published P-224 coefficient, but the skipped candidates' historical sign convention is unknown. Neither model recovers that convention.\n")
         f.write("\nThis null conditions on the observed stopping endpoints. It replaces the exploratory 300-sample, count-only null (35%). The predicate library was selected during exploration, so neither comparison is a confirmatory test of all possible selection rules.\n")
     print(report.read_text(encoding="utf-8"))
 

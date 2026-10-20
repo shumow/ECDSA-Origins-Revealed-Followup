@@ -3,8 +3,8 @@ P-256: G on curve 1, n*G=O: 1
    shortest x among k*G, G/k for 2<=k<=2^16: 237 bits at G/53620 x  (p has 256 bits; expected min over 2^17 random ~ 239)
    coordinates at least 32 bits short: none
 P-224: G on curve 1, n*G=O: 1
-   half point G/2: x = 235173296034255131142037448637144082134081968976567350417918110399
-   shortest x among k*G, G/k for 2<=k<=2^16: 208 bits at G/42457 x  (p has 224 bits; expected min over 2^17 random ~ 207)
+   half point G/2: x = 24426795498533690031342169898947419208493664027087368092401043037658
+   shortest x among k*G, G/k for 2<=k<=2^16: 205 bits at 4819*G x  (p has 224 bits; expected min over 2^17 random ~ 207)
    coordinates at least 32 bits short: none
 P-192: G on curve 1, n*G=O: 1
    half point G/2: x = 3022657313421880686711133267553559097318421761892165120655

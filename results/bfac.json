@@ -3,6 +3,8 @@
   "run": "P-256",
   "i": 876,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 256,
   "b": 76129535679109756797172074891850110582462292406861964833913989414618382095805,
   "bbits": 256,
@@ -29,12 +31,15 @@
    "16": 13
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "P-256",
   "i": 1842,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 256,
   "b": 41058363725152142129326129780047268409114441015993725554835256314039467401291,
   "bbits": 255,
@@ -61,147 +66,303 @@
    "16": 11
   },
   "square_part": 7,
-  "squarefree": false
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "P-224",
   "i": 777,
   "pub": false,
+  "coefficient_root": 2,
+  "matches_published": null,
   "pbits": 224,
-  "b": 9836089045248349122147175134741768612394783930987630378263670027076,
-  "bbits": 223,
+  "b": 17123857621902290672519839952277862061163132329038677765246396271805,
+  "bbits": 224,
   "factors": [
-   2,
-   2,
-   991,
-   1657,
-   3491,
-   2289473,
-   9003334783,
-   20810260805456731081874456335271609137523
+   5,
+   290509,
+   11788865489125838216729836220067441670422005740984739037514429
   ],
-  "omega": 7,
-  "Omega": 8,
-  "lpf_bits": 134,
-  "second_bits": 34,
-  "smooth_bits": 89,
-  "max_small": 9003334783,
+  "omega": 3,
+  "Omega": 3,
+  "lpf_bits": 203,
+  "second_bits": 19,
+  "smooth_bits": 21,
+  "max_small": 290509,
   "mod": {
-   "2": 0,
+   "2": 1,
    "3": 2,
-   "4": 0,
-   "5": 1,
-   "7": 3,
-   "8": 4,
-   "16": 4
+   "4": 1,
+   "5": 0,
+   "7": 1,
+   "8": 5,
+   "16": 13
   },
-  "square_part": 2,
-  "squarefree": false
+  "square_part": 1,
+  "squarefree": true,
+  "factor_source": "PARI/GP factor, with isprime certificates",
+  "other_root": {
+   "run": "P-224",
+   "i": 777,
+   "pub": false,
+   "coefficient_root": 1,
+   "matches_published": null,
+   "pbits": 224,
+   "b": 9836089045248349122147175134741768612394783930987630378263670027076,
+   "bbits": 223,
+   "factors": [
+    2,
+    2,
+    991,
+    1657,
+    3491,
+    2289473,
+    9003334783,
+    20810260805456731081874456335271609137523
+   ],
+   "omega": 7,
+   "Omega": 8,
+   "lpf_bits": 134,
+   "second_bits": 34,
+   "smooth_bits": 89,
+   "max_small": 9003334783,
+   "mod": {
+    "2": 0,
+    "3": 2,
+    "4": 0,
+    "5": 1,
+    "7": 3,
+    "8": 4,
+    "16": 4
+   },
+   "square_part": 2,
+   "squarefree": false,
+   "factor_source": "archived msieve root-1 run"
+  }
  },
  {
   "run": "P-224",
   "i": 1485,
   "pub": false,
+  "coefficient_root": 2,
+  "matches_published": null,
   "pbits": 224,
-  "b": 17733253382607123032549504824931756336787169939661496812118178039156,
-  "bbits": 224,
+  "b": 9226693284543516762117510262087874336770746320364811331391888259725,
+  "bbits": 223,
   "factors": [
-   2,
-   2,
-   9408168529,
-   4405628476518086877883253,
-   106958540777801292144864203243897
+   3,
+   5,
+   5,
+   979283,
+   21349051,
+   322284150103830548647633,
+   18258247211424251218758472567
   ],
-  "omega": 4,
-  "Omega": 5,
-  "lpf_bits": 107,
-  "second_bits": 82,
-  "smooth_bits": 117,
-  "max_small": 4405628476518086877883253,
+  "omega": 6,
+  "Omega": 7,
+  "lpf_bits": 94,
+  "second_bits": 79,
+  "smooth_bits": 129,
+  "max_small": 322284150103830548647633,
   "mod": {
-   "2": 0,
-   "3": 1,
-   "4": 0,
-   "5": 1,
+   "2": 1,
+   "3": 0,
+   "4": 1,
+   "5": 0,
    "7": 2,
-   "8": 4,
-   "16": 4
+   "8": 5,
+   "16": 13
   },
-  "square_part": 2,
-  "squarefree": false
+  "square_part": 5,
+  "squarefree": false,
+  "factor_source": "PARI/GP factor, with isprime certificates",
+  "other_root": {
+   "run": "P-224",
+   "i": 1485,
+   "pub": false,
+   "coefficient_root": 1,
+   "matches_published": null,
+   "pbits": 224,
+   "b": 17733253382607123032549504824931756336787169939661496812118178039156,
+   "bbits": 224,
+   "factors": [
+    2,
+    2,
+    9408168529,
+    4405628476518086877883253,
+    106958540777801292144864203243897
+   ],
+   "omega": 4,
+   "Omega": 5,
+   "lpf_bits": 107,
+   "second_bits": 82,
+   "smooth_bits": 117,
+   "max_small": 4405628476518086877883253,
+   "mod": {
+    "2": 0,
+    "3": 1,
+    "4": 0,
+    "5": 1,
+    "7": 2,
+    "8": 4,
+    "16": 4
+   },
+   "square_part": 2,
+   "squarefree": false,
+   "factor_source": "archived msieve root-1 run"
+  }
  },
  {
   "run": "P-224",
   "i": 5736,
   "pub": false,
+  "coefficient_root": 2,
+  "matches_published": null,
   "pbits": 224,
-  "b": 8136090955472720882124387569917782151315385902333944191434672662344,
-  "bbits": 223,
+  "b": 18823855711677918912542627517101848522242530357692363952075393636537,
+  "bbits": 224,
   "factors": [
-   2,
-   2,
-   2,
-   46523,
-   12369757,
-   19025409705433003,
-   92888705350495149382577534209622808821
+   7,
+   7,
+   1830758548529,
+   37981569340568753818910699,
+   5524697827571905154853177803
   ],
-  "omega": 5,
-  "Omega": 7,
-  "lpf_bits": 127,
-  "second_bits": 55,
-  "smooth_bits": 97,
-  "max_small": 19025409705433003,
+  "omega": 4,
+  "Omega": 5,
+  "lpf_bits": 93,
+  "second_bits": 85,
+  "smooth_bits": 132,
+  "max_small": 37981569340568753818910699,
   "mod": {
-   "2": 0,
+   "2": 1,
    "3": 2,
-   "4": 0,
-   "5": 4,
-   "7": 4,
-   "8": 0,
-   "16": 8
+   "4": 1,
+   "5": 2,
+   "7": 0,
+   "8": 1,
+   "16": 9
   },
-  "square_part": 2,
-  "squarefree": false
+  "square_part": 7,
+  "squarefree": false,
+  "factor_source": "PARI/GP factor, with isprime certificates",
+  "other_root": {
+   "run": "P-224",
+   "i": 5736,
+   "pub": false,
+   "coefficient_root": 1,
+   "matches_published": null,
+   "pbits": 224,
+   "b": 8136090955472720882124387569917782151315385902333944191434672662344,
+   "bbits": 223,
+   "factors": [
+    2,
+    2,
+    2,
+    46523,
+    12369757,
+    19025409705433003,
+    92888705350495149382577534209622808821
+   ],
+   "omega": 5,
+   "Omega": 7,
+   "lpf_bits": 127,
+   "second_bits": 55,
+   "smooth_bits": 97,
+   "max_small": 19025409705433003,
+   "mod": {
+    "2": 0,
+    "3": 2,
+    "4": 0,
+    "5": 4,
+    "7": 4,
+    "8": 0,
+    "16": 8
+   },
+   "square_part": 2,
+   "squarefree": false,
+   "factor_source": "archived msieve root-1 run"
+  }
  },
  {
   "run": "P-224",
   "i": 7026,
   "pub": true,
+  "coefficient_root": 2,
+  "matches_published": true,
   "pbits": 224,
-  "b": 8001660381584031794258346542525704258053235291346987067722831626317,
-  "bbits": 223,
+  "b": 18958286285566608000408668544493926415504680968679321075787234672564,
+  "bbits": 224,
   "factors": [
-   3,
-   3,
-   89,
-   48989,
-   1923689,
-   263656529,
-   402045894803345143632229060360589399347135513
+   2,
+   2,
+   7,
+   6307397,
+   14746160409667631871049,
+   7279673894129242961644942331528190071
   ],
-  "omega": 6,
-  "Omega": 7,
-  "lpf_bits": 149,
-  "second_bits": 28,
-  "smooth_bits": 75,
-  "max_small": 263656529,
+  "omega": 5,
+  "Omega": 6,
+  "lpf_bits": 123,
+  "second_bits": 74,
+  "smooth_bits": 102,
+  "max_small": 14746160409667631871049,
   "mod": {
-   "2": 1,
-   "3": 0,
-   "4": 1,
-   "5": 2,
-   "7": 4,
-   "8": 5,
-   "16": 13
+   "2": 0,
+   "3": 1,
+   "4": 0,
+   "5": 4,
+   "7": 0,
+   "8": 4,
+   "16": 4
   },
-  "square_part": 3,
-  "squarefree": false
+  "square_part": 2,
+  "squarefree": false,
+  "factor_source": "PARI/GP factor, with isprime certificates",
+  "other_root": {
+   "run": "P-224",
+   "i": 7026,
+   "pub": true,
+   "coefficient_root": 1,
+   "matches_published": false,
+   "pbits": 224,
+   "b": 8001660381584031794258346542525704258053235291346987067722831626317,
+   "bbits": 223,
+   "factors": [
+    3,
+    3,
+    89,
+    48989,
+    1923689,
+    263656529,
+    402045894803345143632229060360589399347135513
+   ],
+   "omega": 6,
+   "Omega": 7,
+   "lpf_bits": 149,
+   "second_bits": 28,
+   "smooth_bits": 75,
+   "max_small": 263656529,
+   "mod": {
+    "2": 1,
+    "3": 0,
+    "4": 1,
+    "5": 2,
+    "7": 4,
+    "8": 5,
+    "16": 13
+   },
+   "square_part": 3,
+   "squarefree": false,
+   "factor_source": "archived msieve root-1 run"
+  }
  },
  {
   "run": "192",
   "i": 139,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 192,
   "b": 2455155546008943817740293915197451784769108058161191238065,
   "bbits": 191,
@@ -230,12 +391,15 @@
    "16": 1
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "192",
   "i": 2198,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 192,
   "b": 4675100585068298659273707638413283500891974020613198190306,
   "bbits": 192,
@@ -262,12 +426,15 @@
    "16": 2
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "192",
   "i": 5228,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 192,
   "b": 835424738382823911013350127192156429351504823785813797142,
   "bbits": 190,
@@ -297,12 +464,15 @@
    "16": 6
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "192",
   "i": 5405,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 192,
   "b": 3559825123073955200347268729111182217794085772456680417287,
   "bbits": 192,
@@ -330,12 +500,15 @@
    "16": 7
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "192",
   "i": 6013,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 192,
   "b": 5005402392289390203552069470771117084861899307801456990547,
   "bbits": 192,
@@ -363,12 +536,15 @@
    "16": 3
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 36,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 239,
   "b": 73878761431677818492882628001469493214132094566145668026403791672958506,
   "bbits": 236,
@@ -397,12 +573,15 @@
    "16": 10
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 1562,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 239,
   "b": 687512924747394386006333990790943644881413034021173447201827627446678964,
   "bbits": 239,
@@ -436,13 +615,16 @@
    "8": 4,
    "16": 4
   },
-  "square_part": 3,
-  "squarefree": false
+  "square_part": 18,
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 2185,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 239,
   "b": 738525217406992417348596088038781724164860971797098971891240423363193866,
   "bbits": 239,
@@ -469,12 +651,15 @@
    "16": 10
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 2320,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 239,
   "b": 672911360131302308487984934662800265942370984454769524007721579835502380,
   "bbits": 239,
@@ -504,12 +689,15 @@
    "16": 12
   },
   "square_part": 2,
-  "squarefree": false
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 2491,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 239,
   "b": 66244510638973337126301161806612283877865279579431103920577384394052260,
   "bbits": 236,
@@ -537,12 +725,15 @@
    "16": 4
   },
   "square_part": 2,
-  "squarefree": false
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 2682,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 239,
   "b": 30058692957437499619230901479164806757405555256685708386482945410481891,
   "bbits": 235,
@@ -566,12 +757,15 @@
    "16": 3
   },
   "square_part": 1,
-  "squarefree": true
+  "squarefree": true,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 2863,
   "pub": false,
+  "coefficient_root": 1,
+  "matches_published": null,
   "pbits": 239,
   "b": 650269107365935759320103603698281396246858714004961705543245904214784045,
   "bbits": 239,
@@ -602,13 +796,16 @@
    "8": 5,
    "16": 13
   },
-  "square_part": 7,
-  "squarefree": false
+  "square_part": 21,
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  },
  {
   "run": "239",
   "i": 3048,
   "pub": true,
+  "coefficient_root": 1,
+  "matches_published": true,
   "pbits": 239,
   "b": 257710759664581349045614884019467140476383834471573891251575555059576126,
   "bbits": 238,
@@ -639,6 +836,7 @@
    "16": 14
   },
   "square_part": 3,
-  "squarefree": false
+  "squarefree": false,
+  "factor_source": "archived msieve root-1 run"
  }
 ]

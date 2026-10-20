@@ -34,7 +34,15 @@
     215
    ]
   ],
-  "secs": 154
+  "secs": 154,
+  "complete": false,
+  "known_smooth_log2": 23.160033275212804,
+  "largest_known_prime_bits": 13,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-256",
@@ -45,13 +53,15 @@
   "factors": [
    "2",
    "2",
-   "381499016017647793",
-   "385195462002385687"
+   "606116377",
+   "635514031",
+   "381499016017647793"
   ],
   "factor_bits": [
    2,
    2,
-   59,
+   30,
+   30,
    59
   ],
   "cofactor_bits": 394,
@@ -71,7 +81,25 @@
     215
    ]
   ],
-  "secs": 96
+  "secs": 96,
+  "complete": false,
+  "known_smooth_log2": 60.41836831993938,
+  "largest_known_prime_bits": 59,
+  "factor_refinements": [
+   {
+    "composite": "385195462002385687",
+    "prime_factors": [
+     "606116377",
+     "635514031"
+    ],
+    "method": "PARI/GP factor and isprime"
+   }
+  ],
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-256",
@@ -81,11 +109,13 @@
   "bits": 512,
   "factors": [
    "1657",
-   "241596555917948461"
+   "45294121",
+   "5333949541"
   ],
   "factor_bits": [
    11,
-   58
+   26,
+   33
   ],
   "cofactor_bits": 444,
   "cofactor_prime": false,
@@ -104,7 +134,25 @@
     215
    ]
   ],
-  "secs": 134
+  "secs": 134,
+  "complete": false,
+  "known_smooth_log2": 68.43973538876301,
+  "largest_known_prime_bits": 33,
+  "factor_refinements": [
+   {
+    "composite": "241596555917948461",
+    "prime_factors": [
+     "45294121",
+     "5333949541"
+    ],
+    "method": "PARI/GP factor and isprime"
+   }
+  ],
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-256",
@@ -137,7 +185,15 @@
     215
    ]
   ],
-  "secs": 137
+  "secs": 137,
+  "complete": false,
+  "known_smooth_log2": 65.00960620618366,
+  "largest_known_prime_bits": 30,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-256",
@@ -172,7 +228,15 @@
     215
    ]
   ],
-  "secs": 133
+  "secs": 133,
+  "complete": false,
+  "known_smooth_log2": 5.169925001442312,
+  "largest_known_prime_bits": 65,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-256",
@@ -188,7 +252,8 @@
    "3",
    "43",
    "76213",
-   "3655760077"
+   "3655760077",
+   "10362363568439351865911816152119643510948524225346522398757409498871949546761078810615358954328353461214607151610214879253772747483294321"
   ],
   "factor_bits": [
    2,
@@ -198,11 +263,12 @@
    2,
    6,
    17,
-   32
+   32,
+   452
   ],
-  "cofactor_bits": 452,
-  "cofactor_prime": true,
-  "cofactor": "10362363568439351865911816152119643510948524225346522398757409498871949546761078810615358954328353461214607151610214879253772747483294321",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -213,7 +279,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 60.16642598741869,
+  "largest_known_prime_bits": 452,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -236,7 +310,8 @@
    "2",
    "109",
    "13119814698799",
-   "652242157030460169940112191"
+   "652242157030460169940112191",
+   "190245785550253518565551883766246939019618323170819604268427078177198357668859664086611421"
   ],
   "factor_bits": [
    2,
@@ -253,11 +328,12 @@
    2,
    7,
    44,
-   90
+   90,
+   297
   ],
-  "cofactor_bits": 297,
-  "cofactor_prime": true,
-  "cofactor": "190245785550253518565551883766246939019618323170819604268427078177198357668859664086611421",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -268,7 +344,15 @@
     204
    ]
   ],
-  "secs": 128
+  "secs": 128,
+  "complete": true,
+  "known_smooth_log2": 18.768184324776925,
+  "largest_known_prime_bits": 297,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -282,7 +366,8 @@
    "43",
    "265141",
    "26488519",
-   "32227733062532737"
+   "32227733062532737",
+   "18670041603374205232722785339834102579584498174640456514600493164001546316288599042187812033000915572409"
   ],
   "factor_bits": [
    2,
@@ -290,11 +375,12 @@
    6,
    19,
    25,
-   55
+   55,
+   344
   ],
-  "cofactor_bits": 344,
-  "cofactor_prime": true,
-  "cofactor": "18670041603374205232722785339834102579584498174640456514600493164001546316288599042187812033000915572409",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -305,7 +391,15 @@
     0
    ]
   ],
-  "secs": 2
+  "secs": 2,
+  "complete": true,
+  "known_smooth_log2": 50.10152885494392,
+  "largest_known_prime_bits": 344,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -320,7 +414,8 @@
    "5",
    "13",
    "67",
-   "2798435876456704149812899"
+   "2798435876456704149812899",
+   "2981978738100543830773598996918667765235027949906314168711735313781759533331262473293979635081460438857773"
   ],
   "factor_bits": [
    2,
@@ -329,11 +424,12 @@
    3,
    4,
    7,
-   82
+   82,
+   351
   ],
-  "cofactor_bits": 351,
-  "cofactor_prime": true,
-  "cofactor": "2981978738100543830773598996918667765235027949906314168711735313781759533331262473293979635081460438857773",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -344,7 +440,15 @@
     0
    ]
   ],
-  "secs": 2
+  "secs": 2,
+  "complete": true,
+  "known_smooth_log2": 16.410385098373588,
+  "largest_known_prime_bits": 351,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -358,7 +462,8 @@
    "719746610461",
    "159310907337619135183",
    "197337524279563377859",
-   "573496318787251335869623"
+   "573496318787251335869623",
+   "14002726837220031814616091463999778422707874917168523082071"
   ],
   "factor_bits": [
    2,
@@ -366,11 +471,12 @@
    40,
    68,
    68,
-   79
+   79,
+   194
   ],
-  "cofactor_bits": 194,
-  "cofactor_prime": true,
-  "cofactor": "14002726837220031814616091463999778422707874917168523082071",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -381,7 +487,15 @@
     3
    ]
   ],
-  "secs": 25
+  "secs": 25,
+  "complete": true,
+  "known_smooth_log2": 41.3886981334092,
+  "largest_known_prime_bits": 194,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -390,14 +504,16 @@
   "k": 4,
   "bits": 448,
   "factors": [
-   "119569"
+   "119569",
+   "6078822473179560676674755228261543831171703255990066322514198126339731920499410298866736571902799318094498555277407124670421110641"
   ],
   "factor_bits": [
-   17
+   17,
+   432
   ],
-  "cofactor_bits": 432,
-  "cofactor_prime": true,
-  "cofactor": "6078822473179560676674755228261543831171703255990066322514198126339731920499410298866736571902799318094498555277407124670421110641",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -408,7 +524,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 16.867483872807437,
+  "largest_known_prime_bits": 432,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -419,16 +543,18 @@
   "factors": [
    "41",
    "810053",
-   "834728387124063941"
+   "834728387124063941",
+   "26217759960843363849239944143692107469002245906226276256193243185018108414890139203408630087623294445550558897"
   ],
   "factor_bits": [
    6,
    20,
-   60
+   60,
+   364
   ],
-  "cofactor_bits": 364,
-  "cofactor_prime": true,
-  "cofactor": "26217759960843363849239944143692107469002245906226276256193243185018108414890139203408630087623294445550558897",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -439,7 +565,15 @@
     0
    ]
   ],
-  "secs": 1
+  "secs": 1,
+  "complete": true,
+  "known_smooth_log2": 24.98520878252835,
+  "largest_known_prime_bits": 364,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -470,7 +604,15 @@
     215
    ]
   ],
-  "secs": 108
+  "secs": 108,
+  "complete": false,
+  "known_smooth_log2": 13.066930068864098,
+  "largest_known_prime_bits": 56,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -497,7 +639,15 @@
     215
    ]
   ],
-  "secs": 99
+  "secs": 99,
+  "complete": false,
+  "known_smooth_log2": 0.0,
+  "largest_known_prime_bits": 85,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -532,7 +682,15 @@
     215
    ]
   ],
-  "secs": 101
+  "secs": 101,
+  "complete": false,
+  "known_smooth_log2": 27.847025436514368,
+  "largest_known_prime_bits": 23,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -583,7 +741,15 @@
     215
    ]
   ],
-  "secs": 102
+  "secs": 102,
+  "complete": false,
+  "known_smooth_log2": 42.58326235429531,
+  "largest_known_prime_bits": 97,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -630,7 +796,15 @@
     215
    ]
   ],
-  "secs": 70
+  "secs": 70,
+  "complete": false,
+  "known_smooth_log2": 20.469705404300854,
+  "largest_known_prime_bits": 74,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "P-224",
@@ -681,7 +855,15 @@
     215
    ]
   ],
-  "secs": 90
+  "secs": 90,
+  "complete": false,
+  "known_smooth_log2": 29.76513990616245,
+  "largest_known_prime_bits": 89,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -714,7 +896,15 @@
     215
    ]
   ],
-  "secs": 84
+  "secs": 84,
+  "complete": false,
+  "known_smooth_log2": 54.35627240218235,
+  "largest_known_prime_bits": 40,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -725,16 +915,18 @@
   "factors": [
    "2",
    "2",
-   "7"
+   "7",
+   "1407214507014088543295680003605523402082323665275227085588899009861309203484287333107516848352245395793675718967139"
   ],
   "factor_bits": [
    2,
    2,
-   3
+   3,
+   380
   ],
-  "cofactor_bits": 380,
-  "cofactor_prime": true,
-  "cofactor": "1407214507014088543295680003605523402082323665275227085588899009861309203484287333107516848352245395793675718967139",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -745,7 +937,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 4.807354922057604,
+  "largest_known_prime_bits": 380,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -784,7 +984,15 @@
     215
    ]
   ],
-  "secs": 55
+  "secs": 55,
+  "complete": false,
+  "known_smooth_log2": 9.948367231584678,
+  "largest_known_prime_bits": 81,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -821,7 +1029,15 @@
     215
    ]
   ],
-  "secs": 87
+  "secs": 87,
+  "complete": false,
+  "known_smooth_log2": 48.898703726503825,
+  "largest_known_prime_bits": 35,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -854,7 +1070,15 @@
     215
    ]
   ],
-  "secs": 86
+  "secs": 86,
+  "complete": false,
+  "known_smooth_log2": 15.079984707033974,
+  "largest_known_prime_bits": 11,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -864,15 +1088,17 @@
   "bits": 384,
   "factors": [
    "5",
-   "13"
+   "13",
+   "606184710713761218650446770771440212382279309107550988878108339310277074548745642511027570609300224228928255905829"
   ],
   "factor_bits": [
    3,
-   4
+   4,
+   378
   ],
-  "cofactor_bits": 378,
-  "cofactor_prime": true,
-  "cofactor": "606184710713761218650446770771440212382279309107550988878108339310277074548745642511027570609300224228928255905829",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -883,7 +1109,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 6.022367813028454,
+  "largest_known_prime_bits": 378,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -896,18 +1130,20 @@
    "353",
    "2833",
    "4482720408539509",
-   "1741284710288624689"
+   "1741284710288624689",
+   "123112389132555144025065418227250431454454848451032058745454912041664516697"
   ],
   "factor_bits": [
    6,
    9,
    12,
    52,
-   61
+   61,
+   247
   ],
-  "cofactor_bits": 247,
-  "cofactor_prime": true,
-  "cofactor": "123112389132555144025065418227250431454454848451032058745454912041664516697",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -918,7 +1154,15 @@
     0
    ]
   ],
-  "secs": 1
+  "secs": 1,
+  "complete": true,
+  "known_smooth_log2": 25.289191264267362,
+  "largest_known_prime_bits": 247,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -953,7 +1197,15 @@
     215
    ]
   ],
-  "secs": 55
+  "secs": 55,
+  "complete": false,
+  "known_smooth_log2": 22.703303111097107,
+  "largest_known_prime_bits": 75,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -963,15 +1215,17 @@
   "bits": 384,
   "factors": [
    "13",
-   "358054469"
+   "358054469",
+   "8464978979409990532061293316400977701276496413560348396017075337781599941275645587528042229796893280037829"
   ],
   "factor_bits": [
    4,
-   29
+   29,
+   352
   ],
-  "cofactor_bits": 352,
-  "cofactor_prime": true,
-  "cofactor": "8464978979409990532061293316400977701276496413560348396017075337781599941275645587528042229796893280037829",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -982,7 +1236,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 32.11604355126228,
+  "largest_known_prime_bits": 352,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -992,15 +1254,17 @@
   "bits": 384,
   "factors": [
    "5",
-   "82779436371314768513737"
+   "82779436371314768513737",
+   "95197570613197122376460579562702069402642969230087737251698244461248020711855466252572259417"
   ],
   "factor_bits": [
    3,
-   77
+   77,
+   306
   ],
-  "cofactor_bits": 306,
-  "cofactor_prime": true,
-  "cofactor": "95197570613197122376460579562702069402642969230087737251698244461248020711855466252572259417",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1011,7 +1275,15 @@
     0
    ]
   ],
-  "secs": 12
+  "secs": 12,
+  "complete": true,
+  "known_smooth_log2": 2.321928094887362,
+  "largest_known_prime_bits": 306,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -1044,7 +1316,15 @@
     215
    ]
   ],
-  "secs": 85
+  "secs": 85,
+  "complete": false,
+  "known_smooth_log2": 17.30074578700351,
+  "largest_known_prime_bits": 8,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -1058,7 +1338,8 @@
    "7",
    "7",
    "16499999221",
-   "3053005502551"
+   "3053005502551",
+   "3990715362432277106503095797193930508243786059327653098926406095555099750159007908826539607"
   ],
   "factor_bits": [
    2,
@@ -1066,11 +1347,12 @@
    3,
    3,
    34,
-   42
+   42,
+   301
   ],
-  "cofactor_bits": 301,
-  "cofactor_prime": true,
-  "cofactor": "3990715362432277106503095797193930508243786059327653098926406095555099750159007908826539607",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1081,7 +1363,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 41.55645674934723,
+  "largest_known_prime_bits": 301,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -1096,7 +1386,8 @@
    "19",
    "331",
    "1471",
-   "10501"
+   "10501",
+   "7799918509913449505657805977159395934983649256360261874242039545855549045316561255814906001647745845333"
   ],
   "factor_bits": [
    2,
@@ -1105,11 +1396,12 @@
    5,
    9,
    11,
-   14
+   14,
+   342
   ],
-  "cofactor_bits": 342,
-  "cofactor_prime": true,
-  "cofactor": "7799918509913449505657805977159395934983649256360261874242039545855549045316561255814906001647745845333",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1120,7 +1412,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 42.19987527007286,
+  "largest_known_prime_bits": 342,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -1132,17 +1432,19 @@
    "2",
    "2",
    "31",
-   "28429"
+   "28429",
+   "11177252611314230247702266795853017654591381128815121660844201871039053902667046525033282600814507162195611787"
   ],
   "factor_bits": [
    2,
    2,
    5,
-   15
+   15,
+   363
   ],
-  "cofactor_bits": 363,
-  "cofactor_prime": true,
-  "cofactor": "11177252611314230247702266795853017654591381128815121660844201871039053902667046525033282600814507162195611787",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1153,7 +1455,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 21.74927204254254,
+  "largest_known_prime_bits": 363,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "192",
@@ -1184,7 +1494,15 @@
     215
    ]
   ],
-  "secs": 87
+  "secs": 87,
+  "complete": false,
+  "known_smooth_log2": 20.705325269043907,
+  "largest_known_prime_bits": 19,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1221,7 +1539,15 @@
     215
    ]
   ],
-  "secs": 95
+  "secs": 95,
+  "complete": false,
+  "known_smooth_log2": 45.73069647994734,
+  "largest_known_prime_bits": 97,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1254,7 +1580,15 @@
     215
    ]
   ],
-  "secs": 123
+  "secs": 123,
+  "complete": false,
+  "known_smooth_log2": 14.04882741336389,
+  "largest_known_prime_bits": 8,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1269,7 +1603,8 @@
    "30109",
    "151057",
    "55071737627544556887834763",
-   "16432729480337808963021041029"
+   "16432729480337808963021041029",
+   "19992665952097525497420785672403569173230868703346624310616171465187520847263"
   ],
   "factor_bits": [
    2,
@@ -1278,11 +1613,12 @@
    15,
    18,
    86,
-   94
+   94,
+   254
   ],
-  "cofactor_bits": 254,
-  "cofactor_prime": true,
-  "cofactor": "19992665952097525497420785672403569173230868703346624310616171465187520847263",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1293,7 +1629,15 @@
     128
    ]
   ],
-  "secs": 69
+  "secs": 69,
+  "complete": true,
+  "known_smooth_log2": 45.293920634866666,
+  "largest_known_prime_bits": 254,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1324,7 +1668,15 @@
     215
    ]
   ],
-  "secs": 99
+  "secs": 99,
+  "complete": false,
+  "known_smooth_log2": 2.0,
+  "largest_known_prime_bits": 109,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1355,7 +1707,15 @@
     215
    ]
   ],
-  "secs": 119
+  "secs": 119,
+  "complete": false,
+  "known_smooth_log2": 6.954196310386875,
+  "largest_known_prime_bits": 5,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1394,7 +1754,15 @@
     215
    ]
   ],
-  "secs": 104
+  "secs": 104,
+  "complete": false,
+  "known_smooth_log2": 72.90390357884004,
+  "largest_known_prime_bits": 25,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1429,7 +1797,15 @@
     215
    ]
   ],
-  "secs": 75
+  "secs": 75,
+  "complete": false,
+  "known_smooth_log2": 51.034582159754585,
+  "largest_known_prime_bits": 82,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1443,8 +1819,10 @@
    "181",
    "581323",
    "692287",
+   "402409659272149",
+   "1069599277273843",
    "551522540993459452366895839",
-   "430417080725503984960336098607"
+   "11283476120729225408078029775586568926741466267124396567755278946724283457"
   ],
   "factor_bits": [
    2,
@@ -1452,12 +1830,14 @@
    8,
    20,
    20,
+   49,
+   50,
    89,
-   99
+   243
   ],
-  "cofactor_bits": 243,
-  "cofactor_prime": true,
-  "cofactor": "11283476120729225408078029775586568926741466267124396567755278946724283457",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     "composite factor",
@@ -1472,7 +1852,25 @@
     175
    ]
   ],
-  "secs": 73
+  "secs": 73,
+  "complete": true,
+  "known_smooth_log2": 48.04983708276709,
+  "largest_known_prime_bits": 243,
+  "factor_refinements": [
+   {
+    "composite": "430417080725503984960336098607",
+    "prime_factors": [
+     "402409659272149",
+     "1069599277273843"
+    ],
+    "method": "PARI/GP factor and isprime"
+   }
+  ],
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1503,7 +1901,15 @@
     215
    ]
   ],
-  "secs": 75
+  "secs": 75,
+  "complete": false,
+  "known_smooth_log2": 12.662000718718481,
+  "largest_known_prime_bits": 53,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1513,15 +1919,19 @@
   "bits": 478,
   "factors": [
    "5",
-   "156969751785258961"
+   "77285017",
+   "2031050233",
+   "994379017234693693660526979166835859316437806346828522959891791620148228281511997517568808152024912906078069182744245513809393"
   ],
   "factor_bits": [
    3,
-   58
+   27,
+   31,
+   419
   ],
-  "cofactor_bits": 419,
-  "cofactor_prime": true,
-  "cofactor": "994379017234693693660526979166835859316437806346828522959891791620148228281511997517568808152024912906078069182744245513809393",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     "composite factor",
@@ -1536,7 +1946,25 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 59.445192285218305,
+  "largest_known_prime_bits": 419,
+  "factor_refinements": [
+   {
+    "composite": "156969751785258961",
+    "prime_factors": [
+     "77285017",
+     "2031050233"
+    ],
+    "method": "PARI/GP factor and isprime"
+   }
+  ],
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1569,7 +1997,15 @@
     215
    ]
   ],
-  "secs": 102
+  "secs": 102,
+  "complete": false,
+  "known_smooth_log2": 39.54683831214476,
+  "largest_known_prime_bits": 51,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1583,7 +2019,8 @@
    "37",
    "857",
    "260712941",
-   "71509173973"
+   "71509173973",
+   "52806942478606902633744483466422845662909904483250643461083166664863316732522676832442396234745159446580650419164629289"
   ],
   "factor_bits": [
    3,
@@ -1591,11 +2028,12 @@
    6,
    10,
    28,
-   37
+   37,
+   395
   ],
-  "cofactor_bits": 395,
-  "cofactor_prime": true,
-  "cofactor": "52806942478606902633744483466422845662909904483250643461083166664863316732522676832442396234745159446580650419164629289",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1606,7 +2044,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 83.61175719149085,
+  "largest_known_prime_bits": 395,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1643,7 +2089,15 @@
     215
    ]
   ],
-  "secs": 72
+  "secs": 72,
+  "complete": false,
+  "known_smooth_log2": 83.15414594347261,
+  "largest_known_prime_bits": 69,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1680,7 +2134,15 @@
     215
    ]
   ],
-  "secs": 96
+  "secs": 96,
+  "complete": false,
+  "known_smooth_log2": 30.591586329385628,
+  "largest_known_prime_bits": 88,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1691,16 +2153,18 @@
   "factors": [
    "5",
    "10061",
-   "220338557"
+   "220338557",
+   "70410312711204951075970074554840513061448159383071986500325881110817770872619837501550342253545041185170014669727850150024494773977"
   ],
   "factor_bits": [
    3,
    14,
-   28
+   28,
+   435
   ],
-  "cofactor_bits": 435,
-  "cofactor_prime": true,
-  "cofactor": "70410312711204951075970074554840513061448159383071986500325881110817770872619837501550342253545041185170014669727850150024494773977",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1711,7 +2175,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 43.33356091464832,
+  "largest_known_prime_bits": 435,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1723,17 +2195,19 @@
    "5",
    "1777",
    "1174261813",
-   "349033405958302777"
+   "349033405958302777",
+   "214313022930259988612757752501273987833182449845863930544254924684950393464950061451572219026427326430961525034229"
   ],
   "factor_bits": [
    3,
    11,
    31,
-   59
+   59,
+   377
   ],
-  "cofactor_bits": 377,
-  "cofactor_prime": true,
-  "cofactor": "214313022930259988612757752501273987833182449845863930544254924684950393464950061451572219026427326430961525034229",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1744,7 +2218,15 @@
     0
    ]
   ],
-  "secs": 2
+  "secs": 2,
+  "complete": true,
+  "known_smooth_log2": 43.2462630219924,
+  "largest_known_prime_bits": 377,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1755,16 +2237,18 @@
   "factors": [
    "2",
    "2",
-   "13"
+   "13",
+   "15008406491903808804719217450549818694734075101567518936448579540429448615351016776831428782946491825074097059985127670856724972982363686560151"
   ],
   "factor_bits": [
    2,
    2,
-   4
+   4,
+   473
   ],
-  "cofactor_bits": 473,
-  "cofactor_prime": true,
-  "cofactor": "15008406491903808804719217450549818694734075101567518936448579540429448615351016776831428782946491825074097059985127670856724972982363686560151",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1775,7 +2259,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 5.700439718141092,
+  "largest_known_prime_bits": 473,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1806,7 +2298,15 @@
     215
    ]
   ],
-  "secs": 122
+  "secs": 122,
+  "complete": false,
+  "known_smooth_log2": 25.422922342650963,
+  "largest_known_prime_bits": 24,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1819,18 +2319,20 @@
    "2",
    "211",
    "384028753",
-   "594694489"
+   "594694489",
+   "4048907216651537365346523994341035987003963832950680403945987160874437436773414624876047169559119242945476900131546646461949"
   ],
   "factor_bits": [
    2,
    2,
    8,
    29,
-   30
+   30,
+   411
   ],
-  "cofactor_bits": 411,
-  "cofactor_prime": true,
-  "cofactor": "4048907216651537365346523994341035987003963832950680403945987160874437436773414624876047169559119242945476900131546646461949",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1841,7 +2343,15 @@
     0
    ]
   ],
-  "secs": 1
+  "secs": 1,
+  "complete": true,
+  "known_smooth_log2": 67.38531174575866,
+  "largest_known_prime_bits": 411,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1882,7 +2392,15 @@
     215
    ]
   ],
-  "secs": 88
+  "secs": 88,
+  "complete": false,
+  "known_smooth_log2": 78.33083288634236,
+  "largest_known_prime_bits": 56,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1913,7 +2431,15 @@
     215
    ]
   ],
-  "secs": 121
+  "secs": 121,
+  "complete": false,
+  "known_smooth_log2": 6.247927513443585,
+  "largest_known_prime_bits": 5,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1948,7 +2474,15 @@
     215
    ]
   ],
-  "secs": 119
+  "secs": 119,
+  "complete": false,
+  "known_smooth_log2": 25.841500140445216,
+  "largest_known_prime_bits": 11,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -1958,15 +2492,17 @@
   "bits": 478,
   "factors": [
    "2",
-   "2"
+   "2",
+   "195109284394749514461349826857147643149279279501998286699202049542990996383363544254379972923394521090971013028076525338585028731022899946287581"
   ],
   "factor_bits": [
    2,
-   2
+   2,
+   476
   ],
-  "cofactor_bits": 476,
-  "cofactor_prime": true,
-  "cofactor": "195109284394749514461349826857147643149279279501998286699202049542990996383363544254379972923394521090971013028076525338585028731022899946287581",
+  "cofactor_bits": 0,
+  "cofactor_prime": null,
+  "cofactor": "1",
   "log": [
    [
     50000,
@@ -1977,7 +2513,15 @@
     0
    ]
   ],
-  "secs": 0
+  "secs": 0,
+  "complete": true,
+  "known_smooth_log2": 2.0,
+  "largest_known_prime_bits": 476,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  },
  {
   "run": "239",
@@ -2018,6 +2562,14 @@
     215
    ]
   ],
-  "secs": 86
+  "secs": 86,
+  "complete": false,
+  "known_smooth_log2": 72.30500629582096,
+  "largest_known_prime_bits": 68,
+  "coverage": {
+   "status": "legacy-unverified",
+   "exhaustive": false,
+   "note": "Pre-fix ECM loop outputs were not retained. Original curve-count logs are not validated coverage. Prime atoms/products were repaired; the 57 searches were not rerun."
+  }
  }
 ]

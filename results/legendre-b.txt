@@ -1,26 +1,25 @@
-Legendre symbol (b/p) for the 19 viable candidates, crossed with the b factorization (results/bfac.json).
-For p = 3 (mod 4) the textbook root b = r^((p+1)/4) of r = -27/c is itself a square, so (b/p) = +1 is forced.
-For P-224 (p = 1 (mod 4)) the two roots +-b have the same symbol ((-1/p) = +1), and (b/p) = +1 iff r is a fourth power: a genuine coin flip.
+Quadratic character of the primary coefficient model; P-224 root 2 matches publication.
+For p=3 mod4 the textbook coefficient root is a square. P-224 signs have the same character.
+The character equals the product of the prime-factor characters, with multiplicity;
+it is not independent of a complete integer factorization once p is fixed.
 
-run    cand pub  p mod 4  (b/p)  forced  |b|  Omega  LPF bits  square-free
-P-256    876       3       +1     yes    256    5     216       y
-P-256   1842  *    3       +1     yes    255    5     201       n
-P-224    777       1       +1     no     223    8     134       n
-P-224   1485       1       -1     no     224    5     107       n
-P-224   5736       1       -1     no     223    7     127       n
-P-224   7026  *    1       -1     no     223    7     149       n
-192      139  *    3       +1     yes    191    7      96       y
-192     2198       3       +1     yes    192    5      95       y
-192     5228  *    3       +1     yes    190    8      50       y
-192     5405       3       +1     yes    192    6      77       y
-192     6013  *    3       +1     yes    192    6      76       y
-239       36       3       +1     yes    236    7      89       y
-239     1562       3       +1     yes    239   13     112       n
-239     2185  *    3       +1     yes    239    5     119       y
-239     2320  *    3       +1     yes    239    8     195       n
-239     2491       3       +1     yes    236    6     103       n
-239     2682       3       +1     yes    235    2     219       y
-239     2863       3       +1     yes    239   10     180       n
-239     3048  *    3       +1     yes    238    9     139       n
-
-Non-squares: P-224 candidates 1485 (skipped), 5736 (skipped), 7026 (published). The published P-224 curve has no point at x = 0.
+run    cand pub root (b/p) |b| Omega LPF squarefree
+P-256    876     1  +1 256     5 216 True
+P-256   1842 *   1  +1 255     5 201 False
+P-224    777     2  +1 224     3 203 True
+P-224   1485     2  -1 223     7  94 False
+P-224   5736     2  -1 224     5  93 False
+P-224   7026 *   2  -1 224     6 123 False
+192      139 *   1  +1 191     7  96 True
+192     2198     1  +1 192     5  95 True
+192     5228 *   1  +1 190     8  50 True
+192     5405     1  +1 192     6  77 True
+192     6013 *   1  +1 192     6  76 True
+239       36     1  +1 236     7  89 True
+239     1562     1  +1 239    13 112 False
+239     2185 *   1  +1 239     5 119 True
+239     2320 *   1  +1 239     8 195 False
+239     2491     1  +1 236     6 103 False
+239     2682     1  +1 235     2 219 True
+239     2863     1  +1 239    10 180 False
+239     3048 *   1  +1 238     9 139 False

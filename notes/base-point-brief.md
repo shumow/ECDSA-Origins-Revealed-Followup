@@ -11,6 +11,8 @@
 
 ## 2. What is open
 
+**Point-input correction (20 October).** The old P-224 scan used the opposite coefficient and reconstructed a different point from the published Gx. It now requires the exact standard coefficient and both generator coordinates; the rerun gives minimum x of 205 bits at 4819·G and no 32-bit-short coordinate. A stale, out-of-Hasse P-521 order literal was also corrected; a fresh scan reproduces its cached 502-bit minimum. `python scripts/run_points.py` repeats P-224, and `--curve P-521` repeats the corrected P-521 input. Curve-order checks alone never establish generator identity.
+
 - **Base points for P-224, P-256, P-384, P-521.** No derivation known to anyone. Anthropic tested the FreeLIP recipe and it does not fit. These curves were generated Aug 1997 (P-521, P-256, P-384) and Apr 1998 (P-224) — after the May 1997 FreeLIP-era runs, so the base-point code may have changed between runs.
 - **Base points for the binary curves** (B-163 … B-571; also K-curves). Unexplained.
 - **B-163 seed.** Unexplained.

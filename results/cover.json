@@ -672,6 +672,7 @@
    "published_true": 1
   }
  },
+ "coefficient_model": "generator root 1, including the nonstandard P-224 representative",
  "permutation_test": {
   "method": "exact",
   "condition": "per-run published counts and final candidate published",
@@ -684,5 +685,23 @@
    "2": 1
   },
   "fraction_at_most_observed": 0.6984126984126984
+ },
+ "p224_root2_sensitivity": {
+  "coefficient_model": "P-224 root 2 for all four candidates; matches the published coefficient",
+  "n_predicates_total": 134,
+  "true_min_cover_size": 4,
+  "n_true_covers_at_min": 22,
+  "permutation_test": {
+   "method": "exact",
+   "condition": "per-run published counts and final candidate published",
+   "n_perm": 126,
+   "min_cover_size_distribution": {
+    "5": 26,
+    "4": 58,
+    "3": 40,
+    "None": 2
+   },
+   "fraction_at_most_observed": 0.7777777777777778
+  }
  }
 }

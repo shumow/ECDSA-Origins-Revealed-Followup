@@ -51,7 +51,7 @@ There's a second provenance question Anthropic's post left open, and it's the on
 
 Nadia's idea, which I'd been carrying around: if someone picked a generator by hashing a phrase to an *x*-coordinate and then doubling the point, you'd see it by computing *G*/2 and finding a short coordinate. So we computed *G*/2, and *G*/*k* and *k*·*G* for *k* up to 65,536, for all ten prime-field generators.
 
-Nothing. Every coordinate is within a couple of bits of what a random field element would give.
+Nothing hash-sized was found. The reported x minima are close to the rough random-minimum scale. A later review corrected a P-224 input error: we had used the opposite coefficient and reconstructed a different point from the published Gx. Repeating the scan with the exact standard tuple gives a 205-bit minimum at 4819·G and still no coordinate 32 bits short. The P-521 source also had a stale subgroup-order literal; replacing it with the standard order reproduces its cached minimum.
 
 Then we did the same for the ten binary curves. Nine of them: nothing. The tenth is K-163.
 

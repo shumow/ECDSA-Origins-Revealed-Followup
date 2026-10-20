@@ -23,6 +23,7 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 | Family | What was tested | Where | Result |
 |---|---|---|---|
 | Arithmetic of n and t | twist order n' = 2p + 2 − n (smoothness, cofactor primality); n ± 1 full factorizations and largest prime factors; congruences on t, n, b mod 2, 3, 4, 5, 8; b < p/2; (n−1)/2 prime | §6.1–6.3, §6.6, §6.9 | interleave |
+| Coefficient integers | complete witnesses for 19 primary coefficients and four alternate P-224 roots; square-divisor roots, residues and sign sensitivity | §6.23 | no tested separator; integer properties depend on the root representative |
 | Arithmetic of b | complete factorization of b as an integer: Ω, ω, largest and second-largest prime factors, smooth part, square-freeness; b mod 3, 4, 5, 7, 8 | §6.23 | interleave |
 | CM structure | D = t² − 4p; conductor s; fundamental discriminant f; class number via √|f|·L(1,χ)/π with L(1,χ) from the Euler product to 10⁶; complete factorization of every |D| (ω, Ω, largest primes, smooth part); q ± 1 structure and cross-divisibility of the discriminant primes | §2–3 (theory), §6.1–6.2, §6.5, §6.9, §6.22 | floor refuted by P-224 (published has smallest h); ceiling refuted by P-256 (published has larger h); interleave on 19 |
 | Isogeny structure over F_p | End(E) vs Z[π]; P-224 at the crater of a height-1 3-volcano; prime239 2320 and 2682 at floors of height-1 5-volcanoes; rational ℓ-isogeny counts | §6.7, §6.12, `battery*.txt` | no tested separator; the two nonmaximal endomorphism rings include one published and one skipped curve |
@@ -317,7 +318,7 @@ Depths v_ℓ(s·U_k) for ℓ ≤ 47, k ∈ {2, 3, 4, 6, 12} (full table in the t
 
 ### 6.13 Short x-coordinates
 
-For each viable curve, the smallest x ≥ 0 with a point (x³ − 3x + b a square mod p), the first eight such x, and the y at the smallest one:
+For each viable curve, the smallest x ≥ 0 with a point (x³ − 3x + b a square mod p), the first eight such x, and the y at the smallest one. The unpublished P-224 rows retain the original root-1 model; their historical sign choice is unknown. The published row uses the actual standard coefficient after the 20 October correction:
 
 ```
 run      cand      first x with a point           y at smallest x        b
@@ -326,7 +327,7 @@ P-256    1842 *    0 5 6 8 9 12 13 17             255 bits, even         255 bit
 P-224     777      0 3 8 10 11 12 17 18           222 bits, even         223 bits, even
 P-224    1485      1 2 3 5 10 12 15 16            224 bits, odd          224 bits, even
 P-224    5736      1 2 9 14 15 17 18 23           224 bits, even         223 bits, even
-P-224    7026 *    3 4 5 6 7 8 10 13              224 bits, odd          223 bits, odd
+P-224    7026 *    3 5 8 12 13 14 17 21            223 bits, even         224 bits, even
 192       139 *    0 2 3 5 6 8 12 13              192 bits, odd          191 bits, odd
 192      2198      0 2 3 6 9 15 16 18             192 bits, odd          192 bits, even
 192      5228 *    0 1 4 5 6 7 8 9                192 bits, odd          190 bits, even
@@ -355,7 +356,7 @@ P-256    1842   *  125    0       5      6     7    31  86cc41e5350cbeda17221e73
 P-224     777      130    0       9      7     6    32  90b86bbd33bd6d008befe637767664c01b7194143afb50c27509e2ee2be8ccb4
 P-224    1485      139    1       7     11     7    35  7429b07c7ff299d10fb4067d8d38e0ab227b687b46b81f6df4d37d34b3e59caf
 P-224    5736      133    1       6      6     5    29  604361259c8b2e6f8e8b761357122ac6fbf7ddb8489486f7c37da5d929a617ba
-P-224    7026   *  120    3       9      8    10    32  1fa79a680bebca30191b09fbbef70b005db0d0613c902310d4d93793fd4431c0
+P-224    7026   *  125    3       9      7     6    32  148e45f305fcf0cec014a2243a77bada8accbfb7360633396c907d865802f1eb
 192       139   *  121    0       6      7     9    28  b68d6232a14bd841c5384d9aa050d20e87d4543dacb8d6de4bf8766a14adaea0
 192      2198      126    0      10      7     6    25  b241ac51a21c640795bf8785002abccf2dc36fc8d15aaabdd45efced8d80a837
 192      5228   *  131    0       6      6    11    38  cfceb9c66ed913d62e5a8a9b850cc2b3689d75af5931e2a454aa05676be7c921
@@ -371,11 +372,11 @@ P-224    7026   *  120    3       9      8    10    32  1fa79a680bebca30191b09fb
 239      3048   *  124    0       7      8     6    29  a486903951688bfd7358f24dea24d5d5360296dea17e9734f1810d1176cc45dc
 ```
 
-The on-curve counts range from 118 to 148 (published mean 128.2, skipped 129.6), with longest off-curve runs 4–10 and on-curve runs 4–11. Binomial(256, ½) is only a rough scale comparison, not an exact null: the root convention forces the x = 0 bit in fifteen curves, and the entries have algebraic dependencies. No tested low-byte pattern separates the labels.
+The on-curve counts range from 118 to 148 (published mean 128.9 after the P-224 correction, skipped 129.6), with longest off-curve runs 4–10 and on-curve runs 4–11. Binomial(256, ½) is only a rough scale comparison, not an exact null: the root convention forces the x = 0 bit in fifteen curves, and the entries have algebraic dependencies. The skipped P-224 rows are explicitly root-1 scenarios, not recovered published coefficients. No tested low-byte pattern separates the labels.
 
 ### 6.15 Small-x points, with the right square root, and small-scalar relations
 
-Recomputed the small-x points taking y = (x³ − 3x + b)^((p+1)/4) as the primary root for the p ≡ 3 (mod 4) fields (the convention pinned down for b in §6.10) and Tonelli–Shanks with both roots for P-224. Full x, y, p − y for the first eight on-curve x of every viable curve are in `pts.out`. On a prime-order curve every non-identity point has order n, so there is no "special-order" small-x point to look for; the only possible structure is relational. Checked, for each curve: whether any of the first eight small-x points is a scalar multiple k·P₀ (k ≤ 2²⁰, up to sign) of the point at the smallest x, and for the eight published curves whether the published generator G is such a multiple, or P₀ a multiple of G. Result: no relation anywhere beyond k = 1; no published generator sits at a small x, and none is within 2²⁰ of the smallest-x point in either direction.
+The point records use the textbook y root for p ≡ 3 (mod 4) and list both y roots for P-224. The original published P-224 row used the opposite coefficient and reconstructed a different point from the published Gx. Prime order made nP = O pass for that wrong point too; it was not a generator-identity certificate. `pts.gp` now requires the exact standard P-224 coefficient and both coordinates. The four P-224 small-x scans, including the corrected published point's relations, were repeated through k ≤ 2²⁰; nothing beyond k = 1 was found. The other fifteen records remain from the original run. Full coordinates, coefficient labels, and P-224 bitmaps are in [pts.out](../results/pts.out).
 
 ### 6.16 gcd(p ± 1, n ± 1)
 
@@ -559,6 +560,7 @@ Result (`cover.py`, `cover.md`, `cover.json`):
 
 - True labelling: **minimal cover size 4**, ten distinct minimal covers, all made of residue-class predicates (e.g. `20(i−1) mod 4096 < 1024 ∪ b ≡ 1 mod 7 ∪ n ≡ 7 mod 8 ∪ t ≡ 0 mod 7`). Nothing bug-shaped appears in any minimal cover; the best single usable predicate covers 6 of 11 (`t ≡ 1 mod 8`).
 - Exact endpoint-conditioned relabellings: cover size 2 in 1 case, 3 in 35, 4 in 52, 5 in 23, and none ≤ 5 in 15. A cover of size ≤ 4 exists in **88/126 = 69.8%**. The original count-only Monte Carlo comparison gave 35%; these are different null models, not interchangeable estimates.
+- Root sensitivity: the preceding numbers retain generator root 1, which is not the published P-224 coefficient. Using root 2 throughout the P-224 run gives size 4 with 22 minimal covers and **98/126 = 77.8%** doing at least as well. Both choices are scenarios, not a recovered historical sign convention; see [the regenerated report](cover.md).
 - The genuinely bug-shaped predicates individually: seed contains 0x00 — 2/11 skipped, 0/8 published; seed contains 0x0A — 2/11, 1/8; 0x0D — 1/11, 1/8; 0xFF — 0/11, 1/8; 0x20 — 1/11, 1/8; n > p (negative trace, allowed by the size rule when bitlen(n) = bitlen(p)) — 3/11 skipped, 1/8 published (prime239v2, the case Filippo notes); b shorter than p by a bit — 5/11 vs 5/8. None covers more than two skipped curves while excluding the published ones.
 
 Conclusion: no union of at most three predicates in this library explains the labels, and the observed minimum of four is not unusual under the endpoint-conditioned null. The library was selected during exploration; the comparison neither establishes randomness nor excludes other unions, intersections, thresholds, or stateful checks.
@@ -597,7 +599,19 @@ Conclusion: no union of at most three predicates in this library explains the la
 
 ### 6.23 Factorization of b as an integer
 
-b is the one seed-derived integer in each candidate (a = −3 is fixed), so a program that looked at b itself — its factorization, its residues — would have a hook here that the point-count tests cannot see. All nineteen b values were factored completely (msieve 1.54 QS/ECM; every cofactor passed a primality test and the products were checked; `results/bfac-msieve.out`, `results/bfac.txt`, `scripts/bfac/`). Field size, bit length, Ω, ω, largest-prime-factor bits, second-largest, smooth part, square-freeness and b mod 3, 4, 5, 7, 8:
+**Current, corrected results:** [bfac.json](../results/bfac.json), [bfac.txt](../results/bfac.txt), and [legendre-b.txt](../results/legendre-b.txt). All nineteen primary coefficients have complete prime-factor witnesses; all four alternate P-224 roots are retained under `other_root`. The primary P-224 scenario uses root 2, matching publication at candidate 7026. Applying it to the skipped candidates is a model, not a historical finding.
+
+The standard P-224 coefficient is `0xb4050a850c04b3abf54132565044b0b7d7bfd8ba270b39432355ffb4`, not its negative used originally. Its largest prime factor has **123 bits**, not 149. Primary-model P-224 LPF sizes are 203, 94, 93, and 123 (published). In prime192 the published 50, 76, 96 still bracket skipped 77, 95. Four of eight primary published coefficients and six of eleven skipped coefficients are square-free. No tested summary gives a complete separator; this does not exhaust functions of b.
+
+`square_part` now means s with s² the largest square divisor, including every repeated prime. Candidate 239/1562 contains **2²·3⁴**, not 2⁶·3⁴; its square-divisor root is 18. Candidate 239/2863 has root 21, not merely the largest repeated prime 7.
+
+Published b occupy four classes modulo 7. Under an IID-uniform illustration, a **specified** four-class set has probability (4/7)⁸ ≈ 1.14%; occupancy of **any** at most four classes has probability 28.4%. The missing classes were selected after inspection, so the former is not an appropriate significance claim, even before considering other moduli and statistics.
+
+The character (b/p) is forced positive in the fifteen textbook-root cases. For fixed p it is the product of the characters of b's prime factors with multiplicity, not independent of the full factorization. The P-224 signs share the same character. These comparisons do not close all candidate-local possibilities.
+
+#### Archived first-root coefficient table (superseded)
+
+This table preserves the original msieve experiment. Its P-224 rows use root 1, including the nonstandard coefficient at the published candidate. It is **not the current primary coefficient table**; use the generated results above.
 
 ```
 run    cand  pub  p   |b|  Ω  ω  LPF  2nd  smooth  sqfree  b mod 3 4 5 7 8   factor bit lengths
@@ -622,11 +636,33 @@ P-224   7026  *   224  223  7  6  149   28     75   n      0 1 2 4 5   [2, 2, 7,
 239     3048  *   239  238  9  7  139   72     99   n      0 2 1 3 6   [2, 2, 2, 2, 6, 7, 10, 72, 139]
 ```
 
-Every statistic interleaves. Largest-prime-factor bits, ranked within each run: P-256 published 201 < skipped 216; P-224 published 149 is the largest of four; prime192 published 50, 76, 96 bracket the skipped 77, 95; prime239 published 119, 139, 195 sit among skipped 89, 103, 112, 180, 219. Ω runs 5–9 on the published side and 2–13 on the skipped side (the skipped 2682 is 51239 × a 219-bit prime; the skipped 1562 has 2⁶·3⁴ in it). Four of eight published and five of eleven skipped b are square-free. No residue class mod 3, 4, 5, 8 is constant on either side; mod 7 the published values avoid {1, 2, 6}, which with eight draws from seven classes is a ~1% coincidence before the look-elsewhere correction over the moduli tried, and the b ≡ r (mod 7) predicates were already in the §6.21 library (b ≡ 1 mod 7 appears in minimal covers there). Crossed with the quadratic character (`results/legendre-b.txt`): (b/p) = +1 is forced on the fifteen p ≡ 3 (mod 4) curves (§6.10, §6.13), and on the four P-224 candidates it is a fair coin — +1 for the skipped 777, −1 for the skipped 1485 and 5736 and for the **published** 7026, which therefore has no point at x = 0. The three non-squares have Ω = 5, 7, 7 and largest prime factors of 107, 127, 149 bits, inside the range of the sixteen squares; the symbol depends on p and carries no information about b's factorization as an integer. Nothing about b as an integer separates the labels. The multiplicative structure of b is also what the §6.19 abort models did not touch, so this closes the one remaining candidate-local input the program had in hand before point counting.
+The archived rankings and counts must not be attributed to the actual published P-224 coefficient. The current primary and alternate-root witnesses replace that interpretation, without claiming a factorization-based explanation of the skips.
 
 ### 6.24 Deeper factorization of the extension-field order cofactors (k = 3, 4, 6)
 
-§6.17 trial-divided #E(F_{p^k})/n to 10⁶. Here the genuinely new pieces are isolated by dividing out the subfield orders — C₃ = #E(F_{p³})/n (so n is removed), C₄ = #E(F_{p⁴})/#E(F_{p²}) = (p−1)² + t² (n and the twist order removed), and C₆ = #E(F_{p⁶})·n/(#E(F_{p³})·#E(F_{p²})) — and each is run through GMP-ECM at a full t25 level plus half of t30 (trial division to 10⁶, 280 curves at B1 = 50 000, 215 at 250 000; `scripts/extfac/`, `results/extfac.json`, `results/extfac.txt`). That reliably finds every prime factor below ~2⁸⁰ and most below ~2¹⁰⁰; the remainders of 180–490 bits are unfactored and marked P or C.
+The components are C₃ = #E(F_{p³})/n, C₄ = #E(F_{p⁴})/#E(F_{p²}) = (p−1)² + t², and C₆ = #E(F_{p⁶})·n/(#E(F_{p³})·#E(F_{p²})). Current witnesses and statistics are in [extfac.json](../results/extfac.json), [extfac.txt](../results/extfac.txt), and [extfac-stats.json](../results/extfac-stats.json).
+
+**Coverage correction:** the historical GMP-ECM invocation used `-c` without `-one`. GMP-ECM can continue on the cofactor, while the driver parsed only the first factor and charged the final run count. It also ignored error statuses. Raw transcripts were not retained, so the reported 280 curves at B1 = 50,000 plus 215 at 250,000 are not validated coverage. All 57 records remain explicitly `legacy-unverified`; the searches were **not** rerun as part of the correction.
+
+The new driver stops at the first factor per invocation, distinguishes factor-found statuses from errors, checks actual curve attempts, shares each level's budget across composite subproblems, and retains transcripts. Live GMP-ECM 7.0.7 checks cover first-curve factors (which have no `Run 1` heading), multi-curve no-hit output, and full factor recovery on a small test input. No bounded randomized search certifies that every prime below a given size has been found.
+
+Four extracted composite atoms have been split with PARI/GP, with products and primes checked. For example, 385195462002385687 = 606116377 × 635514031: published P-256's cubic component has about **60.418 known smooth log₂ bits**, not the old score 4. Prime residuals are now included among known primes; remainder 1 means complete factorization.
+
+Known smoothness is **log₂ of the product** of known prime factors below 2⁴⁰, with multiplicity—not a sum of integer bit lengths. Composite remainders can contain further small factors. Corrected aggregates are:
+
+| k | published median known-smooth log₂ | skipped median | completely factored published | skipped |
+|---|---|---|---|---|
+| 3 | 43.341 | 23.160 | 3/8 | 4/11 |
+| 4 | 31.125 | 30.592 | 4/8 | 6/11 |
+| 6 | 51.183 | 21.749 | 3/8 | 4/11 |
+
+The known C₆ factors look smoother for the published prime239 candidates, but the full population does not separate. A within-run, endpoint-conditioned rank comparison gives a one-sided tail **11/126 ≈ 8.7%**, before multiple-comparison adjustment. It is exploratory and compares only known factors, not unknown complete smooth parts or historical mechanisms.
+
+C₆ = p² − (t+1)p + t² − t + 1 is cheap to compute. The fact that n does not divide it addresses the MOV condition, not whether a 1997 program could inspect another property of it.
+
+#### Archived pre-fix ECM table (superseded)
+
+This display preserves the original output. Its scores sum bit lengths, four alleged prime atoms were composite, and its ECM coverage is unverified. **Do not use these rows as the corrected statistics.**
 
 ```
 --- k=3
@@ -705,20 +741,20 @@ P-224   7026  *   448     38                [2, 2, 2, 2, 2, 2, 3, 3, 5, 5, 10, 6
   skipped   smooth-part bits [4, 8, 8, 9, 24, 28, 28, 30, 31, 44, 52]; largest found factor bits [2, 4, 5, 11, 15, 23, 24, 42, 65, 74, 97]; prime remainder in 4/11
 ```
 
-Everything interleaves: smooth parts, largest found prime factor, whether the remainder is prime. The one 2σ-ish contrast is the 2⁴⁰-smooth part of C₆, published [20–84 bits, median 56] against skipped [4–52, median 28]; a rank-sum z ≈ 2.2, which across three k, three statistics each and the ~50 invariants already tried is the expected size of the largest coincidence, and C₆ is not a quantity a 1997 program would have computed (n ∤ C₆ for any of these curves, the embedding degree being > 20 000). Published and skipped curves are not separated by the cubic, quartic or sextic extension orders at this depth.
+The archived display does not establish factor-size completeness or exclude historical use of these components. The corrected witness-based statistics and limitations are given above.
 
 ## Part C. Base-point structure (separate from the skips)
 
 ## 7. Base-point structure
 
-For all ten published prime-field generators (P-192, P-224, P-256, P-384, P-521, prime192v2/v3, prime239v1/v2/v3; parameters verified by n·G = O), computed k·G and (k⁻¹ mod n)·G for 2 ≤ k ≤ 2¹⁶ and recorded the bit length of x and of min(y, p − y) (so negations are covered). Looking for a hash-sized coordinate — 128 bits (MD5) or 160 bits (SHA-1) — or anything else far below the field size:
+For the ten prime-field generators, the scan tests kG and G/k through k = 2¹⁶, with both y signs. The original P-224 model error is corrected by using the exact published tuple. Implementation checks also exposed a stale 529-bit P-521 order in `pts.gp`, outside its Hasse interval: that literal did not reproduce the cached `nG=O` result. The actual 521-bit standard order is now used, all ten declared orders must be prime and inside the Hasse interval, and the P-521 scan was repeated. It reproduces the cached 502-bit minimum. Other eight generator outputs are retained from the original run.
 
 | Curve | G/2 x-coordinate | shortest x found, k ≤ 2¹⁶ either way | rough expected min of 2¹⁷ random |
 |---|---|---|---|
 | P-192 | full size | 174 bits (61807·G) | ~175 |
 | prime192v2 | full size | 175 bits (G/7467) | ~175 |
 | prime192v3 | full size | 176 bits (9061·G) | ~175 |
-| P-224 | full size | 208 bits (G/42457) | ~207 |
+| P-224 | full size | 205 bits (4819·G) | ~207 |
 | prime239v1 | full size | 222 bits (41569·G) | ~222 |
 | prime239v2 | full size | 220 bits (G/40829) | ~222 |
 | prime239v3 | full size | 221 bits (4319·G) | ~222 |
@@ -759,7 +795,9 @@ A plausible reading is that a 128-bit x was chosen, y solved, and the cofactor a
 
 ### 8. Reproducibility
 
-The imported working files now live under `scripts/`, `data/`, and `results/`; not every exploratory script mentioned in the historical record was imported (in particular `fac*.gp` and the threshold-cover experiment). From the repository root, `python -X utf8 -m unittest discover -s scripts -p test_research.py -v` runs the review checks, and `python -X utf8 scripts/cover.py` regenerates the exact endpoint-conditioned cover outputs. Set `GP` to the PARI executable or put it on PATH for the arithmetic checks. The tests certify all nineteen viable prime orders, all ten binary exports and all 28 cofactor preimages; they do not rerun the 3,072 SEA counts or the full corrected-target phrase search. The retained long-scan minima were not affected by the coefficient-export error.
+The imported files live under `scripts/`, `data/`, and `results/`; not every early exploratory script was imported (notably `fac*.gp` and the threshold-cover experiment). From the repository root, `python -X utf8 -m unittest discover -s scripts -p "test*.py" -v` runs both regression suites. Set `GP` to PARI/GP or put it on PATH for the arithmetic certificates. The tests cover all nineteen viable prime orders, every cached factor atom, both P-224 coefficient signs, all ten binary exports, all 28 cofactor preimages, exact generator inputs and ECM protocol/failure paths. They do not repeat the 3,072 SEA counts or the full phrase search.
+
+The README gives commands for cached table regeneration, root-sensitive set cover, point scans, optional msieve replay, and fresh recorded ECM runs. The historical ECM records remain `legacy-unverified` after witness repair. The P-224 small-point and generator scans were repeated, and P-521's repaired order input was rechecked; the other point outputs are retained. A deliberately tiny native GMP-ECM smoke run also checked all 57 producer/consumer records without replacing the historical full-depth study.
 
 ## 9. Sources
 

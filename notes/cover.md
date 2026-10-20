@@ -36,4 +36,7 @@ Best single usable predicates (how many of the 11 skipped each covers):
 
 Fraction with cover size at most 4: 0.6984.
 
+The preceding result retains the original generator-root-1 model. Its P-224 coefficient is not the published one. Using root 2 for all four P-224 candidates gives minimum cover size 4, 22 minimal covers, and exact fraction 0.7778.
+Root 2 matches the published P-224 coefficient, but the skipped candidates' historical sign convention is unknown. Neither model recovers that convention.
+
 This null conditions on the observed stopping endpoints. It replaces the exploratory 300-sample, count-only null (35%). The predicate library was selected during exploration, so neither comparison is a confirmatory test of all possible selection rules.

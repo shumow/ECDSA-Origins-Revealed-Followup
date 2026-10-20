@@ -1,14 +1,44 @@
-"""Write the cubic, quartic and sextic cofactors of the extension-field orders for the 19 viable candidates."""
-import sys; sys.path.insert(0, "..")
-import cover
-def ords(p, t, K):
-    tk = {0: 2, 1: t}
-    for k in range(2, K + 1): tk[k] = t * tk[k - 1] - p * tk[k - 2]
-    return {k: p**k + 1 - tk[k] for k in range(1, K + 1)}
-with open("cof.txt", "w") as f:
-    for c in cover.curves:
-        p, n, t = c["p"], c["n"], c["t"]; o = ords(p, t, 6)
-        C3 = o[3] // n; C4 = o[4] // o[2]; C6 = o[6] * n // (o[3] * o[2])
-        assert C3 * n == o[3] and C4 * o[2] == o[4] and C4 == (p - 1)**2 + t * t and C6 * o[3] * o[2] == o[6] * n
-        for k, C in ((3, C3), (4, C4), (6, C6)):
-            f.write(f"{c['run']} {c['i']} {'pub' if c['pub'] else 'skip'} {k} {C}\n")
+"""Write extension-order components for the nineteen viable candidates."""
+import argparse
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from analyze2 import DATA_DIR
+from cover import curves
+
+
+def ords(p, t, limit):
+    traces = {0: 2, 1: t}
+    for k in range(2, limit + 1):
+        traces[k] = t * traces[k - 1] - p * traces[k - 2]
+    return {k: p**k + 1 - traces[k] for k in range(1, limit + 1)}
+
+
+def extension_components(p, t):
+    return {3: p*p + (t - 1)*p + t*t + t + 1,
+            4: (p - 1)**2 + t*t,
+            6: p*p - (t + 1)*p + t*t - t + 1}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("output", nargs="?", type=Path,
+                        default=DATA_DIR.parent / "results" / "ecm-work" / "cof.txt")
+    args = parser.parse_args()
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("w", encoding="utf-8") as f:
+        for c in curves:
+            p, n, t = c["p"], c["n"], c["t"]
+            orders = ords(p, t, 6)
+            components = extension_components(p, t)
+            if (components[3] * n != orders[3] or components[4] * orders[2] != orders[4]
+                    or components[6] * orders[3] * orders[2] != orders[6] * n):
+                raise ValueError(f"Extension-order identity failed for {c['run']}/{c['i']}")
+            for k, value in components.items():
+                f.write(f"{c['run']} {c['i']} {'pub' if c['pub'] else 'skip'} {k} {value}\n")
+    print(f"Wrote extension components to {args.output}")
+
+
+if __name__ == "__main__":
+    main()

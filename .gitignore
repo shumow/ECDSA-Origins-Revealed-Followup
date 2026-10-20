@@ -6,3 +6,5 @@ paper/*.fdb_latexmk
 paper/*.synctex.gz
 *.pyc
 __pycache__/
+results/bfac-work/
+results/ecm-work/

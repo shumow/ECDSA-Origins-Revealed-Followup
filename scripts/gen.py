@@ -36,18 +36,22 @@ RUNS={
  "P-256":("1997-08-16 01:52:34",1842, 2**256-2**224+2**192+2**96-1, 0x5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b),
  "P-224":("1998-04-03 12:52:07",7026, 2**224-2**96+1, 0xb4050a850c04b3abf54132565044b0b7d7bfd8ba270b39432355ffb4),
 }
-name=sys.argv[1]; when,nmax,p,bpub=RUNS[name]
-cands=candidates(unix(when),nmax)
-with open(f"{name}.cands","w") as f:
-    nvalid=0
-    for i,seed in enumerate(cands,1):
-        c=W_of(seed,p)%p
-        if c==0: continue
-        r=(-27*pow(c,-1,p))%p
-        if legendre(r,p)!=1: continue
-        b=sqrtmod(r,p); assert b*b*c%p==(-27)%p
-        nvalid+=1
-        f.write(f"{i} {seed.hex()} {b} {p-b}\n")
-        pubs = bpub if isinstance(bpub, dict) else {nmax: bpub}
-        if i in pubs: print(f"candidate {i}: published b matches root1: {b==pubs[i]}  root2: {p-b==pubs[i]}")
-print(name,"candidates",nmax,"with valid b:",nvalid)
+def main():
+    name=sys.argv[1]; when,nmax,p,bpub=RUNS[name]
+    cands=candidates(unix(when),nmax)
+    with open(f"{name}.cands","w") as f:
+        nvalid=0
+        for i,seed in enumerate(cands,1):
+            c=W_of(seed,p)%p
+            if c==0: continue
+            r=(-27*pow(c,-1,p))%p
+            if legendre(r,p)!=1: continue
+            b=sqrtmod(r,p); assert b*b*c%p==(-27)%p
+            nvalid+=1
+            f.write(f"{i} {seed.hex()} {b} {p-b}\n")
+            pubs = bpub if isinstance(bpub, dict) else {nmax: bpub}
+            if i in pubs: print(f"candidate {i}: published b matches root1: {b==pubs[i]}  root2: {p-b==pubs[i]}")
+    print(name,"candidates",nmax,"with valid b:",nvalid)
+
+if __name__ == "__main__":
+    main()
