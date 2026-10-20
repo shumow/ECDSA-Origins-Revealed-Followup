@@ -28,6 +28,7 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 | Isogeny structure over F_p | End(E) vs Z[π]; P-224 at the crater of a height-1 3-volcano; prime239 2320 and 2682 at floors of height-1 5-volcanoes; rational ℓ-isogeny counts | §6.7, §6.12, `battery*.txt` | no tested separator; the two nonmaximal endomorphism rings include one published and one skipped curve |
 | Isogeny structure over F_{p^k} | conductor s·U_k and ℓ-volcano depths for ℓ ≤ 47, k ∈ {2,3,4,6,12} | §6.12 | interleave |
 | Extension-field group orders | #E(F_{p^k})/n for k ≤ 12: 10⁶-smooth part, cofactor size and primality | §6.17 | random-integer behaviour, interleave |
+| Extension-order cofactors, deep | C₃ = #E(F_{p³})/n, C₄ = (p−1)²+t², C₆ (sextic piece): ECM to t25 + ½t30, smooth parts, largest factors, remainder primality | §6.24 | interleave |
 | Embedding degree | ord_n(p) (exact for some, otherwise > 20000) | §6.1–6.2, §6.9 | > 20000 for every viable candidate |
 | gcds | gcd(p±1, n±1), gcd(p²−1, n²−1), odd parts, largest prime factors; per-run ranking | §6.16 | no consistent direction across runs |
 | Symbols and residues | (n/p), (p/n), (t/p), (t/n), (b/p), (−3/n), (f/n), (−1/n), (2/n); n, p, t mod 4 and 8 | §6.18 | published curves disagree among themselves in the 3-curve runs |
@@ -622,6 +623,89 @@ P-224   7026  *   224  223  7  6  149   28     75   n      0 1 2 4 5   [2, 2, 7,
 ```
 
 Every statistic interleaves. Largest-prime-factor bits, ranked within each run: P-256 published 201 < skipped 216; P-224 published 149 is the largest of four; prime192 published 50, 76, 96 bracket the skipped 77, 95; prime239 published 119, 139, 195 sit among skipped 89, 103, 112, 180, 219. Ω runs 5–9 on the published side and 2–13 on the skipped side (the skipped 2682 is 51239 × a 219-bit prime; the skipped 1562 has 2⁶·3⁴ in it). Four of eight published and five of eleven skipped b are square-free. No residue class mod 3, 4, 5, 8 is constant on either side; mod 7 the published values avoid {1, 2, 6}, which with eight draws from seven classes is a ~1% coincidence before the look-elsewhere correction over the moduli tried, and the b ≡ r (mod 7) predicates were already in the §6.21 library (b ≡ 1 mod 7 appears in minimal covers there). Crossed with the quadratic character (`results/legendre-b.txt`): (b/p) = +1 is forced on the fifteen p ≡ 3 (mod 4) curves (§6.10, §6.13), and on the four P-224 candidates it is a fair coin — +1 for the skipped 777, −1 for the skipped 1485 and 5736 and for the **published** 7026, which therefore has no point at x = 0. The three non-squares have Ω = 5, 7, 7 and largest prime factors of 107, 127, 149 bits, inside the range of the sixteen squares; the symbol depends on p and carries no information about b's factorization as an integer. Nothing about b as an integer separates the labels. The multiplicative structure of b is also what the §6.19 abort models did not touch, so this closes the one remaining candidate-local input the program had in hand before point counting.
+
+### 6.24 Deeper factorization of the extension-field order cofactors (k = 3, 4, 6)
+
+§6.17 trial-divided #E(F_{p^k})/n to 10⁶. Here the genuinely new pieces are isolated by dividing out the subfield orders — C₃ = #E(F_{p³})/n (so n is removed), C₄ = #E(F_{p⁴})/#E(F_{p²}) = (p−1)² + t² (n and the twist order removed), and C₆ = #E(F_{p⁶})·n/(#E(F_{p³})·#E(F_{p²})) — and each is run through GMP-ECM at a full t25 level plus half of t30 (trial division to 10⁶, 280 curves at B1 = 50 000, 215 at 250 000; `scripts/extfac/`, `results/extfac.json`, `results/extfac.txt`). That reliably finds every prime factor below ~2⁸⁰ and most below ~2¹⁰⁰; the remainders of 180–490 bits are unfactored and marked P or C.
+
+```
+--- k=3
+run    cand pub  bits  smooth(<2^40) bits  found factor bits                       rem   LPF-found bits
+P-256    876      512     28                [2, 2, 3, 3, 5, 13]                      489C  13
+P-256   1842  *   512      4                [2, 2, 59, 59]                           394C  59
+P-224    777      449     31                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 7, 44, 90] 297P  90
+P-224   1485      449     54                [2, 2, 6, 19, 25, 55]                    344P  55
+P-224   5736      449     21                [2, 2, 3, 3, 4, 7, 82]                   351P  82
+P-224   7026  *   449     44                [2, 2, 40, 68, 68, 79]                   194P  79
+192      139  *   385     58                [2, 2, 14, 40]                           330C  40
+192     2198      385      7                [2, 2, 3]                                380P  3
+192     5228  *   385     13                [2, 2, 4, 5, 43, 72, 81]                 180C  81
+192     5405      385     53                [2, 2, 3, 5, 6, 35]                      336C  35
+192     6013  *   385     18                [2, 2, 3, 11]                            369C  11
+239       36      478     49                [2, 2, 4, 16, 25, 97]                    336C  97
+239     1562      478     17                [2, 2, 5, 8]                             464C  8
+239     2185  *   478     49                [2, 2, 12, 15, 18, 86, 94]               254P  94
+239     2320  *   478      4                [2, 2, 109]                              368C  109
+239     2491      478      9                [2, 2, 5]                                472C  5
+239     2682      478     79                [2, 2, 6, 12, 14, 18, 25]                406C  25
+239     2863      478     54                [2, 2, 12, 38, 82]                       346C  82
+239     3048  *   478     52                [2, 2, 8, 20, 20, 89, 99]                243P  99
+
+  published smooth-part bits [4, 4, 13, 18, 44, 49, 52, 58]; largest found factor bits [11, 40, 59, 79, 81, 94, 99, 109]; prime remainder in 3/8
+  skipped   smooth-part bits [7, 9, 17, 21, 28, 31, 49, 53, 54, 54, 79]; largest found factor bits [3, 5, 8, 13, 25, 35, 55, 82, 82, 90, 97]; prime remainder in 4/11
+
+--- k=4
+run    cand pub  bits  smooth(<2^40) bits  found factor bits                       rem   LPF-found bits
+P-256    876      512     11                [11, 58]                                 444C  58
+P-256   1842  *   512     67                [4, 14, 19, 30]                          447C  30
+P-224    777      448     17                [17]                                     432P  17
+P-224   1485      448     26                [6, 20, 60]                              364P  60
+P-224   5736      448     14                [14, 53, 56]                             327C  56
+P-224   7026  *   448      0                [85]                                     364C  85
+192      139  *   384      7                [3, 4]                                   378P  4
+192     2198      384     27                [6, 9, 12, 52, 61]                       247P  61
+192     5228  *   384     24                [3, 7, 14, 56, 75]                       232C  75
+192     5405      384     33                [4, 29]                                  352P  29
+192     6013  *   384      3                [3, 77]                                  306P  77
+239       36      478     13                [13, 41, 53]                             373C  53
+239     1562      478      3                [3, 58]                                  419P  58
+239     2185  *   478     41                [8, 10, 23, 51]                          389C  51
+239     2320  *   478     87                [3, 3, 6, 10, 28, 37]                    395P  37
+239     2491      478     84                [4, 7, 36, 37, 55, 69]                   273C  69
+239     2682      478     34                [3, 3, 4, 8, 16, 88]                     361C  88
+239     2863      478     45                [3, 14, 28]                              435P  28
+239     3048  *   478     45                [3, 11, 31, 59]                          377P  59
+
+  published smooth-part bits [0, 3, 7, 24, 41, 45, 67, 87]; largest found factor bits [4, 30, 37, 51, 59, 75, 77, 85]; prime remainder in 4/8
+  skipped   smooth-part bits [3, 11, 13, 14, 17, 26, 27, 33, 34, 45, 84]; largest found factor bits [17, 28, 29, 53, 56, 58, 58, 60, 61, 69, 88]; prime remainder in 6/11
+
+--- k=6
+run    cand pub  bits  smooth(<2^40) bits  found factor bits                       rem   LPF-found bits
+P-256    876      512      8                [2, 2, 2, 2, 65]                         443C  65
+P-256   1842  *   512     65                [2, 2, 2, 2, 2, 6, 17, 32]               452P  32
+P-224    777      448     31                [2, 2, 2, 2, 23]                         421C  23
+P-224   1485      448     52                [2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 28, 97] 309C  97
+P-224   5736      448     28                [2, 2, 2, 2, 2, 2, 2, 2, 12, 52, 74]     303C  74
+P-224   7026  *   448     38                [2, 2, 2, 2, 2, 2, 3, 3, 5, 5, 10, 62, 89] 269C  89
+192      139  *   384     20                [2, 2, 8, 8]                             367C  8
+192     2198      384     44                [2, 2, 3, 3, 34, 42]                     301P  42
+192     5228  *   384     47                [2, 2, 4, 5, 9, 11, 14]                  342P  14
+192     5405      384     24                [2, 2, 5, 15]                            363P  15
+192     6013  *   384     23                [2, 2, 19]                               364C  19
+239       36      478      8                [2, 2, 4]                                473P  4
+239     1562      478     28                [2, 2, 24]                               453C  24
+239     2185  *   478     71                [2, 2, 8, 29, 30]                        411P  30
+239     2320  *   478     84                [2, 2, 9, 12, 17, 17, 25, 56]            345C  56
+239     2491      478      9                [2, 2, 5]                                472C  5
+239     2682      478     30                [2, 2, 7, 8, 11]                         453C  11
+239     2863      478      4                [2, 2]                                   476P  2
+239     3048  *   478     78                [2, 2, 5, 6, 19, 20, 24, 68]             339C  68
+
+  published smooth-part bits [20, 23, 38, 47, 65, 71, 78, 84]; largest found factor bits [8, 14, 19, 30, 32, 56, 68, 89]; prime remainder in 3/8
+  skipped   smooth-part bits [4, 8, 8, 9, 24, 28, 28, 30, 31, 44, 52]; largest found factor bits [2, 4, 5, 11, 15, 23, 24, 42, 65, 74, 97]; prime remainder in 4/11
+```
+
+Everything interleaves: smooth parts, largest found prime factor, whether the remainder is prime. The one 2σ-ish contrast is the 2⁴⁰-smooth part of C₆, published [20–84 bits, median 56] against skipped [4–52, median 28]; a rank-sum z ≈ 2.2, which across three k, three statistics each and the ~50 invariants already tried is the expected size of the largest coincidence, and C₆ is not a quantity a 1997 program would have computed (n ∤ C₆ for any of these curves, the embedding degree being > 20 000). Published and skipped curves are not separated by the cubic, quartic or sextic extension orders at this depth.
 
 ## Part C. Base-point structure (separate from the skips)
 
