@@ -27,7 +27,7 @@ For cofactor clearing, the subgroup inverse is not the only input: all P with [h
 
 ## 2a′. The SEC 2 prime curves (added 2026-10-20)
 
-The scan extended to secp112/128/160/192k1/224k1/256k1 (`results/secg-halfpoints.txt`, cm-hypothesis §7.2): secp224k1 and secp256k1 share x(G/2) = `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63` exactly, and secp160k1/192k1 carry the same 148-bit core — the Crypto 2019 rump-session observation, now with all four. Certicom demonstrably built those generators as 2·P with a chosen x reused across fields. Work item: identify the constant (match on the core `ce563f89a0ed9414f5aa28ad0d96d6795f9c6`, since its top and last nibble vary), and explain the 92-bit prefix that x(G/2) of secp160r2 shares with x(G) of secp160r1.
+The scan extended to secp112/128/160/192k1/224k1/256k1 (`results/secg-halfpoints.txt`, cm-hypothesis §7.2): secp224k1 and secp256k1 share x(G/2) = `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63` exactly, and secp160k1/192k1 carry the same 148-bit core — the Crypto 2019 rump-session observation, now with all four. This strongly supports related coordinate choices, consistent with choosing x and doubling; the historical procedure and construction direction have not been recovered. Work item: identify the constant (match on the core `ce563f89a0ed9414f5aa28ad0d96d6795f9c6`, since its top and last nibble vary), and explain the 92-bit prefix that x(G/2) of secp160r2 shares with x(G) of secp160r1.
 
 ## 2b. The binary-curve side (B and K curves)
 

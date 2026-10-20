@@ -59,7 +59,7 @@ A plausible reading: K-163 is a Koblitz curve, *y*² + *xy* = *x*³ + *x*² + 1,
 
 **Coordinate correction (19 October).** The original PARI export reversed the polynomial coefficients before interpreting them as a binary integer. The shortness calculation was correct, but the printed value and hash-search target were not. The earlier negative hash searches therefore do not apply to the corrected target above. The conversion, all ten exported half-point coordinates, and the search target are corrected here; regression tests compare Python and PARI arithmetic.
 
-**The SEC 2 curves (20 October).** Running the same scan on the ten SEC 2 prime-field curves turns up what the Heninger–Scholl–Shumow Crypto 2019 rump talk pointed at: the four Certicom Koblitz curves share a half-generator constant. secp224k1 and secp256k1 have the *identical* 166-bit x at *G*/2, `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63`; secp160k1 and secp192k1 carry the same 148-bit core with different prefixes and last nibbles. That is the choose-*x*, solve-*y*, double recipe, demonstrably used by Certicom and reused across fields — the strongest support so far for reading K-163's short half the same way. The constant's own origin is open. Details in `notes/cm-hypothesis.md` §7.2.
+**The SEC 2 curves (20 October).** Running the same scan on the ten SEC 2 prime-field curves turns up what the Heninger–Scholl–Shumow Crypto 2019 rump talk pointed at: the four Certicom Koblitz curves share a half-generator constant. secp224k1 and secp256k1 have the *identical* 166-bit x at *G*/2, `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63`; secp160k1 and secp192k1 carry the same 148-bit core with different prefixes and last nibbles. This is strong evidence of related coordinate choices, consistent with choosing *x*, solving for *y*, and doubling across fields — and supports investigating that hypothesis for K-163. The arithmetic does not establish the historical construction direction or recipe. The constant's origin and adjustment rule remain open. Details in `notes/cm-hypothesis.md` §7.2.
 
 The short coordinate is a concrete provenance lead, not an identified construction or an established novelty claim. Also, *G*/*h* denotes only the inverse inside the prime-order subgroup. Cofactor clearing can start from any *P* with [*h*]*P* = *G*; these form a torsion coset. Checking all rational cofactor preimages on all ten binary curves leaves K-163 as the only 128-bit-*x* hit. Its other half has a 162-bit *x*.
 
@@ -69,7 +69,7 @@ Nothing here demonstrates a weakness in these curves. The skipped-candidate inve
 
 If the corrected K-163 value turns out to come from a reproducible recipe, it could explain that generator. It would not by itself explain or date all the other binary-curve generators.
 
-A word on why the base points are worth the effort, since nothing here is a weakness. The oddities we can now see — one 166-bit constant reused verbatim on two curves, its core reused on two more, a 92-bit prefix shared between one curve's generator and another's half-generator, a 126-bit *x* under K-163 — are not what a designer hiding something leaves behind; it is hard to even sketch an attack that uses a shared public *x*-coordinate. They look like what programmers and mathematicians leave behind when nobody is watching: a convenience constant, a test value never replaced, an Easter egg. That is a historical observation, and it is the reason to keep going. The seeds went from lore to fact in a day once someone found the recipe. The generators are the last big piece of the NIST/SEC parameter set with no account of their origin, and they now carry structure that says there is an account to be found. The plan is in [`notes/future-work.md`](notes/future-work.md).
+A word on why the base points are worth the effort: the repeated 166-bit constant, shared 148-bit core, 92-bit prefix and K-163's short half are concrete provenance leads. Convenience constants, test values and Easter eggs are possible explanations, not established history or evidence of the designers' intentions. No attack follows from the observed shared public coordinates; neither does the pattern prove that every untested hidden property is absent. Recovering code, records or a reproducible recipe is the next step. The plan is in [`notes/future-work.md`](notes/future-work.md).
 
 ## In this repository
 
@@ -90,12 +90,27 @@ From the repository root, run:
 
 ```text
 python -X utf8 -m unittest discover -s scripts -p test_research.py -v
+python -X utf8 -m unittest discover -s scripts -p test_secg.py -v
 python -X utf8 scripts/cover.py
 ```
 
 Put PARI/GP on `PATH`, or set `GP` to its executable path, to include the cross-language coordinate, cofactor-preimage, and prime-order checks. Without GP those tests are explicitly skipped. The test suite checks all nineteen viable prime orders using primality, the Hasse bound, and a nonzero point killed by the claimed order; it does not repeat SEA for all 3,072 counted candidates. `cover.py` regenerates `results/cover.json` and `notes/cover.md` with the exact, endpoint-conditioned null.
 
 The raw binary scan's coordinate exports have been recomputed; its long-scan minima are retained from the original run because the conversion error did not affect polynomial degrees. The full phrase/hash search (`scripts/k163/search.py`, 29,577,717 evaluations) was rerun against the corrected target on 19 October: no hits (`results/k163-search-rerun.txt`).
+
+### Reproducing the SEC reports
+
+```text
+python -X utf8 scripts\secg_scan.py
+python -X utf8 scripts\secg_core_search.py --limit 2
+python -X utf8 scripts\secg_core_search.py
+```
+
+The full coordinate scan regenerates [`results/secg-halfpoints.json`](results/secg-halfpoints.json) and its text summary, independent of the working directory. JSON includes scan bounds and exact cofactor-preimage witnesses. Completeness uses the published SEC group orders *h n*: enumeration must find *h* distinct kernel points and validate their coset, or fail explicitly. For *h*=1 the sole preimage is *G*. The tests also independently check the group orders with PARI when available.
+
+The hash search requires all five configured algorithms, including RIPEMD-160; unavailable algorithms stop the run before searching, rather than silently reducing coverage. Completed runs write JSON manifests with actual algorithms, suffix encodings (including duplicate encodings), byte-reading definitions, input counts/digest, source fingerprints and hit witnesses. `--limit` produces explicitly bounded `secg-core-search-smoke.*` outputs, not full-search results. Both scripts accept `--output-dir`; reduced coordinate bounds similarly use `secg-halfpoints-smoke.*`.
+
+The historical 16,432,065-evaluation negative result in [`results/secg-core-search.txt`](results/secg-core-search.txt) predates manifests. Its count is consistent with 252,801 strings, five hashes and thirteen suffix variants, but the original environment and algorithm availability were not recorded. It is retained as a legacy result, not independently re-certified coverage. A bounded smoke run does not replace the full search.
 
 ## Open questions
 

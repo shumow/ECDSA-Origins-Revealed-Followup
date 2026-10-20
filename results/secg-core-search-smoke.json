@@ -1,0 +1,58 @@
+{
+ "status": "completed",
+ "algorithms": [
+  "sha1",
+  "sha0",
+  "ripemd160",
+  "sha1(sha1)",
+  "sha1(md5)"
+ ],
+ "candidate_count": 2,
+ "suffixes_hex": [
+  "",
+  "00",
+  "30",
+  "00000000",
+  "01",
+  "31",
+  "00000001",
+  "02",
+  "32",
+  "00000002",
+  "03",
+  "33",
+  "00000003"
+ ],
+ "readings": [
+  "d",
+  "rev",
+  "wswap"
+ ],
+ "core_hex": "ce563f89a0ed9414f5aa28ad0d96d6795f9c6",
+ "core_bit_range": [
+  4,
+  151
+ ],
+ "evaluations": 130,
+ "hits": [],
+ "input_sequence_sha256": "756272ca3124a46c9aadfc02e24eb196b4d995c457112d9cc8c3cc9af873ec67",
+ "python_version": "3.14.5 (tags/v3.14.5:5607950, May 10 2026, 10:43:50) [MSC v.1944 64 bit (AMD64)]",
+ "openssl_version": "OpenSSL 3.0.20 7 Apr 2026",
+ "reading_definitions": {
+  "d": "digest bytes as-is",
+  "rev": "reverse all bytes",
+  "wswap": "reverse bytes within each 4-byte word"
+ },
+ "full_targets_hex": [
+  "48ce563f89a0ed9414f5aa28ad0d96d6795f9c62",
+  "78ce563f89a0ed9414f5aa28ad0d96d6795f9c63"
+ ],
+ "limit": 2,
+ "scope": "bounded",
+ "input_set": "scripts/k163/strings.py:all_strings",
+ "source_sha256": {
+  "secg_core_search.py": "b4ac2811aface3e5972bd3cd94dd8c2c66f72e5f40e1c8b11539f982b0c287ff",
+  "strings.py": "bedd3965fb46de06838b5e27879b0aefa790ee0d99cdd9e0fe4eb9cecaf12012",
+  "hashes.py": "0a2ee4c366da1e6d154beb8c51c6ffb688e2343e1c1311d716993f6405897d4f"
+ }
+}

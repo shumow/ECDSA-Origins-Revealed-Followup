@@ -1,1 +1,6 @@
 done: 16432065 evaluations, 0 hits
+
+Legacy result: recorded before coverage manifests and strict hash initialization.
+The count is consistent with 252801 strings * 5 hashes * 13 suffix variants.
+The historical runtime and actual available algorithms were not recorded.
+This result has not been re-certified by a full rerun of the repaired script.
