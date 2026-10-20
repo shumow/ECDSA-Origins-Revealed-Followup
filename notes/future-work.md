@@ -45,7 +45,16 @@ Being precise about what is shared, since it constrains the hypotheses:
 ## 4. Search plan
 
 1. **Core-matched preimage search.** Reuse `scripts/k163/search.py` with a matcher that tests *bits 4–151 only* of each candidate digest against the core, for SHA-1, SHA-0, RIPEMD-160 (160-bit) and, for completeness, MD5/MD4/RIPEMD-128 against the K-163 value. Inputs: the existing Certicom-era string set, extended with SEC/SECG/Certicom names, people (Vanstone, Menezes, Qu, Brown, Gallant, Lambert, Johnson, Solinas), curve names in every spelling (secp256k1, sec256k1, "Koblitz 256", ansip256k1), the SEC 1/2 draft dates (1999–2000), and the SEC 2 SEEDs of the r-curves (which embed the ASCII "Minghua Qu" — the same people were clearly putting names into constants).
-2. **Explain the per-curve tail.** For each of the four curves, compute which of …9c60 + i, i = 0…15, give a point; which give a point whose doubled x is …; which have even/odd y under the SEC 1 compression convention; which have y < p/2. Whichever predicate first picks 2, 6, 3, 3 is the acceptance test.
+2. **Explain the per-curve tail.** *Partly done 2026-10-20.* For …9c60 + i, i = 0…15, on each curve (`-` not on curve, `on` on curve, `G` the used x; `e`/`o` parity of y(P), `<`/`>` y(P) below/above p/2 — for the used x this is the actual P = G/2, for the others the textbook root):
+
+   ```
+   secp160k1  0:one< 1:ono> 2:Ge> 3:ono> 4:- 5:- 6:ono> 7:- 8:- 9:- 10:- 11:- 12:ono> 13:ono> 14:- 15:one<
+   secp192k1  0:ono> 1:one> 2:- 3:- 4:- 5:- 6:Ge> 7:ono< 8:- 9:one> 10:ono> 11:ono> 12:- 13:- 14:ono> 15:-
+   secp224k1  0:- 1:- 2:ono> 3:Ge> 4:- 5:one< 6:- 7:- 8:one< 9:- 10:ono> 11:- 12:one< 13:ono> 14:- 15:ono>
+   secp256k1  0:- 1:one< 2:- 3:Ge> 4:one< 5:- 6:- 7:- 8:ono< 9:- 10:one< 11:ono< 12:ono> 13:- 14:- 15:one<
+   ```
+
+   The used P has even y above p/2 on all four — but "first x whose even root is above p/2" picks i = 0 on secp192k1, and "first x on the curve" picks 0, 0, 2, 1. Neither parity nor the half-plane of y, alone or together, selects 2, 6, 3, 3. So either the last nibble is not an increment from …9c60 (it could be part of the constant, with the four curves derived from slightly different inputs — hard to square with 148 shared bits), or the acceptance test involves something else: the doubled point, a prime-order check that is vacuous here but was coded anyway, or a property of the compressed encoding.
 3. **Explain the top byte.** Test whether `48`/`78` and `3b`/`554123b` are consistent with (a) a counter, (b) the top bytes of a second digest of the same string with a counter, (c) the X9.62 seed-to-field expansion applied to a 160-bit input, (d) a value reduced mod p for a *different* p than the curve's own (e.g. the 160-bit value reduced mod the secp160k1 prime, then reused).
 4. **secp160r1 / secp160r2.** 92 shared leading bits between x(G) on r1 and x(G/2) on r2 is the same kind of fact: find what fixes the top 92 bits and what varies the bottom 68. Compute the half-generators of the *other* SEC 1 curves (sect\*, including the binary r-curves) and the ANSI X9.62 binary examples for shared prefixes.
 5. **Archival.** SEC 1 and SEC 2 drafts (1999–2000), the IEEE P1363 working-group archives, WTLS, the ANSI X9.62 and X9.63 drafts, and Certicom's own test-vector documents. A changed generator in any draft dates the constant; a generator *with* a stated derivation ends the search.
