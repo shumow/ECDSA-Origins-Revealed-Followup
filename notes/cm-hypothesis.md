@@ -23,6 +23,7 @@ Reproducing the four prime-field runs (P-256, P-224, prime192, prime239) with th
 | Family | What was tested | Where | Result |
 |---|---|---|---|
 | Arithmetic of n and t | twist order n' = 2p + 2 − n (smoothness, cofactor primality); n ± 1 full factorizations and largest prime factors; congruences on t, n, b mod 2, 3, 4, 5, 8; b < p/2; (n−1)/2 prime | §6.1–6.3, §6.6, §6.9 | interleave |
+| Arithmetic of b | complete factorization of b as an integer: Ω, ω, largest and second-largest prime factors, smooth part, square-freeness; b mod 3, 4, 5, 7, 8 | §6.23 | interleave |
 | CM structure | D = t² − 4p; conductor s; fundamental discriminant f; class number via √|f|·L(1,χ)/π with L(1,χ) from the Euler product to 10⁶; complete factorization of every |D| (ω, Ω, largest primes, smooth part); q ± 1 structure and cross-divisibility of the discriminant primes | §2–3 (theory), §6.1–6.2, §6.5, §6.9, §6.22 | floor refuted by P-224 (published has smallest h); ceiling refuted by P-256 (published has larger h); interleave on 19 |
 | Isogeny structure over F_p | End(E) vs Z[π]; P-224 at the crater of a height-1 3-volcano; prime239 2320 and 2682 at floors of height-1 5-volcanoes; rational ℓ-isogeny counts | §6.7, §6.12, `battery*.txt` | no tested separator; the two nonmaximal endomorphism rings include one published and one skipped curve |
 | Isogeny structure over F_{p^k} | conductor s·U_k and ℓ-volcano depths for ℓ ≤ 47, k ∈ {2,3,4,6,12} | §6.12 | interleave |
@@ -592,6 +593,35 @@ Conclusion: no union of at most three predicates in this library explains the la
 **Exact class numbers.** `quadclassunit` on the 58–78-digit fundamental discriminants did not finish in this PARI build (> 1 h on the smallest); the write-up rests on Euler-product estimates, stable to 0.01 between bounds 10⁵ and 10⁶. The 19 fundamental discriminants are reproducible from `data/` for anyone with Sage or Magma.
 
 **Sequential multi-check model (exploratory record).** Candidate-local, side-effect-free checks in sequence reject exactly the union of their failure predicates. The original experiment on thresholds of about 22 invariants found no disjunction of at most four that covered all eleven skips; its count-only random-label comparison gave 32%. This threshold experiment has not been regenerated with the endpoint-conditioned null, and its generating script is not included, so that percentage is not a reproduced review result. The observed relative class-number estimates do not support a universal separating floor or ceiling. This does not exclude a check passing all nineteen candidates, run-dependent thresholds, or checks whose side effects change the candidate stream.
+
+### 6.23 Factorization of b as an integer
+
+b is the one seed-derived integer in each candidate (a = −3 is fixed), so a program that looked at b itself — its factorization, its residues — would have a hook here that the point-count tests cannot see. All nineteen b values were factored completely (msieve 1.54 QS/ECM; every cofactor passed a primality test and the products were checked; `results/bfac-msieve.out`, `results/bfac.txt`, `scripts/bfac/`). Field size, bit length, Ω, ω, largest-prime-factor bits, second-largest, smooth part, square-freeness and b mod 3, 4, 5, 7, 8:
+
+```
+run    cand  pub  p   |b|  Ω  ω  LPF  2nd  smooth  sqfree  b mod 3 4 5 7 8   factor bit lengths
+P-256    876      256  256  5  5  216   27     40   y      0 1 0 1 5   [2, 3, 9, 27, 216]
+P-256   1842  *   256  255  5  4  201   29     54   n      2 3 1 0 3   [3, 3, 20, 29, 201]
+P-224    777      224  223  8  7  134   34     89   n      2 0 1 3 4   [2, 2, 10, 11, 12, 22, 34, 134]
+P-224   1485      224  224  5  4  107   82    117   n      1 0 1 2 4   [2, 2, 34, 82, 107]
+P-224   5736      224  223  7  5  127   55     97   n      2 0 4 4 0   [2, 2, 2, 16, 24, 55, 127]
+P-224   7026  *   224  223  7  6  149   28     75   n      0 1 2 4 5   [2, 2, 7, 16, 21, 28, 149]
+192      139  *   192  191  7  7   96   66     96   y      0 1 0 4 1   [2, 3, 7, 7, 13, 66, 96]
+192     2198      192  192  5  5   95   71     98   y      1 2 1 2 2   [2, 13, 14, 71, 95]
+192     5228  *   192  190  8  8   50   46    140   y      1 2 2 5 6   [2, 10, 11, 13, 21, 41, 46, 50]
+192     5405      192  192  6  6   77   46    116   y      1 3 2 1 7   [9, 16, 20, 26, 46, 77]
+192     6013  *   192  192  6  6   76   58    117   y      0 3 2 4 3   [2, 4, 21, 33, 58, 76]
+239       36      239  236  7  7   89   57    147   y      0 2 1 2 2   [2, 2, 4, 30, 56, 57, 89]
+239     1562      239  239 13  9  112   61    127   n      0 0 4 6 4   [2, 2, 2, 2, 2, 2, 6, 7, 11, 14, 22, 61, 112]
+239     2185  *   239  239  5  5  119   79    120   y      2 2 1 3 2   [2, 9, 32, 79, 119]
+239     2320  *   239  239  8  7  195   25     44   n      2 0 0 5 4   [2, 2, 3, 4, 5, 7, 25, 195]
+239     2491      239  236  6  5  103   73    133   n      2 0 0 3 4   [2, 2, 3, 56, 73, 103]
+239     2682      239  235  2  2  219   16     16   y      2 3 1 5 3   [16, 219]
+239     2863      239  239 10  7  180   27     59   n      0 1 0 0 5   [2, 2, 3, 3, 3, 3, 4, 15, 27, 180]
+239     3048  *   239  238  9  7  139   72     99   n      0 2 1 3 6   [2, 2, 2, 2, 6, 7, 10, 72, 139]
+```
+
+Every statistic interleaves. Largest-prime-factor bits, ranked within each run: P-256 published 201 < skipped 216; P-224 published 149 is the largest of four; prime192 published 50, 76, 96 bracket the skipped 77, 95; prime239 published 119, 139, 195 sit among skipped 89, 103, 112, 180, 219. Ω runs 5–9 on the published side and 2–13 on the skipped side (the skipped 2682 is 51239 × a 219-bit prime; the skipped 1562 has 2⁶·3⁴ in it). Four of eight published and five of eleven skipped b are square-free. No residue class mod 3, 4, 5, 8 is constant on either side; mod 7 the published values avoid {1, 2, 6}, which with eight draws from seven classes is a ~1% coincidence before the look-elsewhere correction over the moduli tried, and the b ≡ r (mod 7) predicates were already in the §6.21 library (b ≡ 1 mod 7 appears in minimal covers there). Nothing about b as an integer separates the labels. The multiplicative structure of b is also what the §6.19 abort models did not touch, so this closes the one remaining candidate-local input the program had in hand before point counting.
 
 ## Part C. Base-point structure (separate from the skips)
 

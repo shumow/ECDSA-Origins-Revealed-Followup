@@ -21,6 +21,7 @@ Then we tested a broad collection of properties of those 19 curves, including ch
 | Family | What we checked | Separates published from skipped? |
 |---|---|---|
 | Arithmetic of *n*, *t* | twist order, complete factorizations of *n* ± 1, congruences | No |
+| Arithmetic of *b* | complete factorization of *b* as an integer, square-freeness, residues | No |
 | CM structure | discriminant *t*² − 4*p*, conductor, class number with *L*(1, χ) | No — the published P-224 has the *smallest* class number in its run; the published P-256 the *largest* |
 | Isogenies over 𝔽<sub>*p*</sub> | End(*E*), volcano position, rational ℓ-isogenies for ℓ ≤ 43 | No — P-224 is on a 3-volcano crater; prime239 candidates 2320 and 2682 are on 5-volcano floors |
 | Isogenies over 𝔽<sub>*p*<sup>*k*</sup></sub> | volcano heights for ℓ ≤ 47, *k* ∈ {2, 3, 4, 6, 12} | No |
