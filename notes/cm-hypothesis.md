@@ -755,6 +755,25 @@ A plausible reading is that a 128-bit x was chosen, y solved, and the cofactor a
 
 **Coordinate and search correction (19 October).** `fromdigits(Vecrev(Vec(f.pol)),2)` reversed the 126 coefficient bits when printing the coordinate. The old value `3a5da90060df8af5be2121e601ae11f1` is that reversal, not the standard polynomial-basis integer. Removing `Vecrev` gives the coordinate above; the degree-based bit count was unaffected. All ten decimal exports and the hash-search target are corrected, and Python/PARI regression checks agree. The previous negative hash searches used the wrong target and do not apply to the corrected one; the full sweep was rerun against the corrected target on 19 October with the same string set and hash readings: 29,577,717 evaluations, no hits (`results/k163-search-rerun.txt`). The corrected 32-bit words have top bits 0,0,0,1, excluding four consecutive 31-bit `lrand48` words in that reading only.
 
+### 7.2 The SEC 2 curves: a half-generator constant shared across four Koblitz curves
+
+The same scan (k·G, k ≤ 2¹⁶; G/k, k ≤ 2¹²; all cofactor preimages where h > 1) run on the ten SEC 2 prime-field curves not already covered — secp112r1/r2, secp128r1/r2, secp160k1/r1/r2, secp192k1, secp224k1, secp256k1; parameters from SEC 2 v1.0 and v2.0, n·G = O verified for each (`scripts/secg_scan.py`, `results/secg-halfpoints.txt`). This reproduces, and extends to the full SEC 2 list, the observation in the Heninger–Scholl–Shumow Crypto 2019 rump-session talk, whose title *is* x(G/2) on secp160k1 (`48ce563f89a0ed9414f5aa28ad0d96d6795f9c62`).
+
+Six of the ten look random: shortest coordinates within a few bits of the 2¹⁶ + 2¹² uniform expectation, and the cofactor preimages on the two h = 4 curves full-size. The four Koblitz curves do not:
+
+```
+secp160k1  x(G/2) =        48ce563f89a0ed9414f5aa28ad0d96d6795f9c62   (159 bits on 160)
+secp192k1  x(G/2) = 554123b78ce563f89a0ed9414f5aa28ad0d96d6795f9c66   (187 on 192)
+secp224k1  x(G/2) =      3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63   (166 on 224)
+secp256k1  x(G/2) =      3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63   (166 on 256)
+```
+
+secp224k1 and secp256k1 have the *identical* 166-bit x at G/2. All four share the 148-bit core `ce563f89a0ed9414f5aa28ad0d96d6795f9c6`; three share `3b78` above it (192k1 has a further `55412` above that); the last nibbles are 2, 6, 3, 3. So the generators of Certicom's secp*k1 curves were built from one constant, by the recipe this record has been hypothesising for K-163 — choose x, solve y, double — and the constant was reused across fields. What produced the constant, why its high part differs between fields, and what set the last nibble are not resolved: a simple "smallest increment of …9c60 that lands on the curve" fails (…9c60 is already on secp160k1, …9c61 on secp256k1).
+
+A second echo: x(G/2) on secp160r2 begins `4a96b5688ef573284664698`, the first 92 bits of x(G) on secp160r1 (`4a96b5688ef573284664698968c38bb913cbfc82`). The remaining 68 bits differ wholesale, which is not an increment either.
+
+Against the rest: no shared substring of ≥ 32 bits between any SEC 2 half-generator and any NIST/ANSI prime or binary one, nor between any two NIST/ANSI ones; the K-163 value `23e21d6019e1211f6bd47ec180256e97` is not a substring or truncation of the secp constant. K-163 (sect163k1) is likewise a Certicom curve, so the secp*k1 pattern is the strongest external support so far for reading its short half as a chosen x. The things to try next on the constant itself are the same as for K-163 — fixed-width encodings and 1990s hashes of Certicom-era strings — but with a 148-bit core whose top and bottom are uncertain, so matching on the core rather than the full value.
+
 ## Part D. Reproducibility and sources
 
 ### 8. Reproducibility

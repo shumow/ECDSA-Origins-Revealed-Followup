@@ -23,6 +23,10 @@ The initial PARI export reversed polynomial coefficients. Its earlier target `3a
 
 For cofactor clearing, the subgroup inverse is not the only input: all P with [h]P = G form Q + E(F_{2^m})[h]. All 28 rational cofactor preimages across the ten binary curves have now been checked. K-163 remains the only 128-bit-x hit; its other half has x = `389ff55b1717d231e466c6a90bef265d7ad1ca9a4` (162 bits). The larger k-multiple scans still cover subgroup points only.
 
+## 2a′. The SEC 2 prime curves (added 2026-10-20)
+
+The scan extended to secp112/128/160/192k1/224k1/256k1 (`results/secg-halfpoints.txt`, cm-hypothesis §7.2): secp224k1 and secp256k1 share x(G/2) = `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63` exactly, and secp160k1/192k1 carry the same 148-bit core — the Crypto 2019 rump-session observation, now with all four. Certicom demonstrably built those generators as 2·P with a chosen x reused across fields. Work item: identify the constant (match on the core `ce563f89a0ed9414f5aa28ad0d96d6795f9c6`, since its top and last nibble vary), and explain the 92-bit prefix that x(G/2) of secp160r2 shares with x(G) of secp160r1.
+
 ## 2b. The binary-curve side (B and K curves)
 
 Anthropic's post covers the binary curves only for seeds: B-233/283/409/571 are five full 31-bit `lrand48` words per candidate from one sitting on 1998-04-17 (clock apparently halved); B-163's seed fits nothing they tried. Binary base points get one sentence ("the same goes for the NIST binary curves" — unexplained). K curves are not mentioned: they have no seed (a ∈ {0,1}, b = 1), so for a Koblitz curve the generator is the *entire* provenance question. Three work items, in priority order:

@@ -59,6 +59,8 @@ A plausible reading: K-163 is a Koblitz curve, *y*² + *xy* = *x*³ + *x*² + 1,
 
 **Coordinate correction (19 October).** The original PARI export reversed the polynomial coefficients before interpreting them as a binary integer. The shortness calculation was correct, but the printed value and hash-search target were not. The earlier negative hash searches therefore do not apply to the corrected target above. The conversion, all ten exported half-point coordinates, and the search target are corrected here; regression tests compare Python and PARI arithmetic.
 
+**The SEC 2 curves (20 October).** Running the same scan on the ten SEC 2 prime-field curves turns up what the Heninger–Scholl–Shumow Crypto 2019 rump talk pointed at: the four Certicom Koblitz curves share a half-generator constant. secp224k1 and secp256k1 have the *identical* 166-bit x at *G*/2, `3b78ce563f89a0ed9414f5aa28ad0d96d6795f9c63`; secp160k1 and secp192k1 carry the same 148-bit core with different prefixes and last nibbles. That is the choose-*x*, solve-*y*, double recipe, demonstrably used by Certicom and reused across fields — the strongest support so far for reading K-163's short half the same way. The constant's own origin is open. Details in `notes/cm-hypothesis.md` §7.2.
+
 The short coordinate is a concrete provenance lead, not an identified construction or an established novelty claim. Also, *G*/*h* denotes only the inverse inside the prime-order subgroup. Cofactor clearing can start from any *P* with [*h*]*P* = *G*; these form a torsion coset. Checking all rational cofactor preimages on all ten binary curves leaves K-163 as the only 128-bit-*x* hit. Its other half has a 162-bit *x*.
 
 ## What this means
@@ -95,7 +97,7 @@ The raw binary scan's coordinate exports have been recomputed; its long-scan min
 
 ## Open questions
 
-1. **The 128-bit value behind K-163's *G*/2.** Hash preimage over 1997-era phrases, encodings and hash functions, or an RNG stream. This is the one with a concrete target.
+1. **The 128-bit value behind K-163's *G*/2, and the 148-bit core shared by the secp\*k1 half-generators.** Hash preimage over 1997-era phrases, encodings and hash functions, or an RNG stream. This is the one with a concrete target.
 2. **The other base points.** P-224/256/384/521, the five B curves, the four other K curves. Compare complete cofactor-preimage sets, field encodings, hash expansions, and RNG layouts; a negative subgroup-only scan is not a general exclusion of cofactor clearing.
 3. **The B-163 seed**, which fits no generator Anthropic tried.
 4. **The eleven skips.** Seek archival code and printouts, but also test explicit variable-consumption state machines and historically plausible, run-specific point-counter behaviour. The present tests do not exhaust those possibilities.
