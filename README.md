@@ -69,6 +69,8 @@ Nothing here demonstrates a weakness in these curves. The skipped-candidate inve
 
 If the corrected K-163 value turns out to come from a reproducible recipe, it could explain that generator. It would not by itself explain or date all the other binary-curve generators.
 
+A word on why the base points are worth the effort, since nothing here is a weakness. The oddities we can now see — one 166-bit constant reused verbatim on two curves, its core reused on two more, a 92-bit prefix shared between one curve's generator and another's half-generator, a 126-bit *x* under K-163 — are not what a designer hiding something leaves behind; it is hard to even sketch an attack that uses a shared public *x*-coordinate. They look like what programmers and mathematicians leave behind when nobody is watching: a convenience constant, a test value never replaced, an Easter egg. That is a historical observation, and it is the reason to keep going. The seeds went from lore to fact in a day once someone found the recipe. The generators are the last big piece of the NIST/SEC parameter set with no account of their origin, and they now carry structure that says there is an account to be found. The plan is in [`notes/future-work.md`](notes/future-work.md).
+
 ## In this repository
 
 | | |
