@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Two comics, an illustrated textbook chapter, a research walkthrough and an expert brief on elliptic-curve parameter provenance.">
+  <title>The Missing Recipe | Five Levels of Explanation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to explanations</a>
+<nav class="navigation" aria-label="Five explanation levels">
+  <strong>THE MISSING RECIPE</strong>
+  <a href="#level-1">01 / Newcomer</a><a href="#level-2">02 / Beginner</a>
+  <a href="#level-3">03 / College</a><a href="#level-4">04 / Graduate</a>
+  <a href="#level-5">05 / Expert</a><a href="#sources">Sources</a>
+</nav>
+
+<!-- Original reusable vector characters and props; panel dialogue is real HTML. -->
+<svg class="art-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <symbol id="learner" viewBox="0 0 110 150">
+      <path d="M28 142 L35 101 H76 L85 142" fill="#f3a34b" stroke="#162b3c" stroke-width="3"/>
+      <path d="M39 139 V150 M73 139 V150" stroke="#162b3c" stroke-width="12"/>
+      <path d="M34 106 L13 126 M77 106 L99 88" stroke="#162b3c" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="56" cy="65" r="31" fill="#ac6847" stroke="#162b3c" stroke-width="3"/>
+      <path d="M26 65 Q15 23 55 26 Q96 20 88 61 L73 43 L57 52 L40 44 Z" fill="#162b3c"/>
+      <circle cx="44" cy="65" r="3" fill="#162b3c"/><circle cx="68" cy="65" r="3" fill="#162b3c"/>
+      <path d="M48 81 Q57 90 66 79" fill="none" stroke="#162b3c" stroke-width="3" stroke-linecap="round"/>
+      <path d="M43 105 L56 119 L70 105" fill="none" stroke="#fff4de" stroke-width="4"/>
+    </symbol>
+    <symbol id="mentor" viewBox="0 0 110 150">
+      <path d="M27 150 L34 99 H79 L91 150" fill="#0b847c" stroke="#162b3c" stroke-width="3"/>
+      <path d="M34 109 L9 86 M78 108 L100 126" stroke="#162b3c" stroke-width="10" stroke-linecap="round"/>
+      <path d="M24 83 Q13 26 54 23 Q98 21 89 85" fill="#e1e5dd" stroke="#162b3c" stroke-width="3"/>
+      <ellipse cx="56" cy="65" rx="28" ry="34" fill="#f0bf98" stroke="#162b3c" stroke-width="3"/>
+      <path d="M26 49 Q38 16 64 26 Q83 24 90 51 L67 39 L49 50 L40 43" fill="#e1e5dd" stroke="#162b3c" stroke-width="3"/>
+      <g fill="none" stroke="#162b3c" stroke-width="3"><circle cx="44" cy="64" r="10"/><circle cx="70" cy="64" r="10"/><path d="M54 64 H60 M49 83 Q57 90 65 82"/></g>
+      <path d="M46 103 L56 115 L69 103" fill="#fffdf8" stroke="#162b3c" stroke-width="2"/>
+    </symbol>
+    <symbol id="recipe" viewBox="0 0 100 120">
+      <path d="M12 5 H72 L91 25 V114 H12 Z" fill="#fffdf8" stroke="#162b3c" stroke-width="3"/>
+      <path d="M72 5 V25 H91 M27 42 H73 M27 58 H65 M27 74 H73 M27 90 H51" fill="none" stroke="#748d91" stroke-width="5"/>
+      <path d="M40 52 L65 80 M65 52 L40 80" stroke="#b44822" stroke-width="7"/>
+    </symbol>
+    <symbol id="magnifier" viewBox="0 0 100 100">
+      <path d="M60 61 L89 90" stroke="#162b3c" stroke-width="14" stroke-linecap="round"/>
+      <circle cx="39" cy="38" r="29" fill="#bce0dd" fill-opacity=".7" stroke="#162b3c" stroke-width="7"/>
+      <path d="M22 32 Q26 19 39 19" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="cards" viewBox="0 0 170 110">
+      <rect x="8" y="10" width="65" height="90" rx="5" fill="#fffdf8" stroke="#162b3c" stroke-width="3"/>
+      <rect x="93" y="10" width="65" height="90" rx="5" fill="#d5eee3" stroke="#162b3c" stroke-width="3"/>
+      <text x="40" y="49" text-anchor="middle" font-size="19" font-weight="bold">876</text>
+      <text x="125" y="49" text-anchor="middle" font-size="19" font-weight="bold">1842</text>
+      <text x="40" y="75" text-anchor="middle" font-size="11">SKIPPED</text>
+      <text x="125" y="75" text-anchor="middle" font-size="11">PUBLISHED</text>
+    </symbol>
+  </defs>
+</svg>
+
+<main id="content">
+<header class="sheet hero" id="overview">
+  <p class="eyebrow">One investigation / five depths / two open questions</p>
+  <h1>The missing<br>recipe.</h1>
+  <p class="dek">We can replay how many cryptographic curves were made.<br>
+    Why were some candidates skipped?<br>Where did the starting points come from?</p>
+  <div class="cards">
+    <div class="card"><span class="number">19</span><p>eligible candidates in four reconstructed runs: eight published, eleven skipped.</p></div>
+    <div class="card"><span class="number">126</span><p>bits in the x-coordinate of K-163's subgroup half-point, on a 163-bit curve.</p></div>
+    <div class="card"><span class="number">148</span><p>shared bits in four Certicom prime-curve half-point coordinates.</p></div>
+  </div>
+  <p>Cryptographic parameters are public ingredients, not secret keys. This project examines
+    their history by replaying generation procedures and looking for reproducible mathematical fingerprints.</p>
+  <p><strong>The through-line:</strong> reconstruct the recipe, compare what it produced,
+    and distinguish a clue from an explanation. No tested rule explains all eleven skips;
+    base-point patterns provide concrete leads, not a recovered historical algorithm.</p>
+  <p class="small">An illustrated companion to ECDSA-Origins-Revealed-Followup.
+    Source snapshot: <code>cede36edf99b41b0a252352f8ee82760936e03af</code>, 22 October 2026.
+    Following the <a href="https://github.com/danshumow-msft/five-level-explanations/blob/main/five-level-explanation-guide.md">Five-Level Explanation Guide</a>.
+    Original vector artwork; no external fonts, scripts or image services.</p>
+  <p class="small web-only"><a href="five-levels.pdf">Download the illustrated PDF</a> / Use the navigation to choose a level.</p>
+</header>
+
+<section class="sheet" id="level-1" aria-labelledby="l1-title">
+  <p class="eyebrow">01 / Child or newcomer / a comic</p>
+  <h2 id="l1-title">The case of the missing recipe</h2>
+  <p>Meet Kit, a curious newcomer, and Ada, a mathematical detective. They are opening an old recipe notebook.</p>
+  <div class="comic" aria-label="Six-panel newcomer comic, read left to right, then down">
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> Our digital locks use public math ingredients. Who picked them?</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Kit and Ada examine an old recipe notebook.">
+        <use href="#learner" x="18" width="100" height="140"/><use href="#recipe" x="147" y="16" width="74" height="104"/><use href="#mentor" x="242" width="100" height="140"/>
+      </svg>
+      <div class="caption">The ingredients are called curve parameters. They are not anyone's secret password.</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> Researchers recovered much of the old recipe. Now we can replay its choices!</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A clock feeds a machine that produces numbered candidate cards.">
+        <circle cx="53" cy="64" r="29" fill="#fffdf8" stroke="#162b3c" stroke-width="3"/><path d="M53 42 V64 L70 74 M90 64 H119 M230 64 H259" fill="none" stroke="#162b3c" stroke-width="4"/>
+        <rect x="120" y="30" width="110" height="70" rx="8" fill="#0b847c"/><text x="175" y="72" text-anchor="middle" style="fill:white" font-size="17">REPLAY</text>
+        <rect x="266" y="28" width="63" height="81" rx="3" fill="#fffdf8" stroke="#162b3c" stroke-width="2"/><text x="297" y="76" text-anchor="middle" font-size="18">876</text>
+      </svg>
+      <div class="caption">The same starting information produces the same sequence of possible ingredients. [S1]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> Wait! This earlier choice passes the checks we know. Why skip it?</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Kit points to candidate 876 beside published candidate 1842.">
+        <use href="#learner" x="8" width="100" height="140"/><use href="#cards" x="135" y="14" width="202" height="116"/>
+      </svg>
+      <div class="caption">In four runs, eight eligible choices were published and eleven other eligible choices were skipped. [S2]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> We compare their features. So far, none of our tested rules explains every skip.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Ada examines a comparison board with unanswered questions.">
+        <use href="#mentor" x="8" width="100" height="140"/><rect x="130" y="17" width="205" height="107" rx="4" fill="#fffdf8" stroke="#162b3c" stroke-width="3"/>
+        <text x="148" y="45" font-size="14">Number patterns?</text><text x="148" y="72" font-size="14">Software behavior?</text><text x="148" y="99" font-size="14">One missing rule?</text><text x="313" y="81" text-anchor="middle" font-size="48" fill="#b44822">?</text>
+      </svg>
+      <div class="caption">Not finding the rule is useful. It is not proof that no rule exists. [S3]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> There are clues in the starting points too: a short number, and matching pieces!</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A magnifier reveals a short block and two matching colored coordinate blocks.">
+        <use href="#magnifier" x="15" y="15" width="100" height="100"/><rect x="133" y="28" width="196" height="21" fill="#c6d4db"/><rect x="177" y="28" width="152" height="21" fill="#0b847c"/>
+        <rect x="133" y="68" width="196" height="21" fill="#f3a34b"/><rect x="159" y="68" width="146" height="21" fill="#0b847c"/><rect x="159" y="103" width="146" height="21" fill="#0b847c"/>
+      </svg>
+      <div class="caption">Related points can reveal unusual coordinates: numbers that describe their locations. [S4, S5]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> A clue is not the whole recipe. We need evidence, not a scary story.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Kit and Ada stand together beside an evidence notebook.">
+        <use href="#learner" x="28" width="100" height="140"/><rect x="147" y="48" width="77" height="62" rx="4" fill="#fffdf8" stroke="#162b3c" stroke-width="3"/><text x="185" y="76" text-anchor="middle" font-size="12">KEEP</text><text x="185" y="95" text-anchor="middle" font-size="12">CHECKING</text><use href="#mentor" x="242" width="100" height="140"/>
+      </svg>
+      <div class="caption">This work has not shown a hidden weakness or a reason to change the curves we use.</div>
+    </article>
+  </div>
+  <p class="small"><strong>Where the picture stops:</strong> curves are mathematical sets, not physical locks or cooking ingredients.
+    The notebook stands for a generation program whose full history is still missing.</p>
+  <p class="question">Your turn: What is the difference between finding a clue and recovering a recipe?</p>
+</section>
+
+<section class="sheet" id="level-2" aria-labelledby="l2-title">
+  <p class="eyebrow">02 / Teenager or curious beginner / a comic</p>
+  <h2 id="l2-title">Replay. Compare. Follow the fingerprints.</h2>
+  <div class="comic" aria-label="Six-panel beginner comic, read left to right, then down">
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> A timestamp starts an old number generator. Its output makes candidate seeds.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A timeline runs from a 1997 timestamp to seed bytes to a curve candidate.">
+        <rect x="15" y="29" width="90" height="64" rx="5" fill="#fffdf8" stroke="#162b3c" stroke-width="2"/><text x="60" y="56" text-anchor="middle" font-size="14">1997</text><text x="60" y="77" text-anchor="middle" font-size="11">timestamp</text>
+        <path d="M110 62 H132 M231 62 H251" stroke="#162b3c" stroke-width="3"/><rect x="136" y="29" width="91" height="64" rx="5" fill="#0b847c"/><text x="181" y="56" text-anchor="middle" style="fill:white" font-size="13">20 bytes</text><text x="181" y="77" text-anchor="middle" style="fill:white" font-size="11">candidate seed</text>
+        <rect x="255" y="29" width="90" height="64" rx="5" fill="#f3a34b"/><text x="300" y="65" text-anchor="middle" font-size="14">curve</text>
+      </svg>
+      <div class="caption">A seed is an input to a public construction, not a secret signing key. Replay exposes the candidate order. [S1, S2]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> Candidate 876 qualifies. But P-256 uses 1842. Let's compare them, not guess.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A magnifying glass compares the skipped and published P-256 candidates.">
+        <use href="#cards" x="20" y="14" width="210" height="117"/><use href="#magnifier" x="245" y="25" width="91" height="91"/>
+      </svg>
+      <div class="caption">Here, "qualifies" means prime group order and the reconstructed size rule, under the chosen root convention. [S2]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> A good rule must reject the eleven skips without rejecting any of the eight published curves.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A sorting machine leaves both candidate groups with an unresolved question.">
+        <rect x="25" y="35" width="90" height="65" rx="5" fill="#fffdf8" stroke="#162b3c" stroke-width="2"/><text x="70" y="63" text-anchor="middle" font-size="15">19</text><text x="70" y="84" text-anchor="middle" font-size="12">candidates</text>
+        <path d="M116 66 H147 M213 66 L250 40 M213 66 L250 102" fill="none" stroke="#162b3c" stroke-width="3"/><circle cx="180" cy="66" r="32" fill="#f3a34b"/><text x="180" y="80" text-anchor="middle" font-size="35">?</text><text x="263" y="45" font-size="13">8 published</text><text x="263" y="108" font-size="13">11 skipped</text>
+      </svg>
+      <div class="caption">Many tests narrow the possibilities. Trying many rules also makes accidental patterns easier to find. [S3]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> Now the base point G: a fixed public starting point. Can we work backward from it?</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Kit studies an arrow from a half-point Q to the published base point G.">
+        <use href="#learner" x="4" width="100" height="140"/><circle cx="155" cy="66" r="23" fill="#f3a34b"/><text x="155" y="72" text-anchor="middle" font-size="18">Q</text><path d="M184 66 H270 M258 58 L270 66 L258 74" fill="none" stroke="#162b3c" stroke-width="3"/><text x="223" y="44" text-anchor="middle" font-size="12">double</text><circle cx="305" cy="66" r="23" fill="#0b847c"/><text x="305" y="72" text-anchor="middle" style="fill:white" font-size="18">G</text>
+      </svg>
+      <div class="caption">"Double" means add a point to itself using the curve's rules. Halving is not dividing its coordinates by two.</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Ada:</strong> K-163 has a short half-point x. Four Certicom curves have half-point x values with a shared core.</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="A 126-bit coordinate and four coordinate strips with matching central blocks.">
+        <text x="18" y="30" font-size="12">K-163</text><rect x="95" y="16" width="246" height="19" fill="#cad5d9"/><rect x="151" y="16" width="190" height="19" fill="#f3a34b"/><text x="238" y="30" text-anchor="middle" font-size="11">126 bits</text>
+        <g fill="#0b847c"><rect x="124" y="50" width="184" height="12"/><rect x="124" y="72" width="184" height="12"/><rect x="124" y="94" width="184" height="12"/><rect x="124" y="116" width="184" height="12"/></g>
+        <text x="18" y="78" font-size="12">four curves</text><text x="18" y="98" font-size="11">same 148 bits</text>
+      </svg>
+      <div class="caption">The coordinates are reproducible evidence of structure. They do not reveal the original program by themselves. [S4, S5]</div>
+    </article>
+    <article class="panel">
+      <div class="speech"><strong>Kit:</strong> So: no complete explanation yet, and no demonstrated attack. What's the next test?</div>
+      <svg class="scene" viewBox="0 0 360 140" role="img" aria-label="Ada and Kit plan to find old code and test a recipe against every coordinate.">
+        <use href="#mentor" x="8" width="100" height="140"/><rect x="129" y="16" width="210" height="108" rx="4" fill="#fffdf8" stroke="#162b3c" stroke-width="2"/><text x="145" y="43" font-size="13">1. Find old code or records.</text><text x="145" y="73" font-size="13">2. Propose an exact recipe.</text><text x="145" y="103" font-size="13">3. Match all its outputs.</text>
+      </svg>
+      <div class="caption">History needs more than a pattern match. A successful recipe must explain prefixes, tails, signs and choices too.</div>
+    </article>
+  </div>
+  <p class="small"><strong>Why care?</strong> Dual EC showed how particular public-parameter relationships could enable a backdoor
+    in a different construction. That motivates transparency; it is not evidence of a similar weakness here.</p>
+  <p class="question">Your turn: Why is a rule that explains just one skipped curve not enough?</p>
+</section>
+
+<section class="sheet" id="level-3" aria-labelledby="l3-title">
+  <p class="eyebrow">03 / College undergraduate / illustrated textbook / 1 of 3</p>
+  <h2 id="l3-title">Two unknowns in one public parameter set</h2>
+  <p class="dek">Prerequisites: modular arithmetic, basic probability, and the idea of an algorithm.
+    We need a curve, a group, and a distinction between generation and selection.</p>
+  <div class="columns">
+    <div>
+      <h3>A curve is a finite set with an addition rule</h3>
+      <p>Over a prime field, coordinates are integers modulo a prime <em>p</em>.
+        An elliptic curve can have the form <em>y</em><sup>2</sup> =
+        <em>x</em><sup>3</sup> + <em>a x</em> + <em>b</em> (mod <em>p</em>).
+        Its points, plus an identity O, form a group. Repeated addition gives the scalar multiple [<em>k</em>]P.</p>
+      <p>A standardized parameter set includes the field, curve coefficients,
+        a base point G, its subgroup order <em>n</em>, and cofactor
+        <em>h</em> = #E / <em>n</em>. In ECDSA a private scalar <em>d</em> gives the public key [<em>d</em>]G.
+        Recovering the origin of G is not recovering <em>d</em>.</p>
+    </div>
+    <figure>
+      <svg class="diagram" viewBox="0 0 380 310" role="img" aria-labelledby="toy-title toy-desc">
+        <title id="toy-title">A finite elliptic curve is a point set, not a smooth drawing</title>
+        <desc id="toy-desc">The 18 affine points of y squared equals x cubed plus 2x plus 2 modulo 17. Including the point at infinity gives 19 points. G is (5,1); its double is (6,3).</desc>
+        <defs><pattern id="grid" x="40" y="30" width="16" height="14" patternUnits="userSpaceOnUse"><path d="M16 0 H0 V14" fill="none" stroke="#d3ddd9" stroke-width=".8"/></pattern></defs>
+        <rect x="40" y="30" width="272" height="238" fill="url(#grid)"/>
+        <path d="M40 24 V268 H323" fill="none" stroke="#70888d" stroke-width="2"/>
+        <g fill="#06796f">
+          <circle cx="120" cy="254" r="5"/><circle cx="136" cy="226" r="5"/><circle cx="200" cy="184" r="5"/>
+          <circle cx="88" cy="254" r="5"/><circle cx="184" cy="44" r="5"/><circle cx="296" cy="86" r="5"/>
+          <circle cx="40" cy="184" r="5"/><circle cx="248" cy="170" r="5"/><circle cx="152" cy="184" r="5"/>
+          <circle cx="152" cy="114" r="5"/><circle cx="248" cy="128" r="5"/><circle cx="40" cy="114" r="5"/>
+          <circle cx="296" cy="212" r="5"/><circle cx="184" cy="254" r="5"/><circle cx="88" cy="44" r="5"/>
+          <circle cx="200" cy="114" r="5"/><circle cx="136" cy="72" r="5"/><circle cx="120" cy="44" r="5"/>
+        </g>
+        <circle cx="120" cy="254" r="8" fill="#e59b46" stroke="#162b3c" stroke-width="2"/>
+        <text x="121" y="243" font-size="13" font-weight="bold">G</text>
+        <text x="145" y="226" font-size="13" font-weight="bold">[2]G</text>
+        <text x="334" y="273" font-size="14">x</text><text x="24" y="24" font-size="14">y</text>
+        <text x="24" y="286" font-size="11">0</text><text x="291" y="286" font-size="11">16</text>
+        <text x="65" y="304" font-size="11">Toy curve over F17 / not a deployed curve</text>
+      </svg>
+      <figcaption>Figure 1. The toy curve has 19 points including O. Doubling G = (5,1) gives (6,3),
+        not (10,2). Modular group operations, not ordinary geometry, govern the calculation.</figcaption>
+    </figure>
+  </div>
+  <div class="equation">Public parameters &ne; secret key
+    <span class="small">Question A: Why this curve? &nbsp; Question B: Why this base point?</span>
+  </div>
+  <h3>What the historical seed does</h3>
+  <p>The recovered timestamp initializes <code>lrand48</code>; for the prime-field runs,
+    twenty top-byte outputs make each candidate seed. X9.62's SHA-1 expansion derives
+    a value <em>c</em>, then <em>b</em><sup>2</sup> &equiv; &minus;27/<em>c</em> (mod <em>p</em>).
+    With <em>a</em> = &minus;3, this determines candidate coefficients when a square root exists. [S1, S2]</p>
+  <div class="callout caution"><p><strong>Do not confuse the two seeds:</strong> the timestamp seeds the old
+    pseudorandom generator; the published 160-bit seed is its output and an input to curve derivation.
+    Neither is an ECDSA private key. A predictable parameter-generation stream is not, by itself, a signing-key attack.</p></div>
+  <p class="source">Evidence: generation and viability are described in [S2]; parameter arithmetic and the corrected binary half-point are exercised in [S4].</p>
+</section>
+
+<section class="sheet" aria-labelledby="l3-selection">
+  <p class="eyebrow">03 / College undergraduate / illustrated textbook / 2 of 3</p>
+  <h2 id="l3-selection">Replay generation; test selection</h2>
+  <figure>
+    <svg class="diagram" viewBox="0 0 920 180" role="img" aria-labelledby="pipe-title pipe-desc">
+      <title id="pipe-title">The reconstructed candidate pipeline</title>
+      <desc id="pipe-desc">Timestamp to lrand48 to twenty-byte seed to SHA-1 expansion and root to point count and size test. Nineteen candidates qualify; an unknown selection step leaves eight published and eleven skipped.</desc>
+      <g stroke="#b7c8c9" stroke-width="3"><path d="M147 71 H173 M322 71 H348 M497 71 H523 M672 71 H698"/></g>
+      <g fill="#102d43"><rect x="12" y="29" width="135" height="84" rx="5"/><rect x="173" y="29" width="149" height="84" rx="5"/><rect x="348" y="29" width="149" height="84" rx="5"/><rect x="523" y="29" width="149" height="84" rx="5"/></g>
+      <g fill="white" font-size="14" text-anchor="middle">
+        <text x="80" y="63">Timestamp</text><text x="80" y="86">+ lrand48</text>
+        <text x="247" y="63">20-byte seed</text><text x="247" y="86">candidate i</text>
+        <text x="422" y="63">Expand + root</text><text x="422" y="86">derive b</text>
+        <text x="597" y="63">Count + filter</text><text x="597" y="86">prime order / size</text>
+      </g>
+      <rect x="698" y="29" width="205" height="84" rx="5" fill="#ffead8" stroke="#b44822" stroke-width="2"/>
+      <text x="800" y="62" text-anchor="middle" font-size="14" font-weight="bold">Unknown selection</text><text x="800" y="87" text-anchor="middle" font-size="13">8 published / 11 skipped</text>
+      <text x="22" y="151" font-size="12" fill="#4c6171">Known generation path</text><text x="708" y="151" font-size="12" fill="#8a361b">Unrecovered historical decision</text>
+    </svg>
+    <figcaption>Figure 2. Generation makes a candidate; viability filters it; publication is an observed label.
+      Reproducing the first two does not explain the third. [S2]</figcaption>
+  </figure>
+  <div class="table-scroll" role="region" aria-label="Candidate IDs by generation run" tabindex="0"><table>
+    <caption>Eligible candidates in the four runs under the reconstructed convention [S2]</caption>
+    <thead><tr><th>Run</th><th>Published candidate IDs</th><th>Skipped candidate IDs</th></tr></thead>
+    <tbody>
+      <tr><td>P-256</td><td>1842</td><td>876</td></tr>
+      <tr><td>P-224</td><td>7026</td><td>777, 1485, 5736</td></tr>
+      <tr><td>prime192</td><td>139, 5228, 6013</td><td>2198, 5405</td></tr>
+      <tr><td>prime239</td><td>2185, 2320, 3048</td><td>36, 1562, 2491, 2682, 2863</td></tr>
+    </tbody>
+  </table></div>
+  <div class="columns">
+    <div>
+      <h3>Make a rule face all nineteen</h3>
+      <p>For each eligible curve, compute the same features: group-order arithmetic, twist properties,
+        CM structure, isogenies, or extension-field information. A proposed rejection rule must fit
+        both the skipped and published labels, rather than explain just candidate 876.</p>
+      <p>The reported sweep found no such separator. CM class-number rankings even point in opposite
+        directions in P-224 and P-256. This rejects particular explanations, not every possible hidden criterion. [S2]</p>
+    </div>
+    <div>
+      <h3>Trace one actual code path</h3>
+      <p><code>analyze2.load</code> parses checked point-count logs, rejecting failures, duplicates
+        and missing end markers. <code>cover.py</code> joins these orders with candidate seeds
+        and coefficients, computes a Boolean predicate matrix, and searches unions of rules.
+        Its output is the checked-in cover report. [S3, S6]</p>
+      <p>The expensive historical step is point counting and factorization. Once records exist,
+        feature comparison is cheaper, but searching more rules increases overfitting risk.</p>
+    </div>
+  </div>
+  <div class="callout"><p><strong>Alternative to "find a pattern": measure how easy patterns are to find.</strong>
+    The smallest observed union uses four rules. Among 126 relabellings that preserve run counts
+    and final published endpoints, 88 allow a cover at least as small.
+    That is 69.8% in this conditional comparison, not a 69.8% probability that the history was innocent. [S3]</p></div>
+  <p class="question">Your turn: Why must the last published endpoint stay fixed in this comparison?</p>
+</section>
+
+<section class="sheet" aria-labelledby="l3-points">
+  <p class="eyebrow">03 / College undergraduate / illustrated textbook / 3 of 3</p>
+  <h2 id="l3-points">Reverse the group operation, not the coordinates</h2>
+  <p>If G has odd prime order <em>n</em>, its unique half inside that subgroup is
+    Q = [(<em>n</em>+1)/2]G: doubling Q gives [<em>n</em>+1]G = G.
+    This lets us inspect a point that could have preceded G in a construction. [S4]</p>
+  <figure>
+    <svg class="diagram" viewBox="0 0 920 170" role="img" aria-labelledby="bits-title bits-desc">
+      <title id="bits-title">The K-163 half-point coordinate uses only 126 of 163 available bits</title>
+      <desc id="bits-desc">A 163-bit representation begins with 37 zero bits followed by a 126-bit integer. Its exact hexadecimal value is 23e21d6019e1211f6bd47ec180256e97.</desc>
+      <text x="30" y="30" font-size="14" font-weight="bold">K-163: x(Q) in a 163-bit polynomial-basis encoding</text>
+      <rect x="30" y="50" width="195" height="42" fill="#d6dfe1"/>
+      <rect x="225" y="50" width="665" height="42" fill="#06796f"/>
+      <text x="127" y="77" text-anchor="middle" font-size="13">37 leading zero bits</text>
+      <text x="557" y="77" text-anchor="middle" font-size="15" fill="white">126-bit value</text>
+      <text x="30" y="125" font-size="18" font-family="Consolas,monospace">0x23e21d6019e1211f6bd47ec180256e97</text>
+      <text x="30" y="150" font-size="12">Exact coordinate and [2]Q = G are regression-tested in Python and PARI.</text>
+    </svg>
+    <figcaption>Figure 3. This is a binary-field curve, not the prime-field equation from Figure 1.
+      Its equation is y<sup>2</sup> + xy = x<sup>3</sup> + x<sup>2</sup> + 1 over F<sub>2^163</sub>. [S4]</figcaption>
+  </figure>
+  <div class="columns">
+    <div>
+      <h3>A short coordinate is a clue</h3>
+      <p>The binary scan evaluates 69,630 subgroup points per curve, 696,300 over ten curves.
+        Under a uniform-coordinate heuristic, a specified x fitting in 126 bits has probability
+        about 2<sup>&minus;37</sup>. Multiplying by the binary scan count gives about
+        5.1 &times; 10<sup>&minus;6</sup> expected x-hits. [S2]</p>
+      <p>These are structured, correlated points; other coordinates and post-hoc choices were examined.
+        This heuristic is not a calibrated discovery probability.</p>
+    </div>
+    <div>
+      <h3>Shared coordinates are a second clue</h3>
+      <p>The half-point x-coordinates of secp224k1 and secp256k1 are exactly the same 166-bit integer.
+        Four prime-field secp*k1 curves share bits 4 through 151.
+        That strongly supports related coordinate choices, but does not recover the direction
+        of construction, hash input, adjustment rule, or designers' intent. [S5]</p>
+      <p>A separate 92-bit prefix links the secp160r1 generator x with the secp160r2 half-point x.</p>
+    </div>
+  </div>
+  <figure>
+    <svg class="diagram" viewBox="0 0 920 178" role="img" aria-labelledby="core-title core-desc">
+      <title id="core-title">Four different half-point coordinates share the same 148-bit core</title>
+      <desc id="core-desc">The shared core is ce563f89a0ed9414f5aa28ad0d96d6795f9c6. The prefixes are 48, 554123b78, 3b78, 3b78; the last nibbles are 2, 6, 3, 3. Fields are aligned for comparison, not scaled to bit length.</desc>
+      <rect x="315" y="22" width="461" height="122" rx="4" fill="#d5eee3"/>
+      <g font-family="Consolas,monospace" font-size="16">
+        <text x="20" y="48">secp160k1</text><text x="292" y="48" text-anchor="end">48</text>
+        <text x="20" y="77">secp192k1</text><text x="292" y="77" text-anchor="end">554123b78</text>
+        <text x="20" y="106">secp224k1</text><text x="292" y="106" text-anchor="end">3b78</text>
+        <text x="20" y="135">secp256k1</text><text x="292" y="135" text-anchor="end">3b78</text>
+        <text x="329" y="48">ce563f89a0ed9414f5aa28ad0d96d6795f9c6</text>
+        <text x="329" y="77">ce563f89a0ed9414f5aa28ad0d96d6795f9c6</text>
+        <text x="329" y="106">ce563f89a0ed9414f5aa28ad0d96d6795f9c6</text>
+        <text x="329" y="135">ce563f89a0ed9414f5aa28ad0d96d6795f9c6</text>
+        <text x="802" y="48">2</text><text x="802" y="77">6</text><text x="802" y="106">3</text><text x="802" y="135">3</text>
+      </g>
+      <text x="329" y="164" font-size="12">shared 148 bits / columns aligned, not a bit-length scale</text>
+    </svg>
+    <figcaption>Figure 4. Color isolates the proven common core. Prefixes and tails remain part of the
+      historical explanation to be found; do not discard them to make a recipe appear to fit. [S5]</figcaption>
+  </figure>
+  <div class="callout caution"><p><strong>Halving is not the only preimage question.</strong>
+    When a full curve has cofactor <em>h</em> &gt; 1, inputs P with [<em>h</em>]P = G can differ by
+    torsion points. The unique subgroup inverse is only one of them.
+    All 28 rational cofactor preimages across the ten binary curves were checked in the recorded work;
+    K-163 remains the only 128-bit-x hit. [S4]</p></div>
+  <p class="question">Your turn: What would an exact recipe have to reproduce besides the green core?</p>
+</section>
+
+<section class="sheet" id="level-4" aria-labelledby="l4-title">
+  <p class="eyebrow">04 / Graduate student / research walkthrough / 1 of 2</p>
+  <h2 id="l4-title">Reproduce the labels before explaining them</h2>
+  <p class="dek">The objective is not to classify arbitrary curves. It is to reconstruct a particular
+    historical selection process under explicit modeling conventions.</p>
+  <ol class="steps">
+    <li><strong>Fix the generation and root convention.</strong> Reconstruct the timestamp-seeded stream,
+      X9.62 expansion, and candidate order. For p &equiv; 3 (mod 4), all seven published coefficients
+      match b = (&minus;27/c)<sup>(p+1)/4</sup>. Allowing both roots adds 23 candidates across those three runs.
+      The nineteen-curve dataset is conditional on the chosen convention, not an exhaustive list under every implementation. [S2]</li>
+    <li><strong>Certify the group orders you rely on.</strong> Verify n is prime,
+      |n &minus; (p+1)| &le; 2&radic;p, and a nonidentity P is killed by n.
+      Since n &gt; 4&radic;p in these cases, the Hasse interval contains no other multiple of n,
+      so #E = n. For composite claims, killing a point is only a consistency check. [S2, S4]</li>
+    <li><strong>Compute features without changing the labels.</strong> Compare group-order and twist arithmetic,
+      CM/isogeny structure and software hypotheses. Factorization-based claims need exact product
+      verification, multiplicities, primality status and explicit unresolved cofactors; a finite ECM budget
+      is not complete factorization. Some historical records require separate review before use as certified evidence.</li>
+    <li><strong>Calibrate a search over combinations.</strong> Build M<sub>ij</sub> = 1 if predicate j
+      holds on curve i. Only predicates false on all published curves are usable in a rejection cover.
+      Find the minimum number whose union covers every skipped curve. [S3, S6]</li>
+  </ol>
+  <div class="equation">min |J| &nbsp; subject to &nbsp; &or;<sub>j &isin; J</sub> M<sub>ij</sub> = s<sub>i</sub>
+    <span class="small">s<sub>i</sub> = 1 for a skipped candidate; 0 for a published candidate.</span>
+  </div>
+  <div class="columns">
+    <div>
+      <h3>The relevant null is conditional</h3>
+      <p>Within each run preserve the published count and force the final viable candidate to remain
+        published. The number of assignments is</p>
+      <p><strong>C(1,0) C(3,0) C(4,2) C(7,2) = 126.</strong></p>
+      <p>Of these, 88 have a cover of size at most the observed four.
+        This is exact enumeration for the stated label space. It is not correction for every
+        feature, dataset convention or hypothesis selected during exploration. [S3]</p>
+    </div>
+    <div>
+      <h3>A consequential data-handling boundary</h3>
+      <p>The nineteen-curve comparison uses stored derived coefficients.
+        P-224's two roots define isomorphic curves, so intrinsic CM and order properties agree;
+        integer b residues and exact-coordinate statements need not.
+        Keep root-dependent features explicitly labeled instead of silently substituting the standardized coefficient.</p>
+      <p>Recovered seed alignment constrains cumulative random-stream consumption at checkpoints,
+        not the absence of every extra draw between them. [S2]</p>
+    </div>
+  </div>
+  <p class="source">Implementation trace: <code>analyze2.load</code> &rarr; <code>cover.curves</code>
+    &rarr; predicate matrix <code>M</code> &rarr; <code>min_cover</code> and <code>relabellings</code>
+    &rarr; <code>results/cover.json</code>. [S3, S6]</p>
+</section>
+
+<section class="sheet" aria-labelledby="l4-basepoints">
+  <p class="eyebrow">04 / Graduate student / research walkthrough / 2 of 2</p>
+  <h2 id="l4-basepoints">A reproducible provenance experiment</h2>
+  <p>For each standard base point, verify curve membership and [n]G = O before searching
+    scalar transforms. Store exact coordinate encodings and the scalar witness, not just bit lengths.
+    For binary curves this repository uses the polynomial basis specified in its parameter file. [S4]</p>
+  <div class="equation">Q = [h<sup>&minus;1</sup> mod n]G, &nbsp;
+    {P : [h]P = G} = Q + E(F<sub>q</sub>)[h]
+    <span class="small">Assumes gcd(h,n) = 1. The kernel is over the rational point group, not an unspecified extension.</span>
+  </div>
+  <div class="columns">
+    <div>
+      <h3>Test the other preimages</h3>
+      <p>For K-163, h = 2 and T = (0,1) is rational two-torsion.
+        Q and Q+T both double to G. Their x-coordinates have 126 and 162 bits.
+        The regression tests also verify all ten binary exports and the 28 rational
+        cofactor preimages, rather than extrapolating from the subgroup half. [S4]</p>
+      <p>The SEC prime-field report supplies a separate family of exact arithmetic witnesses.
+        Its shared core test is ((x &gt;&gt; 4) &amp; (2<sup>148</sup>&minus;1)) = C, with
+        C = <code>0xce563f89a0ed9414f5aa28ad0d96d6795f9c6</code>. [S5]</p>
+    </div>
+    <div>
+      <h3>Separate observation from search coverage</h3>
+      <p>An earlier binary coordinate export reversed polynomial coefficients.
+        Bit lengths survived; printed integers and search targets did not. The corrected
+        K-163 target is regression-tested against PARI. [S4]</p>
+      <p>The SEC core search's legacy script could silently omit unavailable RIPEMD-160.
+        Its recorded negative count is not a modern coverage manifest.
+        Prior review fixes were ported to the separate base-point repository, not merged
+        into this source snapshot. Do not describe those fixes as main-branch behavior. [S7, S8]</p>
+    </div>
+  </div>
+  <h3>Smallest useful verification ladder</h3>
+  <pre><code># From the repository root; set GP or put gp on PATH for PARI checks:
+python -B -X utf8 -m unittest discover -s scripts -p test_research.py -v
+# Optional: rewrites results/cover.json and notes/cover.md; may take minutes.
+python -B -X utf8 scripts/cover.py</code></pre>
+  <p>Do not casually rerun <code>secg_scan.py</code> expecting it to refresh the checked-in report:
+    in this snapshot it writes a relative <code>secg_scan.json</code>.
+    The appendix links both the inspected code and its historical outputs. [S5, S7]</p>
+  <div class="callout"><p><strong>A research extension with a falsifier:</strong> specify a candidate
+    string/RNG recipe and an on-curve adjustment rule before broadening the search. Require exact
+    outputs for all four secp*k1 prefixes, cores and tails, plus the actual y/sign convention.
+    An independently sourced historical implementation would be stronger evidence than a flexible fitted recipe.</p></div>
+  <p class="question">Your turn: Which claims survive changing b to &minus;b, and which must be recomputed?</p>
+</section>
+
+<section class="sheet" id="level-5" aria-labelledby="l5-title">
+  <p class="eyebrow">05 / Fellow expert / evidence brief / 1 of 2</p>
+  <h2 id="l5-title">The contribution is bounded, not vacuous</h2>
+  <p class="dek">Two outputs: a conditional negative result about candidate selection,
+    and exact structural observations about generator provenance. Neither is an attack.</p>
+  <div class="table-scroll" role="region" aria-label="Expert evidence and limits" tabindex="0"><table>
+    <thead><tr><th>Claim class</th><th>What this work supports</th><th>What it does not support</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge">Arithmetic</span></td><td>Reconstructed viable lists; nineteen prime orders checked by primality, Hasse and annihilation. [S2, S4]</td><td>A complete reconstruction of every original filter or every possible root-handling strategy.</td></tr>
+      <tr><td><span class="badge reported">Negative search</span></td><td>No separating rule among the investigated invariant and program-model families. [S2]</td><td>Statistical equivalence of published/skipped populations, or nonexistence of an arbitrary hidden predicate.</td></tr>
+      <tr><td><span class="badge">Exact conditional</span></td><td>Four-predicate observed cover; 88/126 endpoint-conditioned assignments have cover size &le; 4. [S3]</td><td>A posterior probability of benign selection; a confirmatory test immune to adaptive feature selection.</td></tr>
+      <tr><td><span class="badge">Coordinate identity</span></td><td>K-163's 126-bit subgroup-half x; secp224k1/256k1 identical 166-bit half x; four-curve shared 148-bit core. [S4, S5]</td><td>A historical construction direction, recovered hash input, or demonstrated exploitable trapdoor.</td></tr>
+      <tr><td><span class="badge open">Interpretation</span></td><td>Related coordinate choices are strongly suggested; chosen-x/solve-y/double is consistent with the observations.</td><td>That Certicom demonstrably used that recipe, or that convenience constants establish intent.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>The null's strength and its boundary</h3>
+  <p>The exact conditional enumeration avoids Monte Carlo error and treats stopping endpoints explicitly.
+    The predicate family is nonetheless exploratory and hand-selected. The minimal-union statistic is a
+    complexity proxy for this library, not a universal description-length measure for historical software.
+    A rule that differs by run, a variable-consumption state machine, or a point-count failure mode outside
+    the simulated models can evade the comparison. [S2, S3]</p>
+  <h3>Intrinsic versus representational evidence</h3>
+  <p>Endomorphism-ring and isogeny invariants constrain the curve up to relevant equivalences.
+    Integer coefficient factorizations, residues, and point-coordinate matches depend on the chosen
+    model and representation. P-224's root ambiguity therefore matters to some feature families but
+    not to the intrinsic CM comparison. Preserve both root/model provenance and exact standard-generator
+    identities when translating an arithmetic result into a selection-history claim.
+    The reported CM class numbers are Euler-product estimates without certified truncation bounds,
+    not exact class-number certificates. [S2]</p>
+  <div class="callout caution"><p><strong>Verification status is part of the result.</strong>
+    This companion inspects source and recorded outputs and reruns the existing regression suite.
+    It does not repeat historical SEA over all candidates, certify every factorization,
+    rerun the full scalar sweeps, or independently inspect the spinout repository.
+    Newly run checks are distinguished from historical reports in the source appendix.</p></div>
+</section>
+
+<section class="sheet" aria-labelledby="l5-implications">
+  <p class="eyebrow">05 / Fellow expert / evidence brief / 2 of 2</p>
+  <h2 id="l5-implications">What would change the explanation?</h2>
+  <div class="columns">
+    <div>
+      <h3>Candidate selection</h3>
+      <p>An archival program, log, or independently motivated rejection rule should reproduce
+        both the observed published choices and skipped eligible candidates, with an explicit
+        account of root choice, timing, stopping, and RNG calls. It should predict something
+        outside the labels on which it was fitted.</p>
+      <p>Seed checkpoint alignment alone excludes fewer state machines than "no extra calls."
+        Seven root-convention matches constrain implementation choices without proving that
+        the alternate root was never tried. These are constraints to carry forward,
+        not substitutes for the missing decision process. [S2]</p>
+    </div>
+    <div>
+      <h3>Base-point provenance</h3>
+      <p>A common 148-bit core and a repeated 166-bit coordinate give concrete targets for
+        historical recovery. But freedom to choose per-field prefixes, tail adjustments,
+        y signs, encodings and counters can overfit a proposed construction.
+        Demand an independently specified mechanism with exact output witnesses.</p>
+      <p>The all-zero-leading-bits heuristic for K-163 is a useful scale comparison,
+        not a family-wise p-value: scalar dependence, cross-curve search, coordinate choices
+        and post-selection all matter. The two rational halves also have different x sizes.
+        Subgroup-only searches do not exhaust cofactor clearing. [S2, S4]</p>
+    </div>
+  </div>
+  <figure>
+    <svg class="diagram" viewBox="0 0 920 190" role="img" aria-labelledby="ladder-title ladder-desc">
+      <title id="ladder-title">An evidence ladder, not an automatic implication chain</title>
+      <desc id="ladder-desc">An observed pattern can become a reproducible arithmetic result, then a proposed recipe. Historical attribution still needs independent records or strong predictive confirmation. No step automatically implies a security conclusion.</desc>
+      <g fill="#102d43"><rect x="18" y="94" width="193" height="65" rx="5"/><rect x="248" y="71" width="193" height="88" rx="5"/></g>
+      <rect x="478" y="48" width="193" height="111" rx="5" fill="#06796f"/>
+      <rect x="708" y="25" width="193" height="134" rx="5" fill="#ffead8" stroke="#b44822" stroke-width="2"/>
+      <g fill="white" font-size="15" text-anchor="middle">
+        <text x="114" y="120">Observed pattern</text><text x="114" y="142" font-size="11">exact coordinate / shared bits</text>
+        <text x="344" y="106">Arithmetic validation</text><text x="344" y="129" font-size="11">independent implementations</text>
+        <text x="574" y="87">Proposed construction</text><text x="574" y="111" font-size="11">all outputs, fixed choices</text>
+      </g>
+      <text x="804" y="66" text-anchor="middle" font-size="15">Historical attribution</text>
+      <text x="804" y="92" text-anchor="middle" font-size="11">records / independent predictions</text>
+      <text x="804" y="117" text-anchor="middle" font-size="12" fill="#8a361b">NOT YET RECOVERED</text>
+      <text x="20" y="181" font-size="12">Each promotion needs new evidence. None of these stages is itself a cryptanalytic attack.</text>
+    </svg>
+    <figcaption>Figure 5. Distinguish exact group identities from claims about which direction
+      the designers actually computed them in. Historical attribution is a separate evidentiary step.</figcaption>
+  </figure>
+  <h3>Relationship to prior work and practical implications</h3>
+  <p>This repository follows Anthropic's seed recovery and Valsorda's reproduction, and explicitly
+    attributes the earlier SEC shared-generator observation to the Heninger-Scholl-Shumow
+    Crypto 2019 rump talk. No independent novelty claim is made here: the prior literature
+    has not been reviewed comprehensively for this companion. [S1, S2]</p>
+  <p>Nothing in these observations supplies a signing-key recovery algorithm. Dual EC's trapdoor
+    mechanism belongs to a different construction; its relevance is the value of accountable
+    public-parameter provenance, not a transferable accusation.
+    There is no deployment-change recommendation from these findings.</p>
+  <p class="question">Your turn: What independent evidence would distinguish an exact fitted recipe from the historical one?</p>
+</section>
+
+<section class="sheet" id="sources" aria-labelledby="sources-title">
+  <p class="eyebrow">Evidence appendix / source snapshot and verification limits</p>
+  <h2 id="sources-title">What was actually inspected?</h2>
+  <p>Repository sources below are pinned to
+    <code>cede36edf99b41b0a252352f8ee82760936e03af</code>, the base of this explanation branch.
+    The primary claim is historical provenance, not a security assessment or comprehensive code audit.</p>
+  <ol class="reference-list">
+    <li id="s1"><strong>[S1] Background and attribution.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/README.md">Repository README</a>
+      and the introduction of <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/paper/main.tex">the paper source</a>.
+      Those sources attribute seed recovery and six FreeLIP-derived base points to
+      <a href="https://www.anthropic.com/research/ecdsa-curve-origins">Anthropic</a> and
+      <a href="https://words.filippo.io/seeds-solved/">Valsorda</a>. The external posts and the 2019 talk
+      are background references, not independently reproduced historical sources in this preparation.</li>
+    <li id="s2"><strong>[S2] Dataset, conventions, invariant sweep and limitations.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/paper/main.tex">Paper, setup through open questions</a>
+      and <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/README.md">README comparison table</a>.
+      Sweeps and program-model outcomes are reported results; they were not all rerun for this companion.</li>
+    <li id="s3"><strong>[S3] Exact conditional cover comparison.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/scripts/cover.py">cover.py: min_cover, relabellings, main</a>;
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/notes/cover.md">recorded report</a>.
+      135 nonconstant predicates, 29 usable under the true labels, minimum four, 88/126 at most four.</li>
+    <li id="s4"><strong>[S4] Binary-coordinate and order verification.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/scripts/test_research.py">test_research.py</a>,
+      particularly <code>BinaryCoordinateTests</code> and <code>EvidenceTests</code>;
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/results/binpts.out">binary coordinate report</a>.
+      Tests exercise Python/PARI conversion, exact half coordinates, cofactor preimages and nineteen prime orders.</li>
+    <li id="s5"><strong>[S5] SEC shared-coordinate observations.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/results/secg-halfpoints.txt">SEC text report</a>
+      and <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/results/secg-halfpoints.json">JSON witnesses</a>.
+      Shared core, identical half x and 92-bit prefix are exact statements, unlike historical-construction interpretations.</li>
+    <li id="s6"><strong>[S6] Input validation and code trace.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/scripts/analyze2.py">analyze2.load</a>
+      reads checked <code>data/*.orders2</code> records; <code>cover.py</code> joins candidate records,
+      derives the matrix, and writes reports. This is an inspected path, not merely a directory listing.</li>
+    <li id="s7"><strong>[S7] Legacy implementation boundaries.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/scripts/secg_scan.py">SEC scan</a>
+      and <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/scripts/secg_core_search.py">core search</a>
+      are not the repaired review-branch versions. No new full hash or scalar search is claimed here.</li>
+    <li id="s8"><strong>[S8] Scope transition.</strong>
+      <a href="https://github.com/shumow/ECDSA-Origins-Revealed-Followup/blob/cede36edf99b41b0a252352f8ee82760936e03af/BRANCHES-TO-DELETE.md">Branch disposition</a>
+      records that the base-point review corrections were ported to
+      <a href="https://github.com/shumow/base-point-origins">base-point-origins</a>, not merged here.
+      That separate repository was not inspected for this edition.</li>
+  </ol>
+  <div class="callout"><p><strong>New execution for this edition:</strong> the existing 16-test regression suite
+    was run with PARI/GP available, including cross-language and prime-order checks.
+    The illustrated finite-field toy, displayed coordinate identities, offline links, mobile layout,
+    and PDF export were checked separately. See the local README for commands and limits.</p></div>
+  <p class="small">Editorial note: where the source snapshot infers that generators "were built" by a chosen-coordinate
+    recipe or infers the designers' intentions, this companion uses the narrower statement justified by the arithmetic.
+    Coordinate identities are established; the historical recipe and intent remain open.</p>
+</section>
+</main>
+<footer class="footer">The Missing Recipe / five levels / original illustrations / 22 October 2026</footer>
+</body>
+</html>

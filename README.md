@@ -75,6 +75,7 @@ A word on why the base points are worth the effort, since nothing here is a weak
 
 | | |
 |---|---|
+| [`5lvls/`](5lvls/) | five illustrated explanations: two comics, a college textbook chapter, a graduate walkthrough and an expert brief; offline website and PDF |
 | [`paper/`](paper/) | LaTeX draft of the write-up (`latexmk -pdf main.tex`) |
 | [`notes/cm-hypothesis.md`](notes/cm-hypothesis.md) | the full working record — every test, every table, every dead end |
 | [`notes/base-point-brief.md`](notes/base-point-brief.md) | the plan for the base-point search, K-163 first |
